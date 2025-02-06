@@ -1,11 +1,12 @@
 #define LOCAL
-#include <unistd.h>
 //------------------------------------------------------------------------------
 #include <iostream>
+#include <vector>
+
 using namespace std;
-template <typename T, typename... Args>
-void log(const T& first, const Args&... rest);
+
 void end();
+    
 /**
  *------------------------------------------------------------------------------
                         /$$             /$$     /$$                    
@@ -18,9 +19,107 @@ void end();
  * |_______/  \______/ |__/ \______/    \___/  |__/ \______/ |__/  |__/
  *------------------------------------------------------------------------------
  */
-
 void solution(){
+    int n;
+    int blu_ray;
+
+    cin >> n;
+    cin >> blu_ray;
+
+    vector<int> list(n);
+
+    int sum_of_list = 0;
+
+    for (int i = 0; i < n; i++){
+        cin >> list[i];
+        sum_of_list += list[i];
+    }
+
+    {
+        int left = list[list.size() - 1], right = sum_of_list, middle, answer = sum_of_list;
+
+        while (left <= right) {
+            middle = (left + right) / 2;
+
+            int c_blu_ray = 1;
+            int remain = middle;
+
+            for (int i = 0; i < n; i++){
+                if (remain < list[i]){
+                    c_blu_ray++;
+                    remain = middle;
+                }
+
+                remain -= list[i];
+            }
+
+            if (c_blu_ray > blu_ray){
+                left = middle + 1;
+            } else if (c_blu_ray < blu_ray) {
+                right = middle - 1;
+            } else {
+                answer = middle;
+                right = middle - 1;
+            }
+        }
+
+        cout << answer;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /**
@@ -52,50 +151,7 @@ int main(){
     cout.tie(NULL);
     solution();
 }
-
-template <typename T, typename... Args>
-void log(const T& first, const Args&... rest) {
-}
-
 #else
-
-int redirect_to_tty() {
-    int original_stdout_fd = dup(fileno(stdout));
-
-    fclose(stdout);
-
-    if (freopen("/dev/tty", "w", stdout) == NULL) {
-        cerr << "tty 장치 파일 열기 오류" << endl;
-        return -1;
-    }
-
-    return original_stdout_fd;
-}
-
-void restore_stdout(int original_stdout_fd) {
-    dup2(original_stdout_fd, fileno(stdout));
-}
-
-template <typename T, typename... Args>
-void log_(const T& first, const Args&... rest) {
-    cout << first << " ";
-
-    if constexpr (sizeof...(rest) > 0) {
-        log_(rest...);
-    } else {
-        cout << "\n";
-    }
-}
-
-template <typename T, typename... Args>
-void log(const T& first, const Args&... rest) {
-    int original_stdout_fd = redirect_to_tty();
-
-    if (original_stdout_fd != -1){
-        log_(first, rest...);
-        restore_stdout(original_stdout_fd);
-    }
-}
 
 // for local test
 int main(int argc, char *argv[]){
@@ -130,9 +186,8 @@ int main(int argc, char *argv[]){
             return -1;
         }
 
-        log("test case - ", i);
         solution();
-        cout << '\n';
+        cout << endl;
     }
 
     return 0;

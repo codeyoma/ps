@@ -1,11 +1,16 @@
 #define LOCAL
 #include <unistd.h>
+
+
+
 //------------------------------------------------------------------------------
 #include <iostream>
 using namespace std;
+
+void end();
 template <typename T, typename... Args>
 void log(const T& first, const Args&... rest);
-void end();
+    
 /**
  *------------------------------------------------------------------------------
                         /$$             /$$     /$$                    
@@ -19,8 +24,105 @@ void end();
  *------------------------------------------------------------------------------
  */
 
+#include <string>
+#include <tuple>
+#include <vector>
+#include <algorithm>
+
 void solution(){
+    int T;
+    cin >> T;
+
+    while (T--){
+        int N;
+        cin >>  N;
+
+        vector<tuple<int, int> > list;
+        for (int i = 0; i < N; i++){
+            int a, b;
+
+            cin >> a >> b;
+
+            list.push_back(make_tuple(a, b));
+        }
+
+        sort(list.begin(), list.end(), [](const tuple<int, int>& a, const tuple<int, int>& b){
+            return get<0>(a) < get<0>(b);
+        });
+
+        int top_rank = 1e8 + 7;
+        int pick_count = 0;
+
+        for (auto item: list){
+            log(get<0>(item), get<1>(item));
+
+            if (get<1>(item) < top_rank){
+                pick_count++;
+                top_rank = get<1>(item);
+            }
+        }
+
+        log("\n");
+
+        cout << pick_count;
+        end();
+
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /**

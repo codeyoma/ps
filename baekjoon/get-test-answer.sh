@@ -23,7 +23,7 @@ for i in $(seq 1 $count); do
     # result=$(echo $html | perl -0777 -ne "print \$1 if /<pre class=\"sampledata\" id=\"sample-output-$i\">(.*?)<\/pre>/s" | sed 's/<[^>]*>//g')
     result=$(echo $html | perl -0777 -ne "print \$1 if /<pre class=\"sampledata\" id=\"sample-output-$i\">(.*?)<\/pre>/s")
     if [ "$is_test" == "true" ]; then
-        echo $result > $url_number/test-answer-$i.txt
+        echo $result > $url_number/test-output-$i.txt
     else
         echo $result
     fi
