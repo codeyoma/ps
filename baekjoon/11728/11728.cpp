@@ -1,4 +1,4 @@
-#define LOCAL // need to delete in online judge
+#define LOCAL
 //------------------------------------------------------------------------------
 #include <iostream>
 using namespace std;
@@ -17,8 +17,52 @@ void end();
  * |_______/  \______/ |__/ \______/    \___/  |__/ \______/ |__/  |__/
  *------------------------------------------------------------------------------
  */
+#include <vector>
 
 void solution(){
+    int a , b;
+
+    cin >> a >> b;
+
+    vector<int> z(a), y(b);
+
+    for (int i = 0; i < a; i++){
+        int x;
+        cin >> x;
+        z[i] = x;
+    }
+    
+    for (int i = 0; i < b; i++){
+        int x;
+        cin >> x;
+        y[i] = x;
+    }
+
+    int pos_a = 0, pos_b = 0;
+    vector<int> answer;
+
+    while (pos_a < a && pos_b < b){
+        if (z[pos_a] <= y[pos_b]){
+            answer.push_back(z[pos_a]);
+            pos_a++;
+        }else{
+            answer.push_back(y[pos_b]);
+            pos_b++;
+        }
+    }
+
+    if (pos_a < a){
+        answer.insert(answer.begin() + pos_a + pos_b, z.begin() + pos_a, z.end());
+    }
+
+    if (pos_b < b){
+        answer.insert(answer.begin() + pos_a + pos_b, y.begin() + pos_b, y.end());
+    }
+
+    for (auto item : answer){
+        cout << item;
+        end();
+    }
 }
 
 
