@@ -19,8 +19,44 @@ void end();
  * |_______/  \______/ |__/ \______/    \___/  |__/ \______/ |__/  |__/
  *------------------------------------------------------------------------------
  */
+#include <vector>
+#include <queue>
+#include <set>
 
 void solution(){
+    int n, c, root = 0;
+
+    cin >> n >> c;
+
+    vector<vector<int> > graph(n, vector<int>(0));
+
+    for(int i = 0; i < c; i++){
+        int a, b;
+
+        cin >> a >> b;
+
+        graph[a - 1].push_back(b - 1);
+        graph[b - 1].push_back(a - 1);
+    }
+
+    queue<int>  first;
+    set<int>    invite_count;
+
+    for(const auto& f: graph[root]){
+        first.push(f);
+        invite_count.insert(f);
+    }
+
+    while(!first.empty()){
+        for(const auto& f: graph[first.front()]){
+            if (f == root)
+                continue;
+            invite_count.insert(f);
+        }
+        first.pop();
+    }
+
+    cout << invite_count.size();
 }
 
 

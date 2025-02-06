@@ -1,3 +1,4 @@
+#include <utility>
 #define LOCAL // need to delete in online judge
 //------------------------------------------------------------------------------
 #include <iostream>
@@ -20,7 +21,73 @@ void end();
  *------------------------------------------------------------------------------
  */
 
+#include <vector>
+#include <queue>
+
 void solution(){
+    priority_queue<pair<int, bool> > box;
+
+    int n;
+
+    cin >> n;
+    pair<int, bool> main;
+
+    for(int i = 0; i < n; i++){
+        int a;
+
+        cin >> a;
+        if (i == 0){
+            main.first = a;
+            main.second = true;
+        }
+
+        box.push(make_pair(a, i == 0));
+    }
+
+    if (n == 1){
+        cout << 0;
+        return ;
+    }
+
+    int count = 0;
+    while (true){
+        if(box.top().second && box.top().first == main.first) {
+            // dup check;
+            box.pop();
+            if (!box.top().second && box.top().first != main.first){
+                break;
+            }else{
+                pair<int, bool> temp = box.top();
+
+                if (temp.second && temp.first != main.first){
+                    box.pop();
+                }else{
+                    temp.first--;
+                    main.first++;
+                    count++;
+                    box.pop();
+                    box.push(make_pair(temp.first, temp.second));
+                }
+            }
+            box.push(main);
+        }else{
+            pair<int, bool> temp = box.top();
+
+            if (temp.second && temp.first != main.first){
+                box.pop();
+            }else{
+                temp.first--;
+                main.first++;
+                count++;
+                box.pop();
+                box.push(make_pair(temp.first, temp.second));
+                box.push(main);
+            }
+        }
+    }
+
+    cout << count;
+
 }
 
 

@@ -20,7 +20,53 @@ void end();
  *------------------------------------------------------------------------------
  */
 
+#include <vector>
+#include <queue>
+
+
 void solution(){
+    int n, c;
+
+    cin >> n >> c;
+
+    vector<vector<int> > graph(n, vector<int>(0));
+
+    for (int i = 0; i < c; i++){
+        int a, b;
+
+        cin >> a >> b;
+
+        graph[a - 1].push_back(b - 1);
+        graph[b - 1].push_back(a - 1);
+    }
+
+    for (size_t i = 0; i < n; i++){
+        log(i, ": ");
+        for (size_t j = 0; j < graph[i].size(); j++){
+            log(graph[i][j], " ");
+        }
+    }
+
+    vector<bool> status(n, false);
+    status[0] = true;
+
+    queue<int> current;
+    current.push(0);
+
+    while (!current.empty()){
+
+        for(const auto& pc: graph[current.front()]){
+            if (status[pc] == false)
+                current.push(pc);
+            status[pc] = true;
+        }
+        current.pop();
+    }
+    
+    int answer = count(status.begin(), status.end(), true) - 1;
+
+
+    cout << answer;
 }
 
 

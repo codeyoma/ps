@@ -20,7 +20,39 @@ void end();
  *------------------------------------------------------------------------------
  */
 
+#include <vector>
+
 void solution(){
+    int n, greet, root;
+
+    cin >> n >> greet;
+
+    vector<int> parent, greet_list(n, 0), p_greet_list(n, 0);
+
+    for(int i = 0; i < n; i++){
+        int temp;
+
+        cin >> temp;
+        parent.push_back(temp - 1);
+        
+    }
+
+    for(int i = 0; i < greet; i++){
+        int member, score;
+
+        cin >> member >> score;
+
+        greet_list[member - 1] += score;
+    }
+
+    for (int i = 1; i < n; i++){
+        p_greet_list[i] = greet_list[i] + p_greet_list[parent[i]];
+    }
+
+    for (const auto& it: p_greet_list){
+        cout << it << ' ';
+    }
+
 }
 
 

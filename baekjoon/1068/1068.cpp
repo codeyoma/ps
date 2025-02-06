@@ -18,7 +18,61 @@ void end();
  *------------------------------------------------------------------------------
  */
 
+#include <vector>
+
 void solution(){
+    int n, del, root;
+
+    cin >> n;
+
+    vector<int> parent_tree, del_tree(n, 0), middle_node(n, 0);
+
+    for (int i = 0; i < n; i++){
+        int temp;
+
+        cin >> temp;
+        parent_tree.push_back(temp);
+
+        if (temp == -1)
+            root = i;
+    } 
+
+    cin >> del;
+
+    for (int i = 0; i < n; i++){
+        int current = i;
+
+        while (true){
+            if (current == del){
+                del_tree[i] = 1;
+            }
+
+            if ( current == root )
+                break;
+
+            current = parent_tree[current];
+        }
+    }
+
+    for (int i = 0; i < n; i++){
+        if (del_tree[i])
+            continue;
+
+        if (i == root)
+            continue;
+
+        middle_node[parent_tree[i]] = 1;
+    }
+
+    int answer = 0;
+
+    for (int i = 0; i < n; i++){
+        if (del_tree[i] != 1 && middle_node[i] != 1)
+            answer++;
+    }
+
+    cout << answer;
+
 }
 
 
