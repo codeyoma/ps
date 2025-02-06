@@ -21,7 +21,6 @@ $(filter-out $(IGNORED_TARGETS),$(MAKECMDGOALS)):
 			echo "No C++ source files found in $(dir)"; \
 		fi \
 	else \
-		echo "Creating it... '${dir}'"; \
 		echo "addr - https://boj.kr/$(dir)"; \
 		mkdir -p $(dir);\
 		cp template.cpp $(dir)/$(dir).cpp; \
