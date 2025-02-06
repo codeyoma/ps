@@ -7,7 +7,7 @@ void log(const T& first, const Args&... rest);
 void end();
 /**
  *------------------------------------------------------------------------------
- *                      /$$             /$$     /$$                    
+                        /$$             /$$     /$$                    
  *                     | $$            | $$    |__/                    
  *   /$$$$$$$  /$$$$$$ | $$ /$$   /$$ /$$$$$$   /$$  /$$$$$$  /$$$$$$$ 
  *  /$$_____/ /$$__  $$| $$| $$  | $$|_  $$_/  | $$ /$$__  $$| $$__  $$
@@ -18,7 +18,38 @@ void end();
  *------------------------------------------------------------------------------
  */
 
+#include <vector>
+#include <algorithm>
+
 void solution(){
+    int n ;
+
+    cin >> n;
+
+    vector<int> array;
+
+    for(int i = 0; i < n; i++){
+        int temp;
+
+        cin >> temp;
+        array.push_back(temp);
+    }
+
+    sort(array.begin(), array.end());
+
+    int max = -(1e8 + 7);
+
+    do{
+        int sum = 0;
+
+        for (int i = 1; i < n; i++){
+            sum += abs(array[i - 1] - array[i]);
+        }
+        max = std::max(max, sum);
+        
+    } while(next_permutation(array.begin(), array.end()));
+
+    cout << max;
 }
 
 
@@ -131,7 +162,7 @@ int main(int argc, char *argv[]){
             return -1;
         }
 
-        log("test case - ", i);
+        // log("test case - ", i);
         solution();
         cout << '\n';
     }

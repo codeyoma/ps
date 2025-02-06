@@ -5,6 +5,8 @@ using namespace std;
 template <typename T, typename... Args>
 void log(const T& first, const Args&... rest);
 void end();
+#define C_MIN (-(1e8 + 7))
+#define C_MAX (1e8 + 7)
 /**
  *------------------------------------------------------------------------------
  *                      /$$             /$$     /$$                    
@@ -18,7 +20,45 @@ void end();
  *------------------------------------------------------------------------------
  */
 
+#include <vector>
+
 void solution(){
+    int n, slide, broken;
+
+    cin >> n >> slide >> broken;
+
+    vector<int> list(n, 1);
+
+    for (int i = 0; i < broken; i++){
+        int temp;
+
+        cin >> temp;
+        list[temp - 1] = 0;
+    }
+
+    vector<int> p_sum(n, 0);
+
+    for (int i = 0; i < n; i++){
+        if ( i > 0)
+            p_sum[i] = p_sum[i - 1] + list[i];
+        else
+            p_sum[i] = list[i];
+    }
+
+    int answer = C_MIN;
+
+    for (int i = 0; i < n - slide + 1; i++){
+        int temp;
+
+        if (i > 0)
+            temp = p_sum[i + slide - 1] - p_sum[i - 1];
+        else
+            temp = p_sum[i + slide - 1];
+
+        answer = max(answer, temp);
+    }
+
+    cout << (slide - answer);
 }
 
 

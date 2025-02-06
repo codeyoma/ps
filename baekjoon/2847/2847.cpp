@@ -17,8 +17,32 @@ void end();
  * |_______/  \______/ |__/ \______/    \___/  |__/ \______/ |__/  |__/
  *------------------------------------------------------------------------------
  */
+#include <vector>
 
 void solution(){
+    int n;
+    cin >> n;
+    
+    vector<int> level;
+
+    for(int i = 0; i < n; i++){
+        int temp;
+
+        cin >> temp;
+        level.push_back(temp); 
+    }
+
+    int count = 0;
+
+    for (int i = n - 1; i > 0; i--){
+        if (level[i - 1] >= level[i]){
+            int sub = ((level[i - 1] - level[i]) + 1);
+            level[i - 1] -= sub;
+            count += sub;
+        }
+    }
+
+    cout << count;
 }
 
 

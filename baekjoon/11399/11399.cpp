@@ -17,8 +17,30 @@ void end();
  * |_______/  \______/ |__/ \______/    \___/  |__/ \______/ |__/  |__/
  *------------------------------------------------------------------------------
  */
+#include <vector>
+#include <algorithm>
 
 void solution(){
+    int n;
+    cin >> n;
+
+    vector<int> list;
+
+    for (int i = 0; i < n; i++){
+        int temp;
+        cin >> temp;
+        list.push_back(temp);
+    }
+
+    sort(list.begin(), list.end());
+
+    int answer = 0;
+
+    for (int i = 0; i < n; i++){
+        answer += ((n - i) * list[i]);
+    }
+
+    cout << answer;
 }
 
 

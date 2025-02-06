@@ -18,7 +18,51 @@ void end();
  *------------------------------------------------------------------------------
  */
 
+#include <vector>
+#include <algorithm>
+
 void solution(){
+    int T;
+    cin >> T;
+
+    while (T--){
+        int a_c, b_c;
+        cin >> a_c >> b_c;
+
+        vector<int> a;
+        vector<int> b;
+
+        for (int i = 0; i < a_c; i++){
+            int temp;
+            cin >> temp;
+            a.push_back(temp);
+        }
+        
+        for (int i = 0; i < b_c; i++){
+            int temp;
+            cin >> temp;
+            b.push_back(temp);
+        }
+
+        sort(a.begin(), a.end(), greater<int>());
+        sort(b.begin(), b.end(), greater<int>());
+
+        int a_p = 0, b_p = 0, count = 0;
+
+        while (a_p < a_c && b_p < b_c){
+
+            if (a[a_p] > b[b_p]){
+                count += (b.size() - b_p);
+                a_p++;
+            } else {
+                b_p++;
+            }
+
+        }
+
+        cout << count;
+        end();
+    }
 }
 
 

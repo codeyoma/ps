@@ -7,7 +7,7 @@ void log(const T& first, const Args&... rest);
 void end();
 /**
  *------------------------------------------------------------------------------
- *                      /$$             /$$     /$$                    
+                        /$$             /$$     /$$                    
  *                     | $$            | $$    |__/                    
  *   /$$$$$$$  /$$$$$$ | $$ /$$   /$$ /$$$$$$   /$$  /$$$$$$  /$$$$$$$ 
  *  /$$_____/ /$$__  $$| $$| $$  | $$|_  $$_/  | $$ /$$__  $$| $$__  $$
@@ -18,7 +18,46 @@ void end();
  *------------------------------------------------------------------------------
  */
 
+#include <vector>
+
 void solution(){
+    int n;
+    cin >> n;
+
+    int target;
+    cin >> target;
+
+    vector<int> a;
+
+    for (int i = 0; i < n; i++){
+        int temp;
+
+        cin >> temp;
+
+        a.push_back(temp);
+    }
+
+
+    int count = 0;
+    int start = 0, end = 0;
+    int sum = a[start];
+
+    while (true){
+        if (sum == target)
+            count++;
+
+        if (sum >= target){
+            sum -= a[start];
+            start++;
+        } else {
+            if (end == (n - 1))
+                break;
+            end++;
+            sum += a[end];
+        }
+    }
+
+    cout << count;
 }
 
 

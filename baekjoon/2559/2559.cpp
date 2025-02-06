@@ -17,8 +17,43 @@ void end();
  * |_______/  \______/ |__/ \______/    \___/  |__/ \______/ |__/  |__/
  *------------------------------------------------------------------------------
  */
+#include <vector>
 
 void solution(){
+    int size, slide;
+
+    cin >> size >> slide;
+
+    vector<int> list;
+    vector<int> p_sum(size, 0);
+
+    for(int i = 0; i < size; i++){
+        int temp;
+
+        cin >> temp;
+        list.push_back(temp);
+
+        if (i > 0){
+            p_sum[i] += p_sum[i - 1] + temp;
+        } else {
+            p_sum[i] = temp;
+        }
+    }
+
+    int answer = -(1e8+7);
+    for (int i = 0; i < size - slide + 1; i++){
+        int temp_sum; 
+
+        if (i > 0)
+            temp_sum = p_sum[i + slide - 1] - p_sum[i - 1];
+        else
+            temp_sum = p_sum[i + slide - 1];
+
+        answer = max(temp_sum, answer);
+    }
+
+    cout << answer;
+
 }
 
 
