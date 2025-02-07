@@ -21,8 +21,52 @@ void end();
  */
 
 #include <vector>
+
+bool fast_sqrt(const int& i)
+{
+    int l = 0, r = i, m;
+
+    while (l <= r) {
+        m = (l + r) / 2;
+
+        int sqrt = m * m;
+
+        if (sqrt == i)
+            return true;
+        if (sqrt < i)
+            l = m + 1;
+        else
+            r = m - 1;
+    }
+
+    return false;
+}
+
 void solution()
 {
+    size_t n;
+
+    cin >> n;
+
+    vector<int> fs(n + 1, 4);
+
+    fs[0] = 0;
+
+    for (size_t i = 1; i <= n; i++) {
+        if (fast_sqrt(i)) {
+            fs[i] = 1;
+            continue;
+        }
+
+        for (size_t j = 1; j <= n; j++) {
+            if ((j * j) > i)
+                break;
+
+            fs[i] = min(fs[i], 1 + fs[i - (j * j)]);
+        }
+    }
+
+    cout << fs[n];
 }
 
 /**

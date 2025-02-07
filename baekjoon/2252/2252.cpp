@@ -19,10 +19,54 @@ void end();
  * |_______/  \______/ |__/ \______/    \___/  |__/ \______/ |__/  |__/
  *------------------------------------------------------------------------------
  */
-
+#include <queue>
 #include <vector>
+
 void solution()
 {
+    size_t n, m;
+
+    cin >> n >> m;
+
+    vector<vector<int>> graph(n, vector<int>(0));
+    vector<int> in(n, 0);
+    vector<int> answer;
+
+    for (size_t i = 0; i < m; i++) {
+        size_t a, b;
+
+        cin >> a >> b;
+
+        graph[a - 1].push_back(b - 1);
+        in[b - 1] += 1;
+    }
+
+    priority_queue<int, vector<int>, greater<int>> pq;
+
+    for (size_t i = 0; i < n; i++) {
+        if (in[i] == 0) {
+            pq.push(i);
+        }
+    }
+
+    {
+        while (!pq.empty()) {
+            int node = pq.top();
+            pq.pop();
+            answer.push_back(node);
+
+            for (const auto& it : graph[node]) {
+                in[it] -= 1;
+
+                if (in[it] == 0)
+                    pq.push(it);
+            }
+        }
+    }
+
+    for (const auto& it : answer) {
+        cout << it + 1 << " ";
+    }
 }
 
 /**
@@ -130,7 +174,8 @@ int main(int argc, char* argv[])
     }
 
     for (int i = 1; i <= test_size; i++) {
-        string test = string(to_string(problem_number) + "/test-input-" + to_string(i) + ".txt");
+        string test = string(to_string(problem_number) + "/test-input-"
+            + to_string(i) + ".txt");
 
         if (freopen(test.c_str(), "r", stdin) == NULL) {
             cout << "file open error" << endl;
@@ -138,7 +183,8 @@ int main(int argc, char* argv[])
             return -1;
         }
 
-        string my_answer = string(to_string(problem_number) + "/my-output-" + to_string(i) + ".txt");
+        string my_answer = string(to_string(problem_number) + "/my-output-"
+            + to_string(i) + ".txt");
 
         if (freopen(my_answer.c_str(), "w", stdout) == NULL) {
             cout << "file open error" << endl;

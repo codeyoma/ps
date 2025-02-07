@@ -14,7 +14,7 @@ $(filter-out $(IGNORED_TARGETS),$(MAKECMDGOALS)):
 	@if [ -d "$(dir)" ]; then \
 		echo "addr - https://boj.kr/$(dir)"; \
 		if ls $(dir)/*.cpp >/dev/null 2>&1; then \
-			g++ -std=c++20 -o $(dir)/$(dir).out $(dir)/*.cpp; \
+			g++ -std=c++20 -Wall -Wextra -Werror -o $(dir)/$(dir).out $(dir)/*.cpp; \
 			$(dir)/$(dir).out $(dir) $(test_count); \
 			./check.sh $(dir) $(test_count); \
 		else \

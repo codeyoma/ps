@@ -1,3 +1,4 @@
+#include <cstddef>
 #define LOCAL // need to delete in online judge
 //------------------------------------------------------------------------------
 #include <iostream>
@@ -19,10 +20,79 @@ void end();
  * |_______/  \______/ |__/ \______/    \___/  |__/ \______/ |__/  |__/
  *------------------------------------------------------------------------------
  */
-
+#include <cmath>
 #include <vector>
+
+int dp(int mask, vector<vector<int>>& cost, vector<int>& cache, const int& n, const int& p)
+{
+    int ret = C_MAX, count = 0;
+
+    if (cache[mask] != -1)
+        return cache[mask];
+
+    for (int i = 0; i < n; i++) {
+        if (mask & int(pow(2, i)))
+            count++;
+    }
+
+    if (count >= p) {
+        cache[mask] = 0;
+        return 0;
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (mask & int(pow(2, i))) {
+
+            for (int j = 0; j < n; j++) {
+                if (!(mask & int(pow(2, j)))) {
+                    ret = min(ret, cost[i][j] + dp(mask + int(pow(2, j)), cost, cache, n, p));
+                }
+            }
+        }
+    }
+
+    cache[mask] = ret;
+
+    return ret;
+}
+
 void solution()
 {
+    int n, p;
+    string s;
+
+    cin >> n;
+
+    vector<vector<int>> cost(n, vector<int>());
+
+    vector<int> cache(floor(pow(2, n)), -1);
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            int temp;
+
+            cin >> temp;
+            cost[i].push_back(temp);
+        }
+    }
+
+    cin >> s >> p;
+
+    int init_mask = 0;
+
+    for (int i = 0; i < int(s.size()); i++) {
+        if (s[i] == 'Y')
+            init_mask += floor(pow(2, i));
+    }
+
+    log("", init_mask);
+
+    int answer = dp(init_mask, cost, cache, n, p);
+
+    if (answer == C_MAX)
+        cout << -1;
+    else
+        cout << answer;
 }
 
 /**

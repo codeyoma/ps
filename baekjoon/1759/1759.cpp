@@ -20,9 +20,67 @@ void end();
  *------------------------------------------------------------------------------
  */
 
+#include <algorithm>
+#include <set>
 #include <vector>
 void solution()
 {
+    size_t n, c;
+
+    cin >> n >> c;
+
+    vector<bool> v(c, false);
+    fill(v.begin(), v.begin() + n, true);
+
+    vector<char> list;
+
+    for (size_t i = 0; i < c; i++) {
+        char temp;
+
+        cin >> temp;
+        list.push_back(temp);
+    }
+
+    sort(list.begin(), list.end());
+
+    string m = "aeiou";
+
+    set<string> answer;
+    set<string> checker;
+
+    do {
+        vector<char> temp;
+        size_t m_count = 0;
+
+        for (size_t i = 0; i < c; i++) {
+            if (v[i]) {
+                temp.push_back(list[i]);
+
+                if (m.find(list[i]) != string::npos)
+                    m_count++;
+            }
+        }
+
+        sort(temp.begin(), temp.end());
+        string s(temp.begin(), temp.end());
+
+        if (checker.find(s) == checker.end()) {
+
+            checker.insert(s);
+
+            if (m_count <= (n - 2) && m_count > 0) {
+                answer.insert(s);
+                // log(s);
+            }
+        }
+
+    } while (prev_permutation(v.begin(), v.end()));
+
+    for (const auto& it : answer) {
+        log("", it);
+        cout << it;
+        end();
+    }
 }
 
 /**
