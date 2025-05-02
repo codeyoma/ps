@@ -1,6 +1,5 @@
 #define LOCAL // need to delete in online judge
 //------------------------------------------------------------------------------
-// #include <bits/stdc++.h>
 #include <iostream>
 using namespace std;
 template <typename T, typename... Args>
@@ -21,9 +20,55 @@ void end();
  *------------------------------------------------------------------------------
  */
 
+#include <algorithm>
 #include <vector>
+
 void solution()
 {
+    int n, c;
+    cin >> n >> c;
+    vector<int> list;
+
+    for (int i = 0; i < n; i++) {
+        int temp;
+        cin >> temp;
+        list.push_back(temp);
+    }
+
+    sort(list.begin(), list.end());
+    int answer = 0;
+
+    {
+        int l = 1;
+        int r = list.back() - list[0];
+        int m;
+        int last;
+
+        while (l <= r) {
+            m = l + ((r - l) / 2);
+            int count = 1;
+            last = list[0];
+
+            for (size_t i = 1; i < list.size(); i++) {
+                if (list[i] - last >= m) {
+                    count++;
+                    cout << list[i] << " ";
+                    last = list[i];
+                }
+            }
+            cout << ": " << m << endl;
+
+            if (count >= c) {
+                l = m + 1;
+                if (count == c)
+                    answer = m;
+            } else {
+                r = m - 1;
+            }
+        }
+    }
+
+    cout << answer;
 }
 
 /**

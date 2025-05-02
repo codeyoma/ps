@@ -1,6 +1,5 @@
 #define LOCAL // need to delete in online judge
 //------------------------------------------------------------------------------
-// #include <bits/stdc++.h>
 #include <iostream>
 using namespace std;
 template <typename T, typename... Args>
@@ -21,9 +20,39 @@ void end();
  *------------------------------------------------------------------------------
  */
 
+#include <algorithm>
+#include <unordered_set>
 #include <vector>
+
 void solution()
 {
+    int n;
+    cin >> n;
+
+    vector<int> v(n);
+    for (int& x : v)
+        cin >> x;
+
+    sort(v.begin(), v.end());
+
+    unordered_set<int> sumSet;
+    for (int i = 0; i < n; ++i)
+        for (int j = i; j < n; ++j)
+            sumSet.insert(v[i] + v[j]);
+
+    for (int i = n - 1; i >= 0; --i) {
+        for (int j = 0; j < n; ++j) {
+            if (i == j)
+                continue;
+
+            int target = v[i] - v[j];
+
+            if (sumSet.count(target)) {
+                cout << v[i];
+                return;
+            }
+        }
+    }
 }
 
 /**
