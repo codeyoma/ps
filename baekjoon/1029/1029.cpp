@@ -22,8 +22,45 @@ void end();
  */
 
 #include <vector>
+
+typedef vector<vector<int>> VV;
+
+int dfs(const int& N, const VV& price, vector<VV>& dp, int me, int my_price, int mask, int d = 0)
+{
+    if (dp[me][my_price][mask] != -1)
+        return dp[me][my_price][mask];
+
+    int ret = 1;
+    for (int i = 0; i < N; i++) {
+        if ((1 << i) & mask)
+            continue;
+        log(me, "-", i);
+        int prev_price = price[me][i];
+        if (prev_price >= my_price) {
+            ret = max(ret, 1 + dfs(N, price, dp, i, prev_price, mask | (1 << i), d + 1));
+        }
+    }
+
+    dp[me][my_price][mask] = ret;
+    return ret;
+}
+
 void solution()
 {
+    int N;
+    cin >> N;
+    VV price(N, vector<int>(N, -1));
+    vector<VV> dp(N, VV(10, vector<int>(1 << N, -1)));
+
+    for (int i = 0; i < N; i++) {
+        string temp;
+        cin >> temp;
+        for (int j = 0; j < N; j++) {
+            price[i][j] = temp[j] - '0';
+        }
+    }
+
+    cout << dfs(N, price, dp, 0, 0, 1 << 0);
 }
 
 /**
@@ -114,6 +151,7 @@ void log(const T& first, const Args&... rest)
 }
 
 // for local test
+
 void _run_test(const int problem_number, const int test_number)
 {
     string test = string(to_string(problem_number) + "/test-input-" + to_string(test_number) + ".txt");

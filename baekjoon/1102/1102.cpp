@@ -1,6 +1,6 @@
-#include <cstddef>
 #define LOCAL // need to delete in online judge
 //------------------------------------------------------------------------------
+// #include <bits/stdc++.h>
 #include <iostream>
 using namespace std;
 template <typename T, typename... Args>
@@ -20,79 +20,99 @@ void end();
  * |_______/  \______/ |__/ \______/    \___/  |__/ \______/ |__/  |__/
  *------------------------------------------------------------------------------
  */
-#include <cmath>
+
 #include <vector>
 
-int dp(int mask, vector<vector<int>>& cost, vector<int>& cache, const int& n, const int& p)
+int _count_bit(const int& mask, const int& size)
 {
-    int ret = C_MAX, count = 0;
-
-    if (cache[mask] != -1)
-        return cache[mask];
-
-    for (int i = 0; i < n; i++) {
-        if (mask & int(pow(2, i)))
+    int count = 0;
+    for (int i = 0; i < size; i++) {
+        if ((1 << i) & mask)
             count++;
     }
-
-    if (count >= p) {
-        cache[mask] = 0;
-        return 0;
-    }
-
-    for (int i = 0; i < n; i++) {
-        if (mask & int(pow(2, i))) {
-
-            for (int j = 0; j < n; j++) {
-                if (!(mask & int(pow(2, j)))) {
-                    ret = min(ret, cost[i][j] + dp(mask + int(pow(2, j)), cost, cache, n, p));
-                }
-            }
-        }
-    }
-
-    cache[mask] = ret;
-
-    return ret;
+    return count;
 }
 
 void solution()
 {
-    int n, p;
-    string s;
+    int N;
+    cin >> N;
 
-    cin >> n;
+    vector<vector<int>> e(N, vector<int>(N, 0));
 
-    vector<vector<int>> cost(n, vector<int>());
-
-    vector<int> cache(floor(pow(2, n)), -1);
-
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            int temp;
-
-            cin >> temp;
-            cost[i].push_back(temp);
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            cin >> e[i][j];
         }
     }
 
-    cin >> s >> p;
-
+    string status;
     int init_mask = 0;
+    int target;
+    cin >> status;
+    cin >> target;
 
-    for (int i = 0; i < int(s.size()); i++) {
-        if (s[i] == 'Y')
-            init_mask += floor(pow(2, i));
+    int init_count = 0;
+
+    for (size_t i = 0; i < status.size(); i++) {
+        if (status[i] == 'Y') {
+            init_mask |= (1 << i);
+            init_count++;
+        }
     }
 
-    log("", init_mask);
+    if (target == 0) {
+        cout << 0;
+        return;
+    }
 
-    int answer = dp(init_mask, cost, cache, n, p);
+    if (init_count >= target) {
+        cout << 0;
+        return;
+    }
 
-    if (answer == C_MAX)
+    if (init_count == 0) {
         cout << -1;
-    else
+        return;
+    }
+
+    int max_set = (1 << N);
+    vector<int> dp(max_set, C_MAX);
+
+    dp[init_mask] = 0;
+
+    for (int mask = 0; mask < max_set; mask++) {
+        if (dp[mask] == C_MAX)
+            continue;
+
+        int count = _count_bit(mask, N);
+        if (count >= target)
+            continue;
+
+        for (int i = 0; i < N; i++) {
+            if (!((1 << i) & mask))
+                continue;
+            for (int j = 0; j < N; j++) {
+                if (((1 << j) & mask))
+                    continue;
+                int next_mask = mask | (1 << j);
+                dp[next_mask] = min(dp[next_mask], (dp[mask] + e[i][j]));
+            }
+        }
+    }
+
+    int answer = C_MAX;
+    for (int i = 0; i < max_set; i++) {
+        if (_count_bit(i, N) >= target) {
+            answer = min(answer, dp[i]);
+        }
+    }
+
+    if (answer == C_MAX) {
+        cout << -1;
+    } else {
         cout << answer;
+    }
 }
 
 /**
@@ -183,6 +203,27 @@ void log(const T& first, const Args&... rest)
 }
 
 // for local test
+void _run_test(const int problem_number, const int test_number)
+{
+    string test = string(to_string(problem_number) + "/test-input-" + to_string(test_number) + ".txt");
+
+    if (freopen(test.c_str(), "r", stdin) == NULL) {
+        cout << "file open error" << endl;
+        cerr << strerror(errno) << endl;
+    }
+
+    string my_answer = string(to_string(problem_number) + "/my-output-" + to_string(test_number) + ".txt");
+
+    if (freopen(my_answer.c_str(), "w", stdout) == NULL) {
+        cout << "file open error" << endl;
+        cerr << strerror(errno) << endl;
+    }
+
+    log("test case - ", test_number);
+    solution();
+    cout << '\n';
+}
+
 int main(int argc, char* argv[])
 {
     ios_base ::sync_with_stdio(false);
@@ -191,34 +232,25 @@ int main(int argc, char* argv[])
 
     int problem_number = 0;
     int test_size = 0;
+    int test_target = 0;
 
     if (argc == 3) {
         problem_number = stoi(argv[1]);
         test_size = stoi(argv[2]);
+    } else if (argc == 4) {
+        problem_number = stoi(argv[1]);
+        test_size = stoi(argv[2]);
+        test_target = stoi(argv[3]);
     } else {
         return -1;
     }
 
-    for (int i = 1; i <= test_size; i++) {
-        string test = string(to_string(problem_number) + "/test-input-" + to_string(i) + ".txt");
-
-        if (freopen(test.c_str(), "r", stdin) == NULL) {
-            cout << "file open error" << endl;
-            cerr << strerror(errno) << endl;
-            return -1;
+    if (test_target == 0) {
+        for (int i = 1; i <= test_size; i++) {
+            _run_test(problem_number, i);
         }
-
-        string my_answer = string(to_string(problem_number) + "/my-output-" + to_string(i) + ".txt");
-
-        if (freopen(my_answer.c_str(), "w", stdout) == NULL) {
-            cout << "file open error" << endl;
-            cerr << strerror(errno) << endl;
-            return -1;
-        }
-
-        log("test case - ", i);
-        solution();
-        cout << '\n';
+    } else {
+        _run_test(problem_number, test_target);
     }
 
     return 0;
