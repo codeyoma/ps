@@ -31,4 +31,5 @@ $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS)):
 		mkdir -p $(dir);\
 		cp template.cpp $(dir)/$(dir).cpp; \
 		./get-test-answer.sh $(dir) true;\
+		code $(dir)/$(dir).cpp;\
 	fi
