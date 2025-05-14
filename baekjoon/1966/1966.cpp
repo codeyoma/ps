@@ -1,5 +1,5 @@
 #define LOCAL // need to delete in online judge
-// https://www.acmicpc.net/problem/1018
+// https://www.acmicpc.net/problem/1966
 //------------------------------------------------------------------------------
 // #include <bits/stdc++.h>
 #include <iostream>
@@ -24,55 +24,51 @@ void end();
  *------------------------------------------------------------------------------
  */
 
+#include <queue>
 #include <vector>
+struct doc {
+    int index;
+    int rank;
 
-int check(const vector<vector<char>>& b, char start, int sx, int sy, int ex, int ey)
-{
-    int count = 0;
-    bool flag = true;
-    for (int y = sy; y <= ey; ++y) {
-        for (int x = sx; x <= ex; ++x) {
-            if ((b[y][x] == start) != flag) {
-                ++count;
-            }
-            flag = !flag;
-        }
-        flag = !flag;
+    bool operator<(const doc& other) const
+    {
+        return rank < other.rank;
     }
-
-    return count;
-}
-
+};
 void solution()
 {
-    int n, m;
-    cin >> n >> m;
-    vector<vector<char>> board(n, vector<char>(m));
+    int test;
+    cin >> test;
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
-            cin >> board[i][j];
+    while (test--) {
+        queue<doc> q;
+        priority_queue<doc> pq;
+        int n, m;
+        cin >> n >> m;
+        for (int i = 0; i < n; ++i) {
+            int temp;
+            cin >> temp;
+
+            q.push({ i, temp });
+            pq.push({ i, temp });
+        }
+
+        int count = 0;
+        while (!q.empty()) {
+            if (q.front().rank == pq.top().rank) {
+                ++count;
+                pq.pop();
+
+                if (q.front().index == m) {
+                    cout << count << "\n";
+                    break;
+                }
+            } else {
+                q.push(q.front());
+            }
+            q.pop();
         }
     }
-
-    int answer = C_MAX;
-    int sx = 0, sy = 0;
-    int ex = sx + 7, ey = sy + 7;
-
-    while (ex < m && ey < n) {
-        answer = min(answer, check(board, 'W', sx, sy, ex, ey));
-        answer = min(answer, check(board, 'B', sx, sy, ex, ey));
-        ++sx;
-        ++ex;
-
-        if (ex == m) {
-            sx = 0;
-            ex = sx + 7;
-            ++sy;
-            ey = sy + 7;
-        }
-    }
-    cout << answer;
 }
 
 /**
