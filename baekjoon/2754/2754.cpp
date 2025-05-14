@@ -6,10 +6,8 @@ using namespace std;
 template <typename T, typename... Args>
 void log(const T& first, const Args&... rest);
 void end();
-// #define C_MIN (-(1e8 + 7))
-// #define C_MAX (1e8 + 7)
-#define C_MAX (1234567891)
-#define C_MIN (-1234567891)
+#define C_MIN (-(1e8 + 7))
+#define C_MAX (1e8 + 7)
 /**
  *------------------------------------------------------------------------------
  *                      /$$             /$$     /$$
@@ -26,6 +24,35 @@ void end();
 #include <vector>
 void solution()
 {
+    string my;
+    cin >> my;
+
+    auto tail = [](const char& c) {
+        switch (c) {
+        case '+': {
+            return 0;
+        }
+        case '0': {
+            return 1;
+        }
+        case '-': {
+            return 2;
+        }
+        }
+        return 0;
+    };
+
+    vector<vector<string>> s = {
+        { "4.3", "4.0", "3.7" },
+        { "3.3", "3.0", "2.7" },
+        { "2.3", "2.0", "1.7" },
+        { "1.3", "1.0", "0.7" }
+    };
+
+    if (my[0] == 'F')
+        cout << "0.0";
+    else
+        cout << s[my[0] - 'A'][tail(my[1])];
 }
 
 /**
@@ -55,8 +82,8 @@ void end()
 int main()
 {
     ios_base ::sync_with_stdio(false);
-    cin.tie(nullptr);
-    // cout.tie(nullptr);
+    cin.tie(NULL);
+    cout.tie(NULL);
     solution();
 }
 
@@ -140,8 +167,8 @@ void _run_test(const int problem_number, const int test_number)
 int main(int argc, char* argv[])
 {
     ios_base ::sync_with_stdio(false);
-    cin.tie(nullptr);
-    // cout.tie(nullptr);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
     int problem_number = 0;
     int test_size = 0;

@@ -1,3 +1,4 @@
+#include <functional>
 #define LOCAL // need to delete in online judge
 //------------------------------------------------------------------------------
 // #include <bits/stdc++.h>
@@ -26,6 +27,29 @@ void end();
 #include <vector>
 void solution()
 {
+    auto is_palindrom = [](const string& a) {
+        int start = 0;
+        int end = a.length() - 1;
+        int mid = a.length() / 2;
+        for (int i = 0; i < mid; ++i) {
+            if (a[start] != a[end])
+                return "no";
+            ++start;
+            --end;
+        }
+
+        return "yes";
+    };
+
+    while (true) {
+        string number;
+        cin >> number;
+
+        if (number.compare("0") == 0)
+            break;
+
+        cout << is_palindrom(number) << endl;
+    }
 }
 
 /**
@@ -55,8 +79,8 @@ void end()
 int main()
 {
     ios_base ::sync_with_stdio(false);
-    cin.tie(nullptr);
-    // cout.tie(nullptr);
+    cin.tie(NULL);
+    cout.tie(NULL);
     solution();
 }
 
@@ -140,8 +164,8 @@ void _run_test(const int problem_number, const int test_number)
 int main(int argc, char* argv[])
 {
     ios_base ::sync_with_stdio(false);
-    cin.tie(nullptr);
-    // cout.tie(nullptr);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
     int problem_number = 0;
     int test_size = 0;

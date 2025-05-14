@@ -23,9 +23,31 @@ void end();
  *------------------------------------------------------------------------------
  */
 
+#include <set>
 #include <vector>
 void solution()
 {
+    set<string> b;
+    int n;
+    cin >> n;
+
+    for (int i = 0; i < n; ++i) {
+        string temp;
+        cin >> temp;
+        b.insert(temp);
+    }
+
+    vector<string> v(b.begin(), b.end());
+
+    sort(v.begin(), v.end(), [](const string& a, const string& b) {
+        if (a.length() == b.length())
+            return a < b;
+        return a.length() < b.length();
+    });
+
+    for (const auto& i : v) {
+        cout << i << "\n";
+    }
 }
 
 /**

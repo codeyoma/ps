@@ -23,9 +23,42 @@ void end();
  *------------------------------------------------------------------------------
  */
 
+bool is_fizzbuzz(const string& a)
+{
+    if (a == "Fizz" || a == "Buzz" || a == "FizzBuzz")
+        return true;
+    return false;
+}
+
 #include <vector>
 void solution()
 {
+    int n = 3;
+
+    int number_pos = 0;
+    int number = 0;
+    for (int i = 0; i < n; ++i) {
+        string temp;
+        cin >> temp;
+        if (is_fizzbuzz(temp))
+            continue;
+
+        number_pos = i;
+        number = stoi(temp);
+        break;
+    }
+
+    int target = number + (n - number_pos);
+
+    if (target % 3 == 0 && target % 5 == 0) {
+        cout << "FizzBuzz";
+    } else if (target % 3 == 0) {
+        cout << "Fizz";
+    } else if (target % 5 == 0) {
+        cout << "Buzz";
+    } else {
+        cout << target;
+    }
 }
 
 /**

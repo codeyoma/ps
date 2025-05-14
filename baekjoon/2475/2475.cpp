@@ -6,10 +6,8 @@ using namespace std;
 template <typename T, typename... Args>
 void log(const T& first, const Args&... rest);
 void end();
-// #define C_MIN (-(1e8 + 7))
-// #define C_MAX (1e8 + 7)
-#define C_MAX (1234567891)
-#define C_MIN (-1234567891)
+#define C_MIN (-(1e8 + 7))
+#define C_MAX (1e8 + 7)
 /**
  *------------------------------------------------------------------------------
  *                      /$$             /$$     /$$
@@ -23,9 +21,19 @@ void end();
  *------------------------------------------------------------------------------
  */
 
-#include <vector>
+#include <cmath>
 void solution()
 {
+    int size = 5;
+    int sum = 0;
+
+    for (int i = 0; i < size; ++i) {
+        int temp;
+        cin >> temp;
+        sum += pow(temp, 2);
+    }
+
+    cout << sum % 10;
 }
 
 /**
@@ -55,8 +63,8 @@ void end()
 int main()
 {
     ios_base ::sync_with_stdio(false);
-    cin.tie(nullptr);
-    // cout.tie(nullptr);
+    cin.tie(NULL);
+    cout.tie(NULL);
     solution();
 }
 
@@ -140,8 +148,8 @@ void _run_test(const int problem_number, const int test_number)
 int main(int argc, char* argv[])
 {
     ios_base ::sync_with_stdio(false);
-    cin.tie(nullptr);
-    // cout.tie(nullptr);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
     int problem_number = 0;
     int test_size = 0;

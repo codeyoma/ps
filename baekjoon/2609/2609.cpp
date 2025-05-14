@@ -24,8 +24,25 @@ void end();
  */
 
 #include <vector>
+
+int gcd(int a, int b)
+{
+    if (b == 0)
+        return a;
+    return gcd(b, a % b);
+}
+
+int lcm(int a, int b)
+{
+    return ((a / gcd(a, b)) * b);
+}
+
 void solution()
 {
+    int a, b;
+    cin >> a >> b;
+    cout << gcd(a, b) << endl;
+    cout << lcm(a, b);
 }
 
 /**
@@ -55,8 +72,8 @@ void end()
 int main()
 {
     ios_base ::sync_with_stdio(false);
-    cin.tie(nullptr);
-    // cout.tie(nullptr);
+    cin.tie(NULL);
+    cout.tie(NULL);
     solution();
 }
 
@@ -140,8 +157,8 @@ void _run_test(const int problem_number, const int test_number)
 int main(int argc, char* argv[])
 {
     ios_base ::sync_with_stdio(false);
-    cin.tie(nullptr);
-    // cout.tie(nullptr);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
     int problem_number = 0;
     int test_size = 0;

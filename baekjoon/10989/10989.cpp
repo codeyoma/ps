@@ -26,6 +26,25 @@ void end();
 #include <vector>
 void solution()
 {
+    const int max = 10001;
+    int n;
+    cin >> n;
+
+    vector<int> a(max, 0);
+
+    for (int i = 0; i < n; ++i) {
+        int temp;
+        cin >> temp;
+        a[temp]++;
+    }
+
+    for (int i = 1; i < max; ++i) {
+        if (a[i] == 0)
+            continue;
+        for (int j = 0; j < a[i]; ++j) {
+            cout << i << '\n';
+        }
+    }
 }
 
 /**
@@ -56,7 +75,6 @@ int main()
 {
     ios_base ::sync_with_stdio(false);
     cin.tie(nullptr);
-    // cout.tie(nullptr);
     solution();
 }
 
@@ -140,8 +158,8 @@ void _run_test(const int problem_number, const int test_number)
 int main(int argc, char* argv[])
 {
     ios_base ::sync_with_stdio(false);
-    cin.tie(nullptr);
-    // cout.tie(nullptr);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
     int problem_number = 0;
     int test_size = 0;

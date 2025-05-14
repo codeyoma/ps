@@ -26,6 +26,16 @@ void end();
 #include <vector>
 void solution()
 {
+    vector<int> f(11, 1);
+    for (int i = 1; i < 11; ++i) {
+        f[i] = f[i - 1] * i;
+    }
+
+    int n, k;
+
+    cin >> n >> k;
+
+    cout << (f[n] / (f[k] * f[n - k]));
 }
 
 /**
