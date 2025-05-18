@@ -30,3 +30,20 @@ done
 sed -i '' "2i\\
 // $url
 " $url_number/$url_number.cpp
+
+sed -i '' "6i\\
+- [$url]($url)
+" $url_number/$url_number.md
+
+solvedac_req_url="https://solved.ac/api/v3/problem/show?problemId=$url_number"
+
+solvedac_response=$(curl -s --request GET \
+    --url $solvedac_req_url \
+    --header 'Accept: application/json' \
+    --header 'x-solvedac-language: ko')
+
+level=$(echo "$solvedac_response" | jq '.level')
+
+sed -i '' "2i\\
+boj-level: $level
+" $url_number/$url_number.md

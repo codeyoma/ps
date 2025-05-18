@@ -1,7 +1,6 @@
 
 RAW_GOALS := $(MAKECMDGOALS)
 dir := $(word 1, $(RAW_GOALS))
-dir := $(word 1, $(RAW_GOALS))
 target_test_number := $(test)
 test_count := $(shell ls $(dir)/test-output-*.txt 2>/dev/null | wc -l)
 
@@ -23,6 +22,7 @@ $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS)):
 			g++ -std=c++20 -Wall -Wextra -Werror -o $(dir)/$(dir).out $(dir)/*.cpp; \
 			$(dir)/$(dir).out $(dir) $(test_count) $(target_test_number); \
 			./check.sh $(dir) $(test_count) $(target_test_number); \
+			python3 extract.py $(dir); \
 		else \
 			echo "No C++ source files found in $(dir)"; \
 		fi \
@@ -30,6 +30,8 @@ $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS)):
 		echo "addr - https://boj.kr/$(dir)"; \
 		mkdir -p $(dir);\
 		cp template.cpp $(dir)/$(dir).cpp; \
+		cp template.md $(dir)/$(dir).md; \
 		./get-test-answer.sh $(dir) true;\
 		code $(dir)/$(dir).cpp;\
+		code $(dir)/$(dir).md;\
 	fi
