@@ -40,8 +40,7 @@ with open(output_path, 'r', encoding='utf-8') as f:
         if line.strip().lower() == "# my code":
             break  # 여기서 멈춤
 
-
-md_lines.append("\n```cpp\n")
+md_lines.append(f"\n```cpp title=\"boj/{file_number}.cpp\"\n")
 md_lines.append(code_between + "\n")
 md_lines.append("```\n")
 
