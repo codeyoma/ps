@@ -1,4 +1,6 @@
 a.out
 test
 *.sw*
-*/.DS_Store
+.DS_Store
+*.md
+!README.md
