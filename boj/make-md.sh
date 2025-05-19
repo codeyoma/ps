@@ -5,7 +5,7 @@ set -e
 url_number=$1
 url="https://www.acmicpc.net/problem/$url_number"
 
-get_boj_level_name() {
+get_boj_tier() {
     case "$1" in
     0) echo "unrated" ;;
     1) echo "bronze/5" ;;
@@ -38,13 +38,35 @@ get_boj_level_name() {
     28) echo "ruby/3" ;;
     29) echo "ruby/2" ;;
     30) echo "ruby/1" ;;
-    *) echo "unknown-level" ;;
+    *) echo "unknown" ;;
     esac
 }
 
+get_boj_tier_name() {
+    local n="$1"
+    if [ "$n" -eq 0 ]; then
+        echo "unrated"
+    elif [ "$n" -le 5 ]; then
+        echo "bronze"
+    elif [ "$n" -le 10 ]; then
+        echo "silver"
+    elif [ "$n" -le 15 ]; then
+        echo "gold"
+    elif [ "$n" -le 20 ]; then
+        echo "platinum"
+    elif [ "$n" -le 25 ]; then
+        echo "diamond"
+    elif [ "$n" -le 30 ]; then
+        echo "ruby"
+    else
+        echo "unknown"
+    fi
+}
+
 get_boj_level() {
-    local level_name=$(get_boj_level_name $1)
-    echo "\"$2$level_name\""
+    local tier=$(get_boj_tier $1)
+    local only_tier=$(get_boj_tier_name $1)
+    echo "\"$2$tier\", \"$2$only_tier\""
 }
 
 get_tags_with_boj() {
@@ -86,7 +108,7 @@ tags: [$tags]
 }
 
 copy_template_md() {
-    cp template.md "$url_number/$url_number.md"
+    cp template "$url_number/$url_number.md"
 }
 
 insert_boj_url() {
