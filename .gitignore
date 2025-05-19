@@ -1,38 +1,4 @@
-<<<<<<< HEAD
 a.out
 test
 *.sw*
-=======
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
->>>>>>> 8526da1340e27db084f2cf422684e3cfd6f9d4ca
+*/.DS_Store
