@@ -1,5 +1,5 @@
 #define LOCAL // need to delete in online judge
-// https://www.acmicpc.net/problem/18111
+// https://www.acmicpc.net/problem/14626
 //------------------------------------------------------------------------------
 // #include <bits/stdc++.h>
 #include <iostream>
@@ -27,44 +27,38 @@ void end();
 #include <vector>
 void solution()
 {
-    int n, m, b;
-    cin >> n >> m >> b;
-    vector<vector<int>> map(n, vector<int>(m));
+    string s;
+    cin >> s;
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
-            cin >> map[i][j];
+    int answer_bias = 1;
+    int sum = 0;
+
+    for (size_t i = 0; i < s.length(); ++i) {
+        if (s[i] == '*') {
+            if (i & 1) {
+                answer_bias = 3;
+            }
+            continue;
+        }
+
+        if (i & 1) {
+            sum += (s[i] - '0') * 3;
+        } else {
+            sum += (s[i] - '0');
         }
     }
 
-    int answer = C_MAX;
-    int height = 256;
-
-    for (int test = 0; test <= 256; ++test) {
-        int time = 0;
-        int temp_b = b;
-
-        for (const auto& y : map) {
-            for (const auto& x : y) {
-                int gap = abs(test - x);
-
-                if (test >= x) {
-                    time += gap;
-                    temp_b -= gap;
-                } else {
-                    time += (2 * gap);
-                    temp_b += gap;
-                }
+    int remain = 10 - (sum % 10);
+    if (answer_bias == 1) {
+        cout << remain % 10;
+    } else {
+        for (int i = 0; i <= 9; ++i) {
+            if ((i * 3 + sum) % 10 == 0) {
+                cout << i;
+                break;
             }
         }
-
-        if (temp_b >= 0 && time <= answer) {
-            answer = time;
-            height = test;
-        }
     }
-
-    cout << answer << " " << height;
 }
 
 /**

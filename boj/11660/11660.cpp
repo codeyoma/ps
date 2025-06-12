@@ -1,5 +1,5 @@
 #define LOCAL // need to delete in online judge
-// https://www.acmicpc.net/problem/18111
+// https://www.acmicpc.net/problem/11660
 //------------------------------------------------------------------------------
 // #include <bits/stdc++.h>
 #include <iostream>
@@ -27,44 +27,41 @@ void end();
 #include <vector>
 void solution()
 {
-    int n, m, b;
-    cin >> n >> m >> b;
-    vector<vector<int>> map(n, vector<int>(m));
+    int n, m;
+    cin >> n >> m;
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
-            cin >> map[i][j];
+    vector<vector<int>> t(n, vector<int>(n));
+    vector<vector<int>> psum_t(n, vector<int>(n + 1, 0));
+
+    for (int y = 0; y < n; ++y) {
+        for (int x = 0; x < n; ++x) {
+            cin >> t[y][x];
+            psum_t[y][x + 1] = t[y][x];
         }
     }
 
-    int answer = C_MAX;
-    int height = 256;
+    for (int y = 0; y < n; ++y) {
+        for (int x = 1; x <= n; ++x) {
+            psum_t[y][x] += psum_t[y][x - 1];
 
-    for (int test = 0; test <= 256; ++test) {
-        int time = 0;
-        int temp_b = b;
-
-        for (const auto& y : map) {
-            for (const auto& x : y) {
-                int gap = abs(test - x);
-
-                if (test >= x) {
-                    time += gap;
-                    temp_b -= gap;
-                } else {
-                    time += (2 * gap);
-                    temp_b += gap;
-                }
-            }
+            log(psum_t[y][x], " ");
         }
-
-        if (temp_b >= 0 && time <= answer) {
-            answer = time;
-            height = test;
-        }
+        log("\n");
     }
 
-    cout << answer << " " << height;
+    while (m--) {
+        int s_x, s_y, e_x, e_y;
+
+        cin >> s_x >> s_y >> e_x >> e_y;
+
+        int sum = 0;
+
+        for (int x = s_x - 1; x < e_x; ++x) {
+            sum += psum_t[x][e_y] - psum_t[x][s_y - 1];
+        }
+
+        cout << sum << '\n';
+    }
 }
 
 /**
