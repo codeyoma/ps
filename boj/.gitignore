@@ -2,3 +2,5 @@
 my-output*.txt
 test-output*.txt
 test-input*.txt
+
+!*.md
