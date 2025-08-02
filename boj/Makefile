@@ -18,20 +18,17 @@ all:
 $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS)):
 	@if [ -d "$(dir)" ]; then \
 		echo "addr - https://boj.kr/$(dir)"; \
-		if ls $(dir)/*.cpp >/dev/null 2>&1; then \
-			g++ -std=c++20 -Wall -Wextra -Werror -o $(dir)/$(dir).out $(dir)/*.cpp; \
-			$(dir)/$(dir).out $(dir) $(test_count) $(target_test_number); \
-			./check.sh $(dir) $(test_count) $(target_test_number); \
-			./make-md.sh $(dir); \
-		else \
-			echo "No C++ source files found in $(dir)"; \
-		fi \
+		./test_cpp.sh $(dir) $(test_count) $(target_test_number); \
+		./test_python.sh $(dir) $(test_count) $(target_test_number); \
+		./make-md.sh $(dir); \
 	else \
 		echo "addr - https://boj.kr/$(dir)"; \
 		mkdir -p $(dir);\
 		cp template.cpp $(dir)/$(dir).cpp; \
+		cp template.py $(dir)/$(dir).py; \
 		./make-md.sh $(dir); \
 		./get-test-answer.sh $(dir) true;\
-		code $(dir)/$(dir).cpp;\
 		code $(dir)/$(dir).md;\
+		code $(dir)/$(dir).py;\
+		code $(dir)/$(dir).cpp;\
 	fi
