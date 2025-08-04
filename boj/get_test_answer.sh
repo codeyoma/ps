@@ -26,7 +26,3 @@ for i in $(seq 1 $count); do
         echo $result
     fi
 done
-
-sed -i '' "2i\\
-// $url
-" $url_number/$url_number.cpp

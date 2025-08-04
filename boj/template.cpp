@@ -1,5 +1,5 @@
-#define LOCAL // need to delete in online judge
 //------------------------------------------------------------------------------
+#define LOCAL // need to delete in online judge
 // #include <bits/stdc++.h>
 #include <iostream>
 using namespace std;

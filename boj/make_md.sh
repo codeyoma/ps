@@ -123,4 +123,4 @@ if [ ! -e "$url_number/$url_number.md" ]; then
     insert_boj_label
 fi
 
-python3 extract.py $url_number
+python3 extract_my_code.py $url_number

@@ -16,18 +16,18 @@ all:
 	@echo "Default build"
 
 $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS)):
+	@echo "addr - https://boj.kr/$(dir)";
+
 	@if [ -d "$(dir)" ]; then \
-		echo "addr - https://boj.kr/$(dir)"; \
 		./test_cpp.sh $(dir) $(test_count) $(target_test_number); \
 		./test_python.sh $(dir) $(test_count) $(target_test_number); \
-		./make-md.sh $(dir); \
+		./make_md.sh $(dir); \
 	else \
-		echo "addr - https://boj.kr/$(dir)"; \
 		mkdir -p $(dir);\
-		cp template.cpp $(dir)/$(dir).cpp; \
-		cp template.py $(dir)/$(dir).py; \
-		./make-md.sh $(dir); \
-		./get-test-answer.sh $(dir) true;\
+		./test_cpp.sh $(dir) $(test_count) $(target_test_number); \
+		./test_python.sh $(dir) $(test_count) $(target_test_number); \
+		./make_md.sh $(dir); \
+		./get_test_answer.sh $(dir) true;\
 		code $(dir)/$(dir).md;\
 		code $(dir)/$(dir).py;\
 		code $(dir)/$(dir).cpp;\
