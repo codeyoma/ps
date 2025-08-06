@@ -19,15 +19,15 @@ $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS)):
 	@echo "addr - https://boj.kr/$(dir)";
 
 	@if [ -d "$(dir)" ]; then \
-		./test_cpp.sh $(dir) $(test_count) $(target_test_number); \
-		./test_python.sh $(dir) $(test_count) $(target_test_number); \
-		./make_md.sh $(dir); \
+		./util_test_cpp.sh $(dir) $(test_count) $(target_test_number); \
+		./util_test_python.sh $(dir) $(test_count) $(target_test_number); \
+		./util_make_md.sh $(dir); \
 	else \
 		mkdir -p $(dir);\
-		./test_cpp.sh $(dir) $(test_count) $(target_test_number); \
-		./test_python.sh $(dir) $(test_count) $(target_test_number); \
-		./make_md.sh $(dir); \
-		./get_test_answer.sh $(dir) true;\
+		./util_test_cpp.sh $(dir) $(test_count) $(target_test_number); \
+		./util_test_python.sh $(dir) $(test_count) $(target_test_number); \
+		./util_make_md.sh $(dir); \
+		./util_get_test_answer.sh $(dir) true;\
 		code $(dir)/$(dir).md;\
 		code $(dir)/$(dir).py;\
 		code $(dir)/$(dir).cpp;\

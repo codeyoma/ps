@@ -9,7 +9,7 @@ if ls $dir/$dir.cpp >/dev/null 2>&1; then \
   echo "[cpp]"
   g++ -std=c++20 -Wall -Wextra -Werror -o $dir/$dir.out $dir/*.cpp; \
   $dir/$dir.out $dir $test_count $target_test_number; \
-  ./check.sh $dir $test_count $target_test_number; \
+  ./util_test_case_check.sh $dir $test_count $target_test_number; \
 else \
   cp template.cpp $dir/$dir.cpp; \
 
