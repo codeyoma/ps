@@ -13,7 +13,9 @@ if ls $dir/$dir.cpp >/dev/null 2>&1; then \
 else \
   cp template.cpp $dir/$dir.cpp; \
 
-sed -i '' "1i\\
+suffix=''
+[ "$(uname)" = "Darwin" ] && suffix="''"
+sed -i suffix "1i\\
 // https://www.acmicpc.net/problem/$dir
 " $dir/$dir.cpp
 
