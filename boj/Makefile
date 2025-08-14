@@ -4,16 +4,24 @@ dir := $(word 1, $(RAW_GOALS))
 target_test_number := $(test)
 test_count := $(shell ls $(dir)/test-output-*.txt 2>/dev/null | wc -l)
 
-IGNORED_TARGETS := all clean run
+IGNORED_TARGETS := all push clean run
 
 SRCS=$(wildcard $(dir)/*.cpp)
 
+DATE := $(shell TZ=Asia/Seoul date '+%Y-%m-%d %H:%M')
+m ?= $(DATE)
+
 override MAKECMDGOALS := $(word 1, $(RAW_GOALS))
 
-.PHONY: all clean $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS))
+.PHONY: all push clean $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS))
 
 all:
 	@echo "Default build"
+
+push:
+	git add .
+	git commit -m "$(m)"
+	git push
 
 $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS)):
 	@echo "addr - https://boj.kr/$(dir)";
