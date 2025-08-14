@@ -19,8 +19,8 @@ $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS)):
 	@echo "addr - https://boj.kr/$(dir)";
 
 	@if [ -d "$(dir)" ]; then \
-		./util_test_cpp.sh $(dir) $(test_count) $(target_test_number); \
 		./util_test_python.sh $(dir) $(test_count) $(target_test_number); \
+		./util_test_cpp.sh $(dir) $(test_count) $(target_test_number); \
 		./util_make_md.sh $(dir); \
 	else \
 		mkdir -p $(dir);\

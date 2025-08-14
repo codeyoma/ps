@@ -1,6 +1,7 @@
-#define LOCAL // need to delete in online judge
-// https://www.acmicpc.net/problem/11047
+// https://www.acmicpc.net/problem/28323
+// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/28323/28323
 //------------------------------------------------------------------------------
+#define LOCAL // need to delete in online judge
 // #include <bits/stdc++.h>
 #include <iostream>
 using namespace std;
@@ -28,48 +29,97 @@ void end();
 
 void solution()
 {
-    int n, k;
-
-    cin >> n >> k;
-    vector<int> w(n);
-
+    int n;
+    cin >> n;
+    vector<int> v(n);
     for (int i = 0; i < n; ++i) {
-        cin >> w[i];
+        cin >> v[i];
     }
 
-    int cnt = 0;
-    int last_coin_pos = n - 1;
+    int odd_start_cnt = 0;
+    int even_start_cnt = 0;
+    bool is_odd = true;
+    bool is_even = true;
 
-    while (k > 0 && last_coin_pos >= 0) {
-        if ((k / w[last_coin_pos]) >= 1) {
-            cnt += (k / w[last_coin_pos]);
-            k %= w[last_coin_pos];
+    for (const auto& i : v) {
+        if (i & 1) {
+            if (is_odd) {
+                odd_start_cnt++;
+                is_odd = !is_odd;
+            }
+
+            if (!is_even) {
+                even_start_cnt++;
+                is_even = !is_even;
+            }
+
+        } else {
+            if (!is_odd) {
+                odd_start_cnt++;
+                is_odd = !is_odd;
+            }
+
+            if (is_even) {
+                even_start_cnt++;
+                is_even = !is_even;
+            }
         }
-        last_coin_pos--;
     }
-    cout << cnt;
+
+    cout << max(odd_start_cnt, even_start_cnt);
 }
 
 void solution_old()
 {
-    int n, k;
-    cin >> n >> k;
-    vector<int> coins(n);
+    int n;
+
+    cin >> n;
+
+    vector<int> v(n);
+
     for (int i = 0; i < n; ++i) {
-        cin >> coins[i];
+        cin >> v[i];
     }
 
-    int count = 0;
-    int pos = n - 1;
-    while (k || pos >= 0) {
-        if ((k / coins[pos]) >= 1) {
-            count += (k / coins[pos]);
-            k %= coins[pos];
+    int max_cnt = C_MIN;
+    bool is_odd = true;
+    int cnt = 0;
+
+    for (const auto& i : v) {
+        if (i & 1) {
+            if (is_odd) {
+                cnt++;
+                is_odd = !is_odd;
+            }
+        } else {
+            if (!is_odd) {
+                cnt++;
+                is_odd = !is_odd;
+            }
         }
-        pos--;
     }
 
-    cout << count;
+    max_cnt = max(cnt, max_cnt);
+    cnt = 0;
+    is_odd = false;
+
+    for (const auto& i : v) {
+        if ((i & 1) == 0) {
+            if (!is_odd) {
+                cnt++;
+                is_odd = !is_odd;
+            }
+        } else {
+            if (is_odd) {
+                cnt++;
+                is_odd = !is_odd;
+            }
+        }
+    }
+
+    max_cnt = max(cnt, max_cnt);
+
+    cout << max_cnt;
 }
 
 /**

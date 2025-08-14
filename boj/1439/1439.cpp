@@ -1,6 +1,7 @@
-#define LOCAL // need to delete in online judge
-// https://www.acmicpc.net/problem/11047
+// https://www.acmicpc.net/problem/1439
+// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/1439/1439
 //------------------------------------------------------------------------------
+#define LOCAL // need to delete in online judge
 // #include <bits/stdc++.h>
 #include <iostream>
 using namespace std;
@@ -25,51 +26,34 @@ void end();
  */
 
 #include <vector>
-
 void solution()
 {
-    int n, k;
+    string s;
 
-    cin >> n >> k;
-    vector<int> w(n);
+    cin >> s;
 
-    for (int i = 0; i < n; ++i) {
-        cin >> w[i];
-    }
+    int one_place = 0;
+    int zero_place = 0;
 
-    int cnt = 0;
-    int last_coin_pos = n - 1;
-
-    while (k > 0 && last_coin_pos >= 0) {
-        if ((k / w[last_coin_pos]) >= 1) {
-            cnt += (k / w[last_coin_pos]);
-            k %= w[last_coin_pos];
+    for (size_t i = 0; i < s.length(); ++i) {
+        if (i == 0) {
+            if (s[i] == '0') {
+                zero_place++;
+            } else {
+                one_place++;
+            }
+        } else {
+            if (s[i] != s[i - 1]) {
+                if (s[i] == '0') {
+                    zero_place++;
+                } else {
+                    one_place++;
+                }
+            }
         }
-        last_coin_pos--;
-    }
-    cout << cnt;
-}
-
-void solution_old()
-{
-    int n, k;
-    cin >> n >> k;
-    vector<int> coins(n);
-    for (int i = 0; i < n; ++i) {
-        cin >> coins[i];
     }
 
-    int count = 0;
-    int pos = n - 1;
-    while (k || pos >= 0) {
-        if ((k / coins[pos]) >= 1) {
-            count += (k / coins[pos]);
-            k %= coins[pos];
-        }
-        pos--;
-    }
-
-    cout << count;
+    cout << min(one_place, zero_place);
 }
 
 /**

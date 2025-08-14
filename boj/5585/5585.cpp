@@ -1,6 +1,7 @@
-#define LOCAL // need to delete in online judge
-// https://www.acmicpc.net/problem/11047
+// https://www.acmicpc.net/problem/5585
+// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/5585/5585
 //------------------------------------------------------------------------------
+#define LOCAL // need to delete in online judge
 // #include <bits/stdc++.h>
 #include <iostream>
 using namespace std;
@@ -28,45 +29,55 @@ void end();
 
 void solution()
 {
-    int n, k;
+    int pay;
+    cin >> pay;
 
-    cin >> n >> k;
-    vector<int> w(n);
+    int change = 1000 - pay;
 
-    for (int i = 0; i < n; ++i) {
-        cin >> w[i];
+    vector<int> coin = {
+        500,
+        100,
+        50,
+        10,
+        5,
+        1
+    };
+
+    int count = 0;
+
+    for (int i = 0; i < static_cast<int>(coin.size()); ++i) {
+        count += change / coin[i];
+        change %= coin[i];
     }
 
-    int cnt = 0;
-    int last_coin_pos = n - 1;
-
-    while (k > 0 && last_coin_pos >= 0) {
-        if ((k / w[last_coin_pos]) >= 1) {
-            cnt += (k / w[last_coin_pos]);
-            k %= w[last_coin_pos];
-        }
-        last_coin_pos--;
-    }
-    cout << cnt;
+    cout << count;
 }
 
 void solution_old()
 {
-    int n, k;
-    cin >> n >> k;
-    vector<int> coins(n);
-    for (int i = 0; i < n; ++i) {
-        cin >> coins[i];
-    }
+    int pay;
+    cin >> pay;
 
+    int change = 1000 - pay;
+
+    vector<int> coin = {
+        500,
+        100,
+        50,
+        10,
+        5,
+        1
+    };
+
+    int coin_pos = 0;
     int count = 0;
-    int pos = n - 1;
-    while (k || pos >= 0) {
-        if ((k / coins[pos]) >= 1) {
-            count += (k / coins[pos]);
-            k %= coins[pos];
+
+    while (change > 0 || coin_pos < static_cast<int>(coin.size())) {
+        if (change / coin[coin_pos] > 0) {
+            count += change / coin[coin_pos];
+            change %= coin[coin_pos];
         }
-        pos--;
+        coin_pos++;
     }
 
     cout << count;
@@ -87,11 +98,12 @@ void solution_old()
 // for local test
 void end()
 {
-#ifdef LOCAL
-    cout << ' ';
-#else
-    cout << '\n';
-#endif
+    cout << "hi\n";
+    // #ifdef LOCAL
+    //     cout << ' ';
+    // #else
+    //     cout << '\n';
+    // #endif
 }
 
 #ifndef LOCAL
@@ -160,7 +172,7 @@ void log(const T& first, const Args&... rest)
 }
 
 // for local test
-void _run_test(const int problem_number, const int test_number)
+inline void _run_test(const int problem_number, const int test_number)
 {
     string test = string(to_string(problem_number) + "/test-input-" + to_string(test_number) + ".txt");
 
@@ -177,8 +189,8 @@ void _run_test(const int problem_number, const int test_number)
     }
 
     log("test case - ", test_number);
+
     solution();
-    cout << '\n';
 }
 
 int main(int argc, char* argv[])

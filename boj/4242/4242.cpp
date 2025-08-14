@@ -1,3 +1,5 @@
+// https://www.acmicpc.net/problem/4242
+// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/4242/4242
 //------------------------------------------------------------------------------
 #define LOCAL // need to delete in online judge
 

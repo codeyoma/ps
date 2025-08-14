@@ -1,6 +1,7 @@
-#define LOCAL // need to delete in online judge
-// https://www.acmicpc.net/problem/11047
+// https://www.acmicpc.net/problem/25400
+// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/25400/25400
 //------------------------------------------------------------------------------
+#define LOCAL // need to delete in online judge
 // #include <bits/stdc++.h>
 #include <iostream>
 using namespace std;
@@ -25,51 +26,29 @@ void end();
  */
 
 #include <vector>
-
 void solution()
 {
-    int n, k;
+    int n;
+    cin >> n;
 
-    cin >> n >> k;
-    vector<int> w(n);
+    vector<int> v(n);
 
     for (int i = 0; i < n; ++i) {
-        cin >> w[i];
+        cin >> v[i];
     }
 
-    int cnt = 0;
-    int last_coin_pos = n - 1;
+    int skip = 0;
+    int current_seq = 1;
 
-    while (k > 0 && last_coin_pos >= 0) {
-        if ((k / w[last_coin_pos]) >= 1) {
-            cnt += (k / w[last_coin_pos]);
-            k %= w[last_coin_pos];
+    for (const auto& i : v) {
+        if (i == current_seq) {
+            current_seq++;
+            continue;
         }
-        last_coin_pos--;
-    }
-    cout << cnt;
-}
-
-void solution_old()
-{
-    int n, k;
-    cin >> n >> k;
-    vector<int> coins(n);
-    for (int i = 0; i < n; ++i) {
-        cin >> coins[i];
+        skip++;
     }
 
-    int count = 0;
-    int pos = n - 1;
-    while (k || pos >= 0) {
-        if ((k / coins[pos]) >= 1) {
-            count += (k / coins[pos]);
-            k %= coins[pos];
-        }
-        pos--;
-    }
-
-    cout << count;
+    cout << skip;
 }
 
 /**
