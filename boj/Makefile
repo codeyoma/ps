@@ -9,7 +9,7 @@ IGNORED_TARGETS := all clean run
 SRCS=$(wildcard $(dir)/*.cpp)
 
 override MAKECMDGOALS := $(word 1, $(RAW_GOALS))
-
+	
 .PHONY: all clean $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS))
 
 all:
