@@ -102,9 +102,7 @@ insert_boj_label() {
     local md_path="$problem_id/$problem_id.md"
     local tags=$(echo $(get_tags_with_boj $url_number))
 
-suffix=''
-[ "$(uname)" = "Darwin" ] && suffix="''"
-sed -i $suffix "2i\\
+sed -i '' "2i\\
 tags: [$tags]
 " "$md_path"
 }
@@ -114,9 +112,7 @@ copy_template_md() {
 }
 
 insert_boj_url() {
-suffix=''
-[ "$(uname)" = "Darwin" ] && suffix="''"
-sed -i $suffix "5i\\
+sed -i '' "5i\\
 - [$url]($url)
 " "$url_number/$url_number.md"
 }
