@@ -1,7 +1,7 @@
 #!/bin/bash
 source .env
 
-if ! $ENABLE_CPP; then
+if ! $ENABLE_PYTHON; then
    exit 0;
 fi
 
@@ -9,7 +9,7 @@ dir=$1
 test_count=$2
 target_test_number=$3
 
-if ls boj/$dir/$dir.cpp >/dev/null 2>&1; then \
+if ls boj/$dir/$dir.py >/dev/null 2>&1; then \
 
   if [ "$INIT_TEST" -ne 0 ] && ! ls boj/$dir/test-input-$INIT_TEST.txt >/dev/null 2>&1; then \
     is_first=true
@@ -32,7 +32,7 @@ if ls boj/$dir/$dir.cpp >/dev/null 2>&1; then \
     fi
 
     echo
-    .util/.util_function.sh 3 "yellow" "kr - 테스트 케이스를 각 번호에 맞게 직접 넣어요."
+    .util/.util_function 3 "yellow" "kr - 테스트 케이스를 각 번호에 맞게 직접 넣어요."
     exit 8
   fi
 
@@ -42,7 +42,7 @@ if ls boj/$dir/$dir.cpp >/dev/null 2>&1; then \
   fi
 
   echo;
-  echo "[cpp - $dir]";
+  echo "[python - $dir]";
   if $ENABLE_AUTO_TEST; then
 
     if [[ "$target_test_number" -gt "$test_count" || "$target_test_number" -lt 0 ]]; then
@@ -51,27 +51,23 @@ if ls boj/$dir/$dir.cpp >/dev/null 2>&1; then \
       exit 9
     fi
 
-    python3 .util/.util_cpp_replacement.py $dir;
-    g++ -std=c++17 -Wall -Wextra -Werror -o boj/$dir/$dir.out boj/$dir/_solve_$dir.cpp .util/.template_cpp_main.cpp;
-    ./boj/$dir/$dir.out $dir $test_count $target_test_number;
+    python3 .util/.template_python_main.py $dir $test_count $target_test_number
     .util/.util_test_case_check.sh $dir $test_count $target_test_number;
-    rm boj/$dir/_solve_$dir.cpp
   else
-    g++ -std=c++17 -Wall -Wextra -Werror -o boj/$dir/$dir.out boj/$dir/$dir.cpp
-    ./boj/$dir/$dir.out
+    python3 .util/.template_python_main.py $dir; 
   fi
 
 else \
-  cp my_cpp_template.cpp boj/$dir/$dir.cpp;
+  cp my_python_template.py boj/$dir/$dir.py;
 
 if [ "$(uname)" = "Darwin" ]; then
 sed -i '' "1i\\
-// https://www.acmicpc.net/problem/$dir
-" boj/$dir/$dir.cpp
+# https://www.acmicpc.net/problem/$dir
+" boj/$dir/$dir.py
 else
 sed -i "1i\\
-// https://www.acmicpc.net/problem/$dir
-" boj/$dir/$dir.cpp
+# https://www.acmicpc.net/problem/$dir
+" boj/$dir/$dir.py
 fi
 fi
 
