@@ -19,5 +19,4 @@ nullstream LOG;
 
 int main() {
   //   logic
-  return 0;
 }

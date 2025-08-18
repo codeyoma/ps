@@ -8,40 +8,42 @@ fi
 dir=$1
 test_count=$2
 target_test_number=$3
+# -Wall -Wextra -Werror -Wno-return-type
+flag="-Wno-return-type"
 
 if ls boj/$dir/$dir.cpp >/dev/null 2>&1; then \
   if $ENABLE_AUTO_TEST; then
     if [[ "$target_test_number" == "i" ]]; then
-      g++ -std=c++17 -Wall -Wextra -Werror -o boj/$dir/$dir.out boj/$dir/$dir.cpp;
+      g++ -std=c++17 ${flag} -DLOCAL -o boj/$dir/$dir.out boj/$dir/$dir.cpp;
       ./boj/$dir/$dir.out;
       echo
       exit 0
     fi
   else
-    g++ -std=c++17 -Wall -Wextra -Werror -o boj/$dir/$dir.out boj/$dir/$dir.cpp
+    g++ -std=c++17 ${flag} -DLOCAL -o boj/$dir/$dir.out boj/$dir/$dir.cpp
     ./boj/$dir/$dir.out
     echo
     exit 0
   fi
 
-  if [ "$INIT_TEST" -ne 0 ] && ! ls boj/$dir/test-input-$INIT_TEST.txt >/dev/null 2>&1; then \
+  if [ "$INIT_TEST" -ne 0 ] && ! ls boj/$dir/t_${INIT_TEST}_input.txt >/dev/null 2>&1; then \
     is_first=true
     first_value=0
     for i in $(seq 1 $INIT_TEST); do
-      if ! ls boj/$dir/test-input-$i.txt >/dev/null 2>&1; then
+      if ! ls boj/$dir/t_${i}_input.txt >/dev/null 2>&1; then
         if $is_first; then
           is_first=false
           first_value=$i
         fi
-        touch boj/$dir/test-input-$i.txt
-        touch boj/$dir/test-output-$i.txt
-        code boj/$dir/test-input-$i.txt
-        code boj/$dir/test-output-$i.txt
+        touch boj/$dir/t_${i}_input.txt
+        touch boj/$dir/t_${i}_output_.txt
+        code boj/$dir/t_${i}_input.txt
+        code boj/$dir/t_${i}_output_.txt
       fi
     done
 
     if ! $is_first; then
-      code boj/$dir/test-input-$first_value.txt
+      code boj/$dir/t_${first_value}_input.txt
     fi
 
     echo
@@ -49,7 +51,7 @@ if ls boj/$dir/$dir.cpp >/dev/null 2>&1; then \
     exit 8
   fi
 
-  if ! ls boj/$dir/test-input-1.txt >/dev/null 2>&1; then
+  if ! ls boj/$dir/t_1_input.txt >/dev/null 2>&1; then
     .util/.util_function.sh 1 $dir;
     exit 9
   fi
@@ -64,7 +66,7 @@ if ls boj/$dir/$dir.cpp >/dev/null 2>&1; then \
     fi
 
     python3 .util/.util_cpp_replacement.py $dir;
-    g++ -std=c++17 -Wall -Wextra -Werror -o boj/$dir/$dir.out boj/$dir/_solve_$dir.cpp .util/.template_cpp_main.cpp;
+    g++ -std=c++17 ${flag} -DLOCAL -o boj/$dir/$dir.out boj/$dir/_solve_$dir.cpp .util/.template_cpp_main.cpp;
     ./boj/$dir/$dir.out $dir $test_count $target_test_number;
     .util/.util_test_case_check.sh $dir $test_count $target_test_number;
     rm boj/$dir/_solve_$dir.cpp
