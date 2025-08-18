@@ -5,3 +5,4 @@ test
 *.md
 
 !README.md
+!my_md_template.md
