@@ -17,6 +17,7 @@ nullstream LOG;
 #define MAX (1234567891)
 #define MIN (-1234567891)
 
+#include <cmath>
 #include <iostream>
 #include <vector>
 
@@ -27,11 +28,11 @@ int main() {
 
     vector<bool> t(max_bound + 1, true);
     t[1] = false;
-    for (int i = 2; i <= max_bound; ++i) {
+    for (int i = 2; i <= sqrt(max_bound); ++i) {
         if (t[i] == false) {
             continue;
         }
-        for (int j = i + i; j <= max_bound; j += i) {
+        for (int j = i * i; j <= max_bound; j += i) {
             t[j] = false;
         }
     }
