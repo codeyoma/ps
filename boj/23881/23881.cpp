@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/23968
+// https://www.acmicpc.net/problem/23881
 #include <iostream>
 using namespace std;
 
@@ -23,25 +23,27 @@ nullstream LOG;
 
 int main() {
     //   logic
-
-    int n, k;
+    int n, k, count = 0;
     cin >> n >> k;
-
     vector<int> arr(n);
 
     for (int i = 0; i < n; ++i) {
         cin >> arr[i];
     }
 
-    int count = 0;
-    for (int i = n; i >= 0; --i) {
-        for (int j = 0; j < i - 1; ++j) {
-            if (arr[j] > arr[j + 1]) {
-                swap(arr[j], arr[j + 1]);
-                count++;
-                if (count == k) {
-                    cout << arr[j] << " " << arr[j + 1];
-                }
+    for (int i = n; i > 0; --i) {
+        int max_index = 0;
+        for (int j = 0; j < i; ++j) {
+            if (arr[max_index] < arr[j]) {
+                max_index = j;
+            }
+        }
+
+        if (arr[i - 1] != arr[max_index]) {
+            swap(arr[i - 1], arr[max_index]);
+            count++;
+            if (count == k) {
+                cout << arr[max_index] << " " << arr[i - 1];
             }
         }
     }
