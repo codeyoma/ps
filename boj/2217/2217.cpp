@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/11399
+// https://www.acmicpc.net/problem/2217
 #include <iostream>
 using namespace std;
 
@@ -32,35 +32,35 @@ int partition(vector<int>& a, int l, int h) {
         }
     }
 
-    swap(a[left + 1], a[p]);
-    return left + 1;
+    left++;
+    swap(a[left], a[p]);
+    return left;
 }
 
-void qsort(vector<int>& a, int l, int h) {
+void sort(vector<int>& a, int l, int h) {
     if (l < h) {
         int p = partition(a, l, h);
 
-        qsort(a, l, p - 1);
-        qsort(a, p + 1, h);
+        sort(a, l, p - 1);
+        sort(a, p + 1, h);
     }
 }
 
 int main() {
     //   logic
-
     int n;
     cin >> n;
-    vector<int> a(n);
+    vector<int> rope(n);
 
     for (int i = 0; i < n; ++i) {
-        cin >> a[i];
+        cin >> rope[i];
     }
-    qsort(a, 0, a.size() - 1);
 
-    int answer = 0, p_sum = 0;
-    for (const auto& i: a) {
-        p_sum += i;
-        answer += p_sum;
+    int max_w = MIN;
+    sort(rope, 0, n - 1);
+    for (int i = 0; i < n; ++i) {
+        max_w = max(max_w, rope[i] * (n - i));
     }
-    cout << answer;
+
+    cout << max_w;
 }

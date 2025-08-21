@@ -1,5 +1,6 @@
-// https://www.acmicpc.net/problem/11399
+// https://www.acmicpc.net/problem/1427
 #include <iostream>
+#include <iterator>
 using namespace std;
 
 #ifdef LOCAL
@@ -21,46 +22,44 @@ nullstream LOG;
 #include <iostream>
 #include <vector>
 
-int partition(vector<int>& a, int l, int h) {
+int partition(vector<int>& arr, int l, int h) {
     int p    = h;
     int left = l - 1;
 
     for (int right = l; right < h; ++right) {
-        if (a[right] <= a[p]) {
+        if (arr[right] <= arr[p]) {
             left++;
-            swap(a[left], a[right]);
+            swap(arr[left], arr[right]);
         }
     }
 
-    swap(a[left + 1], a[p]);
+    swap(arr[left + 1], arr[p]);
     return left + 1;
 }
 
-void qsort(vector<int>& a, int l, int h) {
+void qsort(vector<int>& arr, int l, int h) {
     if (l < h) {
-        int p = partition(a, l, h);
-
-        qsort(a, l, p - 1);
-        qsort(a, p + 1, h);
+        int p = partition(arr, l, h);
+        qsort(arr, l, p - 1);
+        qsort(arr, p + 1, h);
     }
 }
 
 int main() {
     //   logic
-
     int n;
     cin >> n;
-    vector<int> a(n);
 
-    for (int i = 0; i < n; ++i) {
-        cin >> a[i];
-    }
-    qsort(a, 0, a.size() - 1);
+    vector<int> arr;
 
-    int answer = 0, p_sum = 0;
-    for (const auto& i: a) {
-        p_sum += i;
-        answer += p_sum;
+    while (n > 0) {
+        arr.push_back(n % 10);
+        n /= 10;
     }
-    cout << answer;
+
+    qsort(arr, 0, arr.size() - 1);
+
+    for (auto it = arr.rbegin(); it != arr.rend(); ++it) {
+        cout << *it;
+    }
 }
