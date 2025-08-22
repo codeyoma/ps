@@ -1,5 +1,5 @@
-// https://www.acmicpc.net/problem/9086
-// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/9086/9086
+// https://www.acmicpc.net/problem/10821
+// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/10821/10821
 #include <iostream>
 using namespace std;
 
@@ -23,12 +23,14 @@ nullstream LOG;
 
 int main() {
     //   logic
-    int n;
-    cin >> n;
-    for (int i = 0; i < n; ++i) {
-        string input;
-        cin >> input;
+    string input;
+    cin >> input;
 
-        cout << input.front() << input.back() << "\n";
+    int answer = 0;
+    for (int i = 0; i < input.length(); ++i) {
+        if (input[i] == ',') {
+            answer++;
+        }
     }
+    cout << answer + 1;
 }

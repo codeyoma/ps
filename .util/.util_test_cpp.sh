@@ -79,6 +79,11 @@ if [ "$(uname)" = "Darwin" ]; then
 sed -i '' "1i\\
 // https://www.acmicpc.net/problem/$dir
 " boj/$dir/$dir.cpp
+
+sed -i '' "2i\\
+// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/$dir/$dir
+" boj/$dir/$dir.cpp
+
 else
 sed -i "1i\\
 // https://www.acmicpc.net/problem/$dir

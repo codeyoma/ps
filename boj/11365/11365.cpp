@@ -1,5 +1,5 @@
-// https://www.acmicpc.net/problem/9086
-// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/9086/9086
+// https://www.acmicpc.net/problem/11365
+// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/11365/11365
 #include <iostream>
 using namespace std;
 
@@ -18,17 +18,19 @@ nullstream LOG;
 #define MAX (1234567891)
 #define MIN (-1234567891)
 
+#include <algorithm>
 #include <iostream>
 #include <string>
 
 int main() {
     //   logic
-    int n;
-    cin >> n;
-    for (int i = 0; i < n; ++i) {
-        string input;
-        cin >> input;
+    string input;
 
-        cout << input.front() << input.back() << "\n";
+    while (getline(cin, input)) {
+        if (input == "END") {
+            break;
+        }
+        reverse(input.begin(), input.end());
+        cout << input << '\n';
     }
 }

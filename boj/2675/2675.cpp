@@ -1,5 +1,5 @@
-// https://www.acmicpc.net/problem/9086
-// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/9086/9086
+// https://www.acmicpc.net/problem/2675
+// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/2675/2675
 #include <iostream>
 using namespace std;
 
@@ -25,10 +25,16 @@ int main() {
     //   logic
     int n;
     cin >> n;
-    for (int i = 0; i < n; ++i) {
-        string input;
-        cin >> input;
+    while (n--) {
+        int    r;
+        string s;
+        cin >> r >> s;
 
-        cout << input.front() << input.back() << "\n";
+        for (int i = 0; i < s.length(); ++i) {
+            for (int j = 0; j < r; ++j) {
+                cout << s[i];
+            }
+        }
+        cout << "\n";
     }
 }

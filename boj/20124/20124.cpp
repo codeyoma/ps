@@ -1,5 +1,4 @@
-// https://www.acmicpc.net/problem/10814
-// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/10814/10814
+// https://www.acmicpc.net/problem/20124
 #include <iostream>
 using namespace std;
 
@@ -23,22 +22,24 @@ nullstream LOG;
 #include <string>
 #include <vector>
 
-typedef struct user {
-    int    number;
-    int    age;
+typedef struct candi {
+    int    score;
     string name;
-} User;
+
+} Candi;
 
 template<typename T, typename Compare>
 int partition(vector<T>& arr, int low, int high, Compare cmp) {
     int pivot = high;
     int left  = low - 1;
+
     for (int right = low; right < high; ++right) {
         if (cmp(arr[right], arr[pivot])) {
             left++;
             swap(arr[left], arr[right]);
         }
     }
+
     left++;
     swap(arr[left], arr[pivot]);
     return left;
@@ -56,27 +57,25 @@ void q_sort(vector<T>& arr, int low, int high, Compare cmp) {
 
 int main() {
     //   logic
-
     int n;
     cin >> n;
-    vector<User> arr;
-    for (int i = 0; i < n; ++i) {
-        int    age;
-        string name;
-        cin >> age >> name;
+    vector<Candi> arr;
 
-        arr.push_back({ i, age, name });
+    for (int i = 0; i < n; ++i) {
+        string name;
+        int    score;
+
+        cin >> name >> score;
+
+        arr.push_back({ score, name });
     }
 
-    q_sort(arr, 0, arr.size() - 1, [](const User& a, const User& b) {
-        if (a.age != b.age) {
-            return a.age < b.age;
+    q_sort(arr, 0, arr.size() - 1, [](const Candi& a, const Candi& b) {
+        if (a.score != b.score) {
+            return a.score > b.score;
         }
-
-        return a.number < b.number;
+        return a.name < b.name;
     });
 
-    for (const auto& i: arr) {
-        cout << i.age << " " << i.name << "\n";
-    }
+    cout << arr.front().name;
 }

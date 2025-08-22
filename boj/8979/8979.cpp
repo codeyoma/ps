@@ -1,5 +1,4 @@
-// https://www.acmicpc.net/problem/10814
-// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/10814/10814
+// https://www.acmicpc.net/problem/8979
 #include <iostream>
 using namespace std;
 
@@ -20,19 +19,24 @@ nullstream LOG;
 
 #include <algorithm>
 #include <iostream>
-#include <string>
 #include <vector>
 
-typedef struct user {
-    int    number;
-    int    age;
-    string name;
-} User;
+typedef struct nation {
+    int number;
+    int gold;
+    int silver;
+    int bronze;
+
+    bool operator==(const nation& other) const {
+        return gold == other.gold && silver == other.silver && bronze == other.bronze;
+    }
+} Nation;
 
 template<typename T, typename Compare>
 int partition(vector<T>& arr, int low, int high, Compare cmp) {
     int pivot = high;
     int left  = low - 1;
+
     for (int right = low; right < high; ++right) {
         if (cmp(arr[right], arr[pivot])) {
             left++;
@@ -57,26 +61,45 @@ void q_sort(vector<T>& arr, int low, int high, Compare cmp) {
 int main() {
     //   logic
 
-    int n;
-    cin >> n;
-    vector<User> arr;
-    for (int i = 0; i < n; ++i) {
-        int    age;
-        string name;
-        cin >> age >> name;
+    int n, target;
 
-        arr.push_back({ i, age, name });
+    cin >> n >> target;
+
+    vector<Nation> arr;
+
+    for (int i = 0; i < n; ++i) {
+        int number, gold, silver, bronze;
+
+        cin >> number >> gold >> silver >> bronze;
+
+        arr.push_back({ number, gold, silver, bronze });
     }
 
-    q_sort(arr, 0, arr.size() - 1, [](const User& a, const User& b) {
-        if (a.age != b.age) {
-            return a.age < b.age;
+    q_sort(arr, 0, arr.size() - 1, [](const Nation& a, const Nation& b) {
+        if (a.gold != b.gold) {
+            return a.gold > b.gold;
         }
 
-        return a.number < b.number;
+        if (a.silver != b.silver) {
+            return a.silver > b.silver;
+        }
+        return a.bronze > b.bronze;
     });
 
-    for (const auto& i: arr) {
-        cout << i.age << " " << i.name << "\n";
+    int    rank        = 1;
+    Nation rank_before = arr.front();
+
+    for (int i = 0; i < n; ++i) {
+        if (i > 0) {
+            if (!(arr[i] == rank_before)) {
+                rank        = i + 1;
+                rank_before = arr[i];
+            }
+        }
+
+        if (arr[i].number == target) {
+            cout << rank << "\n";
+            break;
+        }
     }
 }

@@ -1,5 +1,5 @@
-// https://www.acmicpc.net/problem/10814
-// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/10814/10814
+// https://www.acmicpc.net/problem/10825
+// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/10825/10825
 #include <iostream>
 using namespace std;
 
@@ -23,11 +23,12 @@ nullstream LOG;
 #include <string>
 #include <vector>
 
-typedef struct user {
-    int    number;
-    int    age;
+typedef struct student {
     string name;
-} User;
+    int    k;
+    int    e;
+    int    m;
+} Student;
 
 template<typename T, typename Compare>
 int partition(vector<T>& arr, int low, int high, Compare cmp) {
@@ -56,27 +57,36 @@ void q_sort(vector<T>& arr, int low, int high, Compare cmp) {
 
 int main() {
     //   logic
-
     int n;
     cin >> n;
-    vector<User> arr;
-    for (int i = 0; i < n; ++i) {
-        int    age;
-        string name;
-        cin >> age >> name;
 
-        arr.push_back({ i, age, name });
+    vector<Student> arr;
+
+    for (int i = 0; i < n; ++i) {
+        string name;
+        int    k, e, m;
+        cin >> name >> k >> e >> m;
+
+        arr.push_back({ name, k, e, m });
     }
 
-    q_sort(arr, 0, arr.size() - 1, [](const User& a, const User& b) {
-        if (a.age != b.age) {
-            return a.age < b.age;
+    q_sort(arr, 0, arr.size() - 1, [](const Student& a, const Student& b) {
+        if (a.k != b.k) {
+            return a.k > b.k;
         }
 
-        return a.number < b.number;
+        if (a.e != b.e) {
+            return a.e < b.e;
+        }
+
+        if (a.m != b.m) {
+            return a.m > b.m;
+        }
+
+        return a.name < b.name;
     });
 
     for (const auto& i: arr) {
-        cout << i.age << " " << i.name << "\n";
+        cout << i.name << "\n";
     }
 }
