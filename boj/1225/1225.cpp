@@ -1,5 +1,5 @@
-// https://www.acmicpc.net/problem/11720
-// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/11720/11720
+// https://www.acmicpc.net/problem/1225
+// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/1225/1225
 #include <iostream>
 using namespace std;
 
@@ -23,15 +23,15 @@ nullstream LOG;
 
 int main() {
     //   logic
-    int n;
-    cin >> n;
-    string input;
+    string a, b;
+    cin >> a >> b;
 
-    cin >> input;
-    int sum = 0;
+    long long answer = 0;
 
-    for (int i = 0; i < n; ++i) {
-        sum += input[i] - '0';
+    for (int i = 0; i < a.length(); ++i) {
+        for (int j = 0; j < b.length(); ++j) {
+            answer += (a[i] - '0') * (b[j] - '0');
+        }
     }
-    cout << sum;
+    cout << answer;
 }

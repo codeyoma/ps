@@ -1,5 +1,5 @@
-// https://www.acmicpc.net/problem/11720
-// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/11720/11720
+// https://www.acmicpc.net/problem/4458
+// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/4458/4458
 #include <iostream>
 using namespace std;
 
@@ -23,15 +23,18 @@ nullstream LOG;
 
 int main() {
     //   logic
-    int n;
-    cin >> n;
-    string input;
+    int    n;
+    string cycle;
+    getline(cin, cycle);
 
-    cin >> input;
-    int sum = 0;
-
+    n = stoi(cycle);
     for (int i = 0; i < n; ++i) {
-        sum += input[i] - '0';
+        string input;
+        getline(cin, input);
+
+        if ('a' <= input.front() && input.front() <= 'z') {
+            input[0] -= 'a' - 'A';
+        }
+        cout << input << "\n";
     }
-    cout << sum;
 }
