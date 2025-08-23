@@ -1,5 +1,5 @@
-// https://www.acmicpc.net/problem/10773
-// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/10773/10773
+// https://www.acmicpc.net/problem/17608
+// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/17608/17608
 #include <iostream>
 using namespace std;
 
@@ -23,24 +23,23 @@ nullstream LOG;
 
 int main() {
     //   logic
-    int k, sum = 0;
-    cin >> k;
+    // 새로 들어온 것보다 큰게 나올떄 까지 pop, and then push
+    // stack.size() = max view size
+
+    int n;
+    cin >> n;
+
     stack<int> s;
 
-    while (k--) {
-        int input;
-        cin >> input;
+    for (int i = 0; i < n; ++i) {
+        int temp;
+        cin >> temp;
 
-        if (input == 0) {
+        while (!s.empty() && s.top() <= temp) {
             s.pop();
-        } else {
-            s.push(input);
         }
+        s.push(temp);
     }
 
-    while (!s.empty()) {
-        sum += s.top();
-        s.pop();
-    }
-    cout << sum;
+    cout << s.size();
 }
