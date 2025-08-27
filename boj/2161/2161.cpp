@@ -1,5 +1,5 @@
-// https://www.acmicpc.net/problem/2164
-// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/2164/2164
+// https://www.acmicpc.net/problem/2161
+// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/2161/2161
 #include <iostream>
 using namespace std;
 
@@ -33,13 +33,9 @@ int main() {
     }
 
     while (!q.empty()) {
-        int temp = q.front();
+        cout << q.front() << " ";
         q.pop();
-        if (q.size() == 1) {
-            cout << q.front();
-            break;
-        } else if (q.empty()) {
-            cout << temp;
+        if (q.size() == 0) {
             break;
         }
         q.push(q.front());

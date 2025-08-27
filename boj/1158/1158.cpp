@@ -1,5 +1,5 @@
-// https://www.acmicpc.net/problem/2164
-// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/2164/2164
+// https://www.acmicpc.net/problem/1158
+// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/1158/1158
 #include <iostream>
 using namespace std;
 
@@ -23,8 +23,8 @@ nullstream LOG;
 
 int main() {
     //   logic
-    int n;
-    cin >> n;
+    int n, t;
+    cin >> n >> t;
 
     queue<int> q;
 
@@ -32,17 +32,17 @@ int main() {
         q.push(i);
     }
 
+    cout << "<";
     while (!q.empty()) {
-        int temp = q.front();
-        q.pop();
-        if (q.size() == 1) {
-            cout << q.front();
-            break;
-        } else if (q.empty()) {
-            cout << temp;
-            break;
+        for (int i = 1; i < t; ++i) {
+            q.push(q.front());
+            q.pop();
         }
-        q.push(q.front());
+        cout << q.front();
         q.pop();
+        if (q.size() >= 1) {
+            cout << ", ";
+        }
     }
+    cout << ">";
 }
