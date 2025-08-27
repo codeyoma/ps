@@ -43,12 +43,8 @@ int main() {
     }
 
     while (!trucks.empty() || current_l > 0) {
-        time++;
-
-        if (!bridge.empty()) {
-            current_l -= bridge.front();
-            bridge.pop();
-        }
+        current_l -= bridge.front();
+        bridge.pop();
 
         if (!trucks.empty() && trucks.front() + current_l <= l) {
             current_l += trucks.front();
@@ -57,6 +53,8 @@ int main() {
         } else {
             bridge.push(0);
         }
+
+        time++;
     }
 
     cout << time;
