@@ -53,6 +53,8 @@ int main() {
     // - deque는 인덱스 값
     // - deque로 어느 값이든 push_back() 하면서
     // - deque back 요소보다 작다면 pop_back()하면서, 작은 값 알맞은 위치에 넣기
+    // - - 순서상 뒤에서 작은게 나오면 해당 값이 구간의 현재 작은 값 확정
+    // - - 순서상 뒤에서 큰게 나오면 해당 값은 구간의 잠재적 작은 값
     // - deque front 요소가 현재 가장 작은 값
     // - - 하지만 deque front의 인덱스가 l 이전 범위를 넘었다면 pop_front();
     for (int i = 1; i <= n; ++i) {
