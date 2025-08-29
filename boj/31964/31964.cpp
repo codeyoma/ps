@@ -48,7 +48,7 @@ int main() {
     cout << answer;
 }
 
-int _solve_old() {
+int _old_solution() {
     //   logic
     long long n, answer = 0, x_pos = 0;
     cin >> n;

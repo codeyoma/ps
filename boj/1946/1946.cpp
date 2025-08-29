@@ -54,7 +54,7 @@ int main() {
 }
 
 #include <tuple>
-void _solve_old() {
+void _old_solution() {
     int T;
     cin >> T;
 

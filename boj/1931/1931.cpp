@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/193
+// https://www.acmicpc.net/problem/1931
 #include <iostream>
 using namespace std;
 
@@ -71,7 +71,7 @@ struct coor {
     }
 };
 
-void _solve_old() {
+void _old_solution() {
     int n;
     cin >> n;
     vector<coor> meetings;

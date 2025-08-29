@@ -10,6 +10,11 @@ struct nullstream : ostream {
 nullstream LOG;
 #endif
 
+void fast_io() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(nullptr);
+}
+
 //--------------------------------------------------------------------------------------------------
 
 #define MAX (1234567891)
@@ -18,5 +23,7 @@ nullstream LOG;
 #include <iostream>
 
 int main() {
+  fast_io();
+
   //   logic
 }
