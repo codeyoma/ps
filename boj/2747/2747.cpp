@@ -1,5 +1,5 @@
-// https://www.acmicpc.net/problem/1463
-// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/1463/1463
+// https://www.acmicpc.net/problem/2747
+// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/2747/2747
 #include <iostream>
 using namespace std;
 
@@ -24,32 +24,22 @@ void fast_io() {
 #define MIN (-1234567891)
 
 #include <iostream>
-#include <vector>
 
 int main() {
     fast_io();
 
     //   logic
+
     int n;
     cin >> n;
 
-    vector<int> dp(n + 1, MAX);
-    dp[0] = 0;
-    dp[1] = 0;
-    dp[2] = 1;
-    dp[3] = 1;
+    int a = 0, b = 1;
 
-    for (int i = 4; i <= n; ++i) {
-        if (i % 3 == 0) {
-            dp[i] = min(dp[i], dp[i / 3] + 1);
-        }
-
-        if (i % 2 == 0) {
-            dp[i] = min(dp[i], dp[i / 2] + 1);
-        }
-
-        dp[i] = min(dp[i], dp[i - 1] + 1);
+    while (n--) {
+        int temp = a;
+        a        = b;
+        b        = b + temp;
     }
 
-    cout << dp[n];
+    cout << a;
 }

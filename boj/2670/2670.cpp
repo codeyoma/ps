@@ -1,5 +1,5 @@
-// https://www.acmicpc.net/problem/1463
-// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/1463/1463
+// https://www.acmicpc.net/problem/2670
+// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/2670/2670
 #include <iostream>
 using namespace std;
 
@@ -23,33 +23,27 @@ void fast_io() {
 #define MAX (1234567891)
 #define MIN (-1234567891)
 
+#include <iomanip>
 #include <iostream>
-#include <vector>
 
 int main() {
     fast_io();
 
     //   logic
+
     int n;
     cin >> n;
 
-    vector<int> dp(n + 1, MAX);
-    dp[0] = 0;
-    dp[1] = 0;
-    dp[2] = 1;
-    dp[3] = 1;
+    double answer  = MIN;
+    double cur_max = MIN;
 
-    for (int i = 4; i <= n; ++i) {
-        if (i % 3 == 0) {
-            dp[i] = min(dp[i], dp[i / 3] + 1);
-        }
+    while (n--) {
+        double temp;
+        cin >> temp;
 
-        if (i % 2 == 0) {
-            dp[i] = min(dp[i], dp[i / 2] + 1);
-        }
-
-        dp[i] = min(dp[i], dp[i - 1] + 1);
+        cur_max = max(cur_max * temp, temp);
+        answer  = max(answer, cur_max);
     }
 
-    cout << dp[n];
+    cout << fixed << setprecision(3) << answer << endl;
 }
