@@ -23,13 +23,18 @@ def run_test(problem_number, test_number):
         return
 
     with open(output_path, "w") as fout:
-        subprocess.run(
+        result = subprocess.run(
             ["python3", script_path],
             stdin=open(input_path, "r"),
             stdout=fout,
             stderr=subprocess.PIPE,
             text=True,
         )
+
+        if result.returncode != 0:
+            print(f"./boj/{problem_number} - test number:{test_number}\n")
+            print("Error running subprocess:", result.stderr, file=sys.stderr)
+
 
 if __name__ == "__main__":
     args = sys.argv
