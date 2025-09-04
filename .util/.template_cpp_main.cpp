@@ -33,8 +33,6 @@ void _run_test(const int problem_number, const int test_number) {
   ofstream my_output(my_output_file_name);
   IORedirect redirect(test_input, my_output);
 
-  clog << setw(20) << right << setfill('-')
-       << " test case - " + to_string(test_number) << " " << "------\n";
   _solve();
 }
 
