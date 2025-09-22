@@ -127,7 +127,8 @@ insert_boj_url() {
 if [ "$(uname)" = "Darwin" ]; then
 sed -i '' "5i\\
 - [$url]($url)\\
-- [code on boj](https://www.acmicpc.net/status?problem_id=$url_number&user_id=hiatus4322)
+- [code on boj](https://www.acmicpc.net/status?problem_id=$url_number&user_id=hiatus4322)\\
+- [code on github](https://github.com/codeyoma/ps/tree/main/boj/$url_number)
 " boj/"$url_number/$url_number.md"
 else
 sed -i "5i\\
