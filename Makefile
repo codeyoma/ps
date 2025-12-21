@@ -3,6 +3,7 @@ RAW_GOALS := $(MAKECMDGOALS)
 dir := $(word 1, $(RAW_GOALS))
 t := $(test)
 i := 0
+l ?= all
 test_count := $(shell ls boj/$(dir)/t_*_output_.txt 2>/dev/null | wc -l)
 
 YELLOW := \033[38;5;208m
@@ -62,18 +63,23 @@ help:
 	@echo "         - Create test case files numbered 1 to [i_number]"
 	@echo "         - Run all tests for [p_number] problem"
 	@echo
+	@echo "$(GREEN)make [p_number] l=[language]$(RESET)"
+	@echo "         - Run tests for all languages  *default "
+	@echo "         - Run tests only for the specified language [cpp|python]"
+	
+	@echo
 
 $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS)):
 	@echo "addr - https://boj.kr/$(dir)";
 
 	@if [ -d "boj/$(dir)" ]; then \
-		INIT_TEST=$(i) .util/.util_test_cpp.sh $(dir) $(test_count) $(t); \
-		INIT_TEST=$(i) .util/.util_test_python.sh $(dir) $(test_count) $(t); \
+		INIT_TEST=$(i) LANGUAGE=$(l) .util/.util_test_cpp.sh $(dir) $(test_count) $(t); \
+		INIT_TEST=$(i) LANGUAGE=$(l) .util/.util_test_python.sh $(dir) $(test_count) $(t); \
 		.util/.util_make_md.sh $(dir); \
 	else \
 		mkdir -p boj/$(dir);\
-		.util/.util_test_cpp.sh $(dir) $(test_count) $(t); \
-		.util/.util_test_python.sh $(dir) $(test_count) $(t); \
+		.util/.util_test_cpp.sh $(dir) $(test_count) $(t) $(l); \
+		.util/.util_test_python.sh $(dir) $(test_count) $(t) $(l); \
 		.util/.util_make_md.sh $(dir); \
 		.util/.util_get_test_case.sh $(dir) true;\
 	fi

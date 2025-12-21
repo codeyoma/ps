@@ -9,6 +9,10 @@ dir=$1
 test_count=$2
 target_test_number=$3
 
+if [[ "$LANGUAGE" != "all" && "$LANGUAGE" != "python" ]]; then
+    exit 1
+fi
+
 if ls boj/$dir/$dir.py >/dev/null 2>&1; then \
 
   if $ENABLE_AUTO_TEST; then
