@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/11659
+// https://www.acmicpc.net/problem/2851
 #include <iostream>
 using namespace std;
 
@@ -28,28 +28,24 @@ constexpr ll  __MIN = -__MAX;
 //--------------------------------------------------------------------------------------------------
 
 #include <iostream>
-#include <vector>
 
 int main() {
     fast_io();
 
     //   logic
 
-    int n, m;
-    cin >> n >> m;
+    int answer = 0;
+    int p_sum  = 0;
 
-    vector<int> psum(n + 1);
-
-    for (int i = 1; i <= n; ++i) {
+    for (int i = 0; i < 10; ++i) {
         int temp;
         cin >> temp;
-        psum[i] = psum[i - 1] + temp;
-    }
 
-    for (int a = 0; a < m; ++a) {
-        int i, j;
-        cin >> i >> j;
+        p_sum += temp;
 
-        cout << psum[j] - psum[i - 1] << "\n";
+        if (abs(100 - p_sum) <= abs(100 - answer)) {
+            answer = p_sum;
+        }
     }
+    cout << answer;
 }
