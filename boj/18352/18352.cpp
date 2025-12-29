@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/1753
+// https://www.acmicpc.net/problem/18352
 #include <iostream>
 using namespace std;
 
@@ -27,6 +27,7 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
+#include <algorithm>
 #include <iostream>
 #include <queue>
 #include <vector>
@@ -35,26 +36,26 @@ int main() {
     fast_io();
 
     //   logic
-    int v, e, k;
-    cin >> v >> e >> k;
+    int n, m, k, x;
+    cin >> n >> m >> k >> x;
 
-    vector<vector<pair<int, int>>> adj(v + 1);
-    vector<int>                    dist(v + 1, _MAX);
+    vector<vector<int>> adj(n + 1);
+    vector<int>         dist(n + 1, _MAX);
+
     priority_queue<
         pair<int, int>,
         vector<pair<int, int>>,
         greater<pair<int, int>>>
         pq;
 
-    for (int i = 0; i < e; ++i) {
-        int u, v, w;
-        cin >> u >> v >> w;
-
-        adj[u].push_back({ v, w });
+    for (int i = 0; i < m; ++i) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
     }
 
-    dist[k] = 0;
-    pq.push({ 0, k });
+    dist[x] = 0;
+    pq.push({ 0, x });
 
     while (!pq.empty()) {
         const auto [cost, u] = pq.top();
@@ -64,21 +65,29 @@ int main() {
             continue;
         }
 
-        for (const auto& [next, w]: adj[u]) {
-            int next_w = cost + w;
+        for (const auto v: adj[u]) {
+            int next_cost = cost + 1;
 
-            if (dist[next] > next_w) {
-                dist[next] = next_w;
-                pq.push({ next_w, next });
+            if (dist[v] > next_cost) {
+                dist[v] = next_cost;
+                pq.push({ next_cost, v });
             }
         }
     }
 
-    for (int i = 1; i <= v; ++i) {
-        if (dist[i] == _MAX) {
-            cout << "INF\n";
-        } else {
-            cout << dist[i] << "\n";
+    vector<int> answer;
+    for (int i = 1; i <= n; ++i) {
+        if (dist[i] == k) {
+            answer.push_back(i);
+        }
+    }
+    sort(answer.begin(), answer.end());
+
+    if (answer.empty()) {
+        cout << -1;
+    } else {
+        for (const auto& e: answer) {
+            cout << e << "\n";
         }
     }
 }

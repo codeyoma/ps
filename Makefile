@@ -78,8 +78,8 @@ $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS)):
 		.util/.util_make_md.sh $(dir); \
 	else \
 		mkdir -p boj/$(dir);\
-		.util/.util_test_cpp.sh $(dir) $(test_count) $(t) $(l); \
-		.util/.util_test_python.sh $(dir) $(test_count) $(t) $(l); \
+		LANGUAGE=all .util/.util_test_cpp.sh $(dir) $(test_count) $(t); \
+		LANGUAGE=all .util/.util_test_python.sh $(dir) $(test_count) $(t); \
 		.util/.util_make_md.sh $(dir); \
 		.util/.util_get_test_case.sh $(dir) true;\
 	fi

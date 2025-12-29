@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/15961
 #include <iostream>
 using namespace std;
 
@@ -27,9 +28,31 @@ constexpr ll  __MIN = -__MAX;
 //--------------------------------------------------------------------------------------------------
 
 #include <iostream>
+#include <unordered_map>
+#include <vector>
 
 int main() {
     fast_io();
 
     //   logic
+
+    int n, d, k, c;
+    cin >> n >> d >> k >> c;
+
+    vector<int> v(n);
+
+    for (int i = 0; i < n; i++) {
+        cin >> v[i];
+    }
+
+    int answer = _MIN;
+
+    unordered_map<int, int> w;
+
+    for (int i = 0; i < k; ++i) {
+        w[v[i]]++;
+    }
+
+    for (int i = 1; i < n; ++i) {
+    }
 }

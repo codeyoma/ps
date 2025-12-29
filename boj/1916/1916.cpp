@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/1753
+// https://www.acmicpc.net/problem/1916
 #include <iostream>
 using namespace std;
 
@@ -35,26 +35,29 @@ int main() {
     fast_io();
 
     //   logic
-    int v, e, k;
-    cin >> v >> e >> k;
 
-    vector<vector<pair<int, int>>> adj(v + 1);
-    vector<int>                    dist(v + 1, _MAX);
+    int n, m;
+
+    cin >> n >> m;
+
+    vector<vector<pair<int, int>>> adj(n + 1);
+    vector<int>                    dist(n + 1, _MAX);
     priority_queue<
         pair<int, int>,
         vector<pair<int, int>>,
         greater<pair<int, int>>>
         pq;
 
-    for (int i = 0; i < e; ++i) {
-        int u, v, w;
-        cin >> u >> v >> w;
-
-        adj[u].push_back({ v, w });
+    for (int i = 0; i < m; ++i) {
+        int s, d, w;
+        cin >> s >> d >> w;
+        adj[s].push_back({ d, w });
     }
+    int s, d;
+    cin >> s >> d;
 
-    dist[k] = 0;
-    pq.push({ 0, k });
+    dist[s] = 0;
+    pq.push({ 0, s });
 
     while (!pq.empty()) {
         const auto [cost, u] = pq.top();
@@ -64,21 +67,15 @@ int main() {
             continue;
         }
 
-        for (const auto& [next, w]: adj[u]) {
+        for (const auto& [v, w]: adj[u]) {
             int next_w = cost + w;
 
-            if (dist[next] > next_w) {
-                dist[next] = next_w;
-                pq.push({ next_w, next });
+            if (dist[v] > next_w) {
+                dist[v] = next_w;
+                pq.push({ next_w, v });
             }
         }
     }
 
-    for (int i = 1; i <= v; ++i) {
-        if (dist[i] == _MAX) {
-            cout << "INF\n";
-        } else {
-            cout << dist[i] << "\n";
-        }
-    }
+    cout << dist[d];
 }

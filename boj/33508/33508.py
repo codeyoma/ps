@@ -39,11 +39,10 @@ for x in a:
 # 		if table[x][i] == 2:
 # 			answer += 1
 
-# 		pass
-
 # 	if not i in table:
 # 		table[i] = {}
 
 # for _ in table:
 # 	print(_)
+
 print(answer)
