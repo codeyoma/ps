@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/10810
 #pragma GCC optimize("O3")
 #pragma GCC optimize("Ofast")
 #pragma GCC optimize("unroll-loops")
@@ -31,9 +32,28 @@ constexpr ll  __MIN = -__MAX;
 //--------------------------------------------------------------------------------------------------
 
 #include <iostream>
+#include <vector>
 
 int main() {
     FAST_IO
 
     //   logic
+
+    int n, m;
+    cin >> n >> m;
+
+    vector<int> t(n + 1);
+
+    while (m--) {
+        int i, j, k;
+        cin >> i >> j >> k;
+
+        for (int s = i; s <= j; ++s) {
+            t[s] = k;
+        }
+    }
+
+    for (int s = 1; s <= n; ++s) {
+        cout << t[s] << " ";
+    }
 }

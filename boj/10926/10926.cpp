@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/10926
 #pragma GCC optimize("O3")
 #pragma GCC optimize("Ofast")
 #pragma GCC optimize("unroll-loops")
@@ -15,6 +16,11 @@ struct nullstream : ostream {
 };
 nullstream LOG;
 #endif
+
+void fast_io() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+}
 
 #define FAST_IO                       \
     ios_base::sync_with_stdio(false); \
@@ -36,4 +42,9 @@ int main() {
     FAST_IO
 
     //   logic
+
+    string id;
+    cin >> id;
+
+    cout << id << "\?\?!";
 }

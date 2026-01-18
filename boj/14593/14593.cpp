@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/14593
 #pragma GCC optimize("O3")
 #pragma GCC optimize("Ofast")
 #pragma GCC optimize("unroll-loops")
@@ -30,10 +31,43 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
+#include <algorithm>
 #include <iostream>
+#include <vector>
+
+struct user {
+    int index;
+    int s;
+    int c;
+    int l;
+};
 
 int main() {
     FAST_IO
 
     //   logic
+    int n;
+    cin >> n;
+    vector<user> v;
+
+    for (int i = 1; i <= n; ++i) {
+        int s, c, l;
+        cin >> s >> c >> l;
+
+        v.push_back({ i, s, c, l });
+    }
+
+    sort(v.begin(), v.end(), [](const auto& a, const auto& b) {
+        if (a.s != b.s) {
+            return a.s > b.s;
+        }
+
+        if (a.c != b.c) {
+            return a.c < b.c;
+        }
+
+        return a.l < b.l;
+    });
+
+    cout << v.front().index;
 }

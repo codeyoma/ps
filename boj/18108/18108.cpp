@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/18108
 #pragma GCC optimize("O3")
 #pragma GCC optimize("Ofast")
 #pragma GCC optimize("unroll-loops")
@@ -36,4 +37,8 @@ int main() {
     FAST_IO
 
     //   logic
+
+    int y;
+    cin >> y;
+    cout << y - 543;
 }

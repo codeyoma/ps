@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/1193
 #pragma GCC optimize("O3")
 #pragma GCC optimize("Ofast")
 #pragma GCC optimize("unroll-loops")
@@ -36,4 +37,21 @@ int main() {
     FAST_IO
 
     //   logic
+    int x;
+    cin >> x;
+
+    int n = 1;
+
+    while ((n * (n + 1) / 2) < x) {
+        n++;
+    }
+
+    int prev = (n * (n - 1)) / 2;
+    int pos  = x - prev;
+
+    if (n % 2) {
+        cout << n - pos + 1 << "/" << pos;
+    } else {
+        cout << pos << "/" << n - pos + 1;
+    }
 }

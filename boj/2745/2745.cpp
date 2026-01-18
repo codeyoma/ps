@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/2745
 #pragma GCC optimize("O3")
 #pragma GCC optimize("Ofast")
 #pragma GCC optimize("unroll-loops")
@@ -31,9 +32,26 @@ constexpr ll  __MIN = -__MAX;
 //--------------------------------------------------------------------------------------------------
 
 #include <iostream>
+#include <string>
 
 int main() {
     FAST_IO
 
     //   logic
+
+    string a;
+    int    base;
+    cin >> a >> base;
+
+    int answer = 0;
+
+    for (int i = 0; i < a.size(); ++i) {
+        answer *= base;
+        if ('0' <= a[i] && a[i] <= '9') {
+            answer += a[i] - '0';
+        } else {
+            answer += a[i] - 'A' + 10;
+        }
+    }
+    cout << answer;
 }
