@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/1389
+// https://www.acmicpc.net/problem/11404
 #pragma GCC optimize("O3")
 #pragma GCC optimize("Ofast")
 #pragma GCC optimize("unroll-loops")
@@ -38,30 +38,32 @@ int main() {
     FAST_IO
 
     //   logic
-
     int n, m;
     cin >> n >> m;
 
-    vector<vector<int>> g(n + 1, vector<int>(n + 1, 5000));
+    vector<vector<int>> g(n + 1, vector<int>(n + 1, _MAX));
 
-    for (int _ = 0; _ < m; ++_) {
-        int a, b;
-        cin >> a >> b;
-        g[a][b] = 1;
-        g[b][a] = 1;
+    for (int i = 1; i <= n; ++i) {
+        g[i][i] = 0;
     }
 
-    for (int k = 1; k <= n; ++k) {
-        g[k][k] = 0;
+    for (int _ = 0; _ < m; ++_) {
+        int a, b, c;
+        cin >> a >> b >> c;
+
+        if (g[a][b] > c) {
+            g[a][b] = c;
+        }
     }
 
     for (int k = 1; k <= n; ++k) {
         for (int i = 1; i <= n; ++i) {
-            if (g[i][k] == 0) {
+            if (g[i][k] == _MAX) {
                 continue;
             }
+
             for (int j = 1; j <= n; ++j) {
-                if (g[k][j] == 0) {
+                if (g[k][j] == _MAX) {
                     continue;
                 }
 
@@ -70,18 +72,14 @@ int main() {
         }
     }
 
-    pair<int, int> answer = { 0, 5000 };
-
     for (int i = 1; i <= n; ++i) {
-        int sum = 0;
         for (int j = 1; j <= n; ++j) {
-            sum += g[i][j];
+            if (g[i][j] == _MAX) {
+                cout << 0 << " ";
+            } else {
+                cout << g[i][j] << " ";
+            }
         }
-
-        if (sum < answer.second) {
-            answer = { i, sum };
-        }
+        cout << "\n";
     }
-
-    cout << answer.first;
 }

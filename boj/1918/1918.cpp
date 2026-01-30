@@ -1,5 +1,8 @@
-// https://www.acmicpc.net/problem/1918
-// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/1918/1918
+#pragma GCC optimize("O3")
+#pragma GCC optimize("Ofast")
+#pragma GCC optimize("unroll-loops")
+#pragma GCC target("avx,avx2,fma")
+
 #include <iostream>
 using namespace std;
 
@@ -13,27 +16,80 @@ struct nullstream : ostream {
 nullstream LOG;
 #endif
 
-//--------------------------------------------------------------------------------------------------
+#define FAST_IO                       \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(nullptr);
 
-#define MAX (1234567891)
-#define MIN (-1234567891)
+// typedef long long ll;
+using ll = long long;
+
+constexpr int _MAX  = 1'234'567'891;
+constexpr int _MIN  = -_MAX;
+constexpr ll  __MAX = 1'111'111'111'111'111'111LL;
+constexpr ll  __MIN = -__MAX;
+
+//--------------------------------------------------------------------------------------------------
 
 #include <iostream>
 #include <stack>
 #include <string>
 
 int main() {
+    FAST_IO
+
+    //   logic
     //   logic
     string statement;
     cin >> statement;
 
     stack<char> s;
-    bool        check_cross_over = false;
 
     // 스택에 연산자 우선순위가 높은거 미리 출력, 낮은거는 나중에
     // 알파벳은 바로 출력
 
     // pair로 우선순위도 같이 기재하여 스택에 넣기?
     for (const char c: statement) {
+        switch (c) {
+            case '(': {
+                s.push(c);
+                break;
+            }
+            case ')': {
+                while (!s.empty() && s.top() != '(') {
+                    cout << s.top();
+                    s.pop();
+                }
+                if (!s.empty() && s.top() == '(') {
+                    s.pop();
+                }
+                break;
+            }
+            case '*':
+            case '/': {
+                while (!s.empty() && (s.top() == '*' || s.top() == '/')) {
+                    cout << s.top();
+                    s.pop();
+                }
+
+                s.push(c);
+                break;
+            }
+            case '+':
+            case '-': {
+                while (!s.empty() && s.top() != '(') {
+                    cout << s.top();
+                    s.pop();
+                }
+                s.push(c);
+                break;
+            }
+            default: {
+                cout << c;
+            }
+        }
+    }
+    while (!s.empty()) {
+        cout << s.top();
+        s.pop();
     }
 }

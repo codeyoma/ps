@@ -1,4 +1,5 @@
-// https://www.acmicpc.net/problem/11403
+// https://www.acmicpc.net/problem/17826
+#include <functional>
 #pragma GCC optimize("O3")
 #pragma GCC optimize("Ofast")
 #pragma GCC optimize("unroll-loops")
@@ -31,6 +32,7 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
+#include <algorithm>
 #include <iostream>
 #include <vector>
 
@@ -39,37 +41,21 @@ int main() {
 
     //   logic
 
-    int n;
-    cin >> n;
+    int         size = 50;
+    int         my_score;
+    vector<int> scores(50);
 
-    vector<vector<int>> g(n, vector<int>(n));
-
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            cin >> g[i][j];
-        }
+    for (int i = 0; i < size; ++i) {
+        cin >> scores[i];
     }
 
-    for (int k = 0; k < n; ++k) {
-        for (int i = 0; i < n; ++i) {
-            if (g[i][k] == 0) {
-                continue;
-            }
+    cin >> my_score;
 
-            for (int j = 0; j < n; ++j) {
-                if (g[k][j] == 0) {
-                    continue;
-                }
+    vector<int>::iterator pos = lower_bound(scores.begin(), scores.end(), my_score, greater<int>());
 
-                g[i][j] = 1;
-            }
-        }
-    }
+    vector<int>    upper     = { 5, 15, 30, 35, 45, 48, 50 };
+    vector<string> gradeName = { "A+", "A0", "B+", "B0", "C+", "C0", "F" };
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            cout << g[i][j] << " ";
-        }
-        cout << "\n";
-    }
+    int idx = upper_bound(upper.begin(), upper.end(), pos - scores.begin()) - upper.begin();
+    cout << gradeName[idx];
 }

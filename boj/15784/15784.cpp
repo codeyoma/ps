@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/11403
+// https://www.acmicpc.net/problem/15784
 #pragma GCC optimize("O3")
 #pragma GCC optimize("Ofast")
 #pragma GCC optimize("unroll-loops")
@@ -31,45 +31,32 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
+#include <algorithm>
 #include <iostream>
-#include <vector>
 
 int main() {
     FAST_IO
 
     //   logic
+    int n, a, b, m = 1, my = 1;
+    cin >> n >> a >> b;
 
-    int n;
-    cin >> n;
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= n; ++j) {
+            int temp;
+            cin >> temp;
 
-    vector<vector<int>> g(n, vector<int>(n));
-
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            cin >> g[i][j];
-        }
-    }
-
-    for (int k = 0; k < n; ++k) {
-        for (int i = 0; i < n; ++i) {
-            if (g[i][k] == 0) {
-                continue;
-            }
-
-            for (int j = 0; j < n; ++j) {
-                if (g[k][j] == 0) {
-                    continue;
-                }
-
-                g[i][j] = 1;
+            if (i == a && j == b) {
+                my = temp;
+            } else if (i == a || j == b) {
+                m = max(m, temp);
             }
         }
     }
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            cout << g[i][j] << " ";
-        }
-        cout << "\n";
+    if (my >= m) {
+        cout << "HAPPY";
+    } else {
+        cout << "ANGRY";
     }
 }
