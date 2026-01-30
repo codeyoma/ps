@@ -20,6 +20,12 @@ m ?= $(DATE)
 
 override MAKECMDGOALS := $(word 1, $(RAW_GOALS))
 
+ifneq ($(filter $(dir),$(IGNORED_TARGETS)),)
+else ifneq ($(shell echo "$(dir)" | grep -E '^[0-9]+$$'),)
+else ifneq ($(dir),)
+$(error Invalid target "$(dir)". Must be a problem number or a phony target)
+endif
+
 .PHONY: all push clean help pull sync $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS))
 
 all: help
