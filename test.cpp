@@ -1,68 +1,73 @@
 #include <iostream>
-#include <queue>
-#include <string>
 
 using namespace std;
 
 int main() {
-    int n;
-    cin >> n;
-    cin.ignore();
-    string        str[n];
-    string        writing;
-    queue<string> q[n];
-    queue<string> write;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    for (int i = 0; i < n; i++) {
-        getline(cin, str[i]);
-        string tmp = "";
+    int N, K;
+    cin >> N >> K;
 
-        for (int j = 0; j < str[i].length(); j++) {
-            if (str[i][j] == ' ') {
-                q[i].push(tmp);
-                tmp = "";
-            } else {
-                tmp += str[i][j];
+    static int total[20];
+    static int potential_correct[20][20];
+    static int potential_correct_exclude[20][20][20];
+
+    for (int i = 0; i < K; i++) {
+        int x, y, z;
+        cin >> x >> y >> z;
+        x--;
+        y--;
+        z--;
+
+        total[x]++;
+        potential_correct[x][y]++;
+        potential_correct[x][z]++;
+        potential_correct_exclude[x][y][z]++;
+        potential_correct_exclude[x][z][y]++;
+    }
+
+    int maxScore = 0;
+    int ways     = 0;
+
+    for (int mask = 0; mask < (1 << N); mask++) {
+        int score = 0;
+
+        for (int x = 0; x < N; x++) {
+            if (!(mask & (1 << x))) {
+                continue;
             }
-        }
 
-        if (tmp != "") {
-            q[i].push(tmp);
-            tmp = "";
-        }
-    }
+            int broken = 0;
 
-    getline(cin, writing);
-    string ttmp = "";
-    for (int i = 0; i < writing.length(); i++) {
-        if (writing[i] == ' ') {
-            write.push(ttmp);
-            ttmp = "";
-        } else {
-            ttmp += writing[i];
-        }
-    }
-
-    if (ttmp != "") {
-        write.push(ttmp);
-        ttmp = "";
-    }
-
-    int ss = write.size();
-    for (int i = 0; i < ss; i++) { // 큐의 사이즈 만큼 도는 조건이지만, 큐가 pop()되면 사이이즈가 줄어듬 // while이나 고정 n = write.size(); 로 저장해서 사용하기
-        for (int j = 0; j < n; j++) {
-            if (!write.empty() && write.front() == q[j].front()) {
-                q[j].pop();
-                write.pop();
+            for (int i = 0; i < N; i++) {
+                if (mask & (1 << i)) {
+                    broken += potential_correct[x][i];
+                }
             }
+
+            for (int i = 0; i < N; i++) {
+                if (!(mask & (1 << i))) {
+                    continue;
+                }
+                for (int j = i + 1; j < N; j++) {
+                    if (mask & (1 << j)) {
+                        broken -= potential_correct_exclude[x][i][j];
+                    }
+                }
+            }
+
+            score += total[x] - broken;
+        }
+
+        if (score > maxScore) {
+            maxScore = score;
+            ways     = 1;
+        } else if (score == maxScore) {
+            ways++;
         }
     }
 
-    if (write.empty()) {
-        cout << "Possible";
-    } else {
-        cout << "Impossible";
-    }
-
+    cout << maxScore << " " << ways << "\n";
     return 0;
 }

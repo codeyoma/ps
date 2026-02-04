@@ -1,0 +1,92 @@
+// https://www.acmicpc.net/problem/1786
+#pragma GCC optimize("O3")
+#pragma GCC optimize("Ofast")
+#pragma GCC optimize("unroll-loops")
+#pragma GCC target("avx,avx2,fma")
+
+#include <iostream>
+using namespace std;
+
+#ifdef LOCAL
+#    define LOG clog
+#else
+struct nullstream : ostream {
+    nullstream()
+        : ostream(nullptr) {}
+};
+nullstream LOG;
+#endif
+
+#define FAST_IO                       \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(nullptr);
+
+// typedef long long ll;
+using ll = long long;
+
+constexpr int _MAX  = 1'234'567'891;
+constexpr int _MIN  = -_MAX;
+constexpr ll  __MAX = 1'111'111'111'111'111'111LL;
+constexpr ll  __MIN = -__MAX;
+
+//--------------------------------------------------------------------------------------------------
+
+#include <iostream>
+#include <vector>
+
+vector<int> make_table(const string& pattern) {
+    vector<int> table(pattern.size(), 0);
+    int         j = 0;
+
+    for (int i = 1; i < pattern.size(); ++i) {
+        while (j > 0 && pattern[i] != pattern[j]) {
+            j = table[j - 1];
+        }
+
+        if (pattern[i] == pattern[j]) {
+            table[i] = ++j;
+        }
+    }
+
+    return table;
+}
+
+void KMP(const string& s, const string& needle) {
+    vector<int> table       = make_table(needle);
+    int         s_size      = s.size();
+    int         needle_size = needle.size();
+    int         j           = 0;
+
+    vector<int> answer;
+
+    for (int i = 0; i < s_size; ++i) {
+        while (j > 0 && s[i] != needle[j]) {
+            j = table[j - 1];
+        }
+
+        if (s[i] == needle[j]) {
+            if (j == needle_size - 1) {
+                j = table[j];
+                answer.push_back(i - needle_size + 2);
+            } else {
+                ++j;
+            }
+        }
+    }
+
+    cout << answer.size() << "\n";
+    for (const auto& e: answer) {
+        cout << e << " ";
+    }
+}
+
+int main() {
+    FAST_IO
+
+    //   logic
+    string a, b;
+    getline(cin, a);
+    getline(cin, b);
+
+    KMP(a, b);
+}
