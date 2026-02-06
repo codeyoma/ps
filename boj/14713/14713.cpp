@@ -1,5 +1,9 @@
 // https://www.acmicpc.net/problem/14713
-// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/14713/14713
+#pragma GCC optimize("O3")
+#pragma GCC optimize("Ofast")
+#pragma GCC optimize("unroll-loops")
+#pragma GCC target("avx,avx2,fma")
+
 #include <iostream>
 using namespace std;
 
@@ -13,82 +17,82 @@ struct nullstream : ostream {
 nullstream LOG;
 #endif
 
-//--------------------------------------------------------------------------------------------------
+#define FAST_IO                       \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(nullptr);
 
-#define MAX (1234567891)
-#define MIN (-1234567891)
+// typedef long long ll;
+using ll = long long;
+
+constexpr int _MAX  = 1'234'567'891;
+constexpr int _MIN  = -_MAX;
+constexpr ll  __MAX = 1'111'111'111'111'111'111LL;
+constexpr ll  __MIN = -__MAX;
+
+//--------------------------------------------------------------------------------------------------
 
 #include <iostream>
 #include <queue>
-#include <string>
-#include <vector>
+#include <sstream>
 
 int main() {
+    FAST_IO
+
     //   logic
     int n;
     cin >> n;
     cin.ignore();
 
-    vector<queue<string>> v(n);
-    vector<string>        target_v;
+    queue<string> b[100];
+    queue<string> main;
 
     for (int i = 0; i < n; ++i) {
-        string::size_type pos = 0;
-        string            line;
-        getline(cin, line);
+        string s, word;
+        getline(cin, s);
 
-        while ((pos = line.find(' ', pos)) != string::npos) {
-            v[i].push(line.substr(0, pos));
-            line = line.substr(pos + 1);
-            pos  = 0;
-        }
-        if (!line.empty()) {
-            v[i].push(line);
+        istringstream iss(s);
+
+        while (iss >> word) {
+            b[i].push(word);
         }
     }
 
     {
-        string::size_type pos = 0;
-        string            target;
-        getline(cin, target);
+        string s, word;
+        getline(cin, s);
 
-        while ((pos = target.find(' ', pos)) != string::npos) {
-            target_v.push_back(target.substr(0, pos));
-            target = target.substr(pos + 1);
-            pos    = 0;
-        }
-        if (!target.empty()) {
-            target_v.push_back(target);
+        istringstream iss(s);
+
+        while (iss >> word) {
+            main.push(word);
         }
     }
 
-    for (size_t i = 0; i < target_v.size(); ++i) {
-        bool found = false;
+    // ----
 
-        for (size_t j = 0; j < v.size(); ++j) {
-            if (v[j].empty()) {
-                continue;
-            }
-            if (target_v[i] == v[j].front()) {
-                LOG << target_v[i] << "  " << v[j].front() << "\n";
-                v[j].pop();
-                found = true;
+    while (!main.empty()) {
+        bool find = false;
+
+        for (int i = 0; i < n; ++i) {
+            if (!b[i].empty() && main.front() == b[i].front()) {
+                b[i].pop();
+                main.pop();
+                find = true;
                 break;
             }
         }
 
-        if (!found) {
-            cout << "Impossible\n";
+        if (!find) {
+            cout << "Impossible";
             return 0;
         }
     }
 
     for (int i = 0; i < n; ++i) {
-        if (!v[i].empty()) {
-            cout << "Impossible\n";
+        if (!b[i].empty()) {
+            cout << "Impossible";
             return 0;
         }
     }
-
-    cout << "Possible\n";
+    cout << "Possible";
 }
