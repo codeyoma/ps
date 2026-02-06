@@ -13,25 +13,29 @@ class Pos(Enum):
     DELIMITER = 1
     EXT = 2
     ON = 3
+    MARKER = 4
 
 options = [
     [
         "cpp",
         "## cpp",
         "cpp",
-        os.getenv("ENABLE_CPP", "false").lower() == "true"
+        os.getenv("ENABLE_CPP", "false").lower() == "true",
+        "//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--"
     ],
     [
         "python",
         "## python",
         "py",
         os.getenv("ENABLE_PYTHON", "false").lower() == "true"
+        "##--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--"
     ],
     [
         "c",
         "## c",
         "c",
-        os.getenv("ENABLE_C", "false").lower() == "true"
+        os.getenv("ENABLE_C", "false").lower() == "true",
+        "//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--"
     ],
 ]
 
@@ -42,8 +46,21 @@ def run(index):
     file_path = os.path.join(
         "boj", file_number, f"{file_number}.{options[index][Pos.EXT.value]}")
 
+    # with open(file_path, 'r', encoding='utf-8') as f:
+    #     content = f.read()
     with open(file_path, 'r', encoding='utf-8') as f:
-        content = f.read()
+        lines = f.readlines()
+
+    content_lines = []
+    found = False
+
+    for line in lines:
+        if found:
+            content_lines.append(line)
+        elif line.strip() == options[index][Pos.MARKER.value]:
+            found = True
+
+    content = "".join(content_lines)
 
     with open(output_path, 'r', encoding='utf-8') as f:
         found_my_code_section = False

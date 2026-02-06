@@ -1,4 +1,5 @@
 // https://www.acmicpc.net/problem/1956
+// https://www.acmicpc.net/problem/1956
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")

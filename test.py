@@ -1,55 +1,44 @@
-import sys
-input = sys.stdin.readline
+# 4
+# 3 3 3 3
+# 3 3 6 3
+# 2 2 6 6
+# 6 2 1 5
 
-N, K = map(int, input().split())
+n = int(input())
 
-total = [0] * 20
-potential_correct = [[0] * 20 for _ in range(20)]
-potential_correct_exclude = [[[0] * 20 for _ in range(20)] for __ in range(20)]
+max_value = 0
 
-for _ in range(K):
-    x, y, z = map(int, input().split())
-    x -= 1
-    y -= 1
-    z -= 1
+for i in range(n):
+	L = list(map(int, input().split()))
+	s = dict()
 
-    total[x] += 1
-    broken[x][y] += 1
-    broken[x][z] += 1
-    overlap_broken[x][y][z] += 1
-    overlap_broken[x][z][y] += 1
+	for e in L:
+		if e in s:
+			s[e] += 1
+		else:
+			s[e] = 1
 
-maxScore = 0
-ways = 0
+	l_s = list(s)
+		
+	if len(l_s) == 1: # 다 같은 경우
+		max_value = max(max_value, 50000 + max(l_s) * 5000 )
+	elif len(l_s) == 4: # 다 다른 경우
+		max_value = max(max_value, max(l_s) * 100 )
+	elif len(s) == 3: # 어떤 값이 2개 등장함
+		for e in s:
+			if s[e] == 2:
+				max_value = max(max_value, 1000 + e * 100 )
+	else: # 2개, 2개 씩 등장 or 3개, 1개 케이스
+		flag = True
 
-for mask in range(1 << N):
-    score = 0
+		for e in s:
+			if s[e] == 3:
+				max_value = max(max_value, 10000 + e * 1000 )
+				flag = False
 
-    for x in range(N):
-        if not (mask & (1 << x)):
-            continue
+		if flag == True:
+			temp = list(s)
+			max_value = max(max_value, 2000 + temp[0] * 500 + temp[1] * 500)
 
-        cnt = 0
 
-        for i in range(N):
-            if mask & (1 << i):
-                cnt += broken[x][i] #include
-
-        for i in range(N):
-            if not (mask & (1 << i)):
-                continue
-
-            for j in range(i + 1, N):
-                if mask & (1 << j):
-                    cnt -= overlap_broken[x][i][j] #exclude
-
-        score += total[x] - cnt 
-
-    if score > maxScore:
-        maxScore = score
-        ways = 1
-    elif score == maxScore:
-        ways += 1
-
-print(maxScore, ways)
-
+print(max_value)

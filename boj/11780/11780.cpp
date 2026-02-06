@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/1956
+// https://www.acmicpc.net/problem/11780
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -9,18 +9,18 @@
 #include <iostream>
 using namespace std;
 
-#ifdef LOCAL
-#    define LOG clog
-#else
-struct nullstream : ostream {
-    nullstream()
-        : ostream(nullptr) {}
-};
-nullstream LOG;
+// typedef long long ll;
+using ll = long long;
+
+constexpr int _MAX  = 1'234'567'891;
+constexpr int _MIN  = -_MAX;
+constexpr ll  __MAX = 1'111'111'111'111'111'111LL;
+constexpr ll  __MIN = -__MAX;
+
+#ifndef LOCAL
 #    include <bits/stdc++.h>
 #    include <sys/mman.h>
 #    include <sys/stat.h>
-
 constexpr int INPUT_SZ  = 3200000;
 constexpr int OUTPUT_SZ = 1 << 16;
 
@@ -187,34 +187,101 @@ OUTPUT& operator<<(OUTPUT& out, T i) {
     return out;
 }
 
+/* macros */
 #    define cin     _in
 #    define cout    _out
 #    define istream INPUT
 #    define ostream OUTPUT
-
 #endif
 
-//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--
-
-using namespace std;
-#define FAST_IO 1
-
-// typedef long long ll;
-using ll = long long;
-
-constexpr int _MAX  = 1'234'567'891; // prime
-constexpr int _MIN  = -_MAX;
-constexpr ll  __MAX = 1'111'111'111'111'111'111LL; // prime
-constexpr ll  __MIN = -__MAX;
-
+#define fastio 1
 //--------------------------------------------------------------------------------------------------
 
 #include <iostream>
+#include <vector>
 
 int main() {
-    FAST_IO;
+    fastio;
 
     //   logic
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<ll>>  dist(n + 1, vector<ll>(n + 1, __MAX));
+    vector<vector<int>> succsessor(n + 1, vector<int>(n + 1, -1));
+
+    for (int i = 0; i < m; ++i) {
+        int a, b, c;
+        cin >> a >> b >> c;
+
+        if (dist[a][b] > c) {
+            dist[a][b]       = c;
+            succsessor[a][b] = b;
+        }
+    }
+
+    for (int i = 1; i <= n; ++i) {
+        dist[i][i]       = 0;
+        succsessor[i][i] = 0;
+    }
+
+    // -----
+
+    for (int k = 1; k <= n; ++k) {
+        for (int i = 1; i <= n; ++i) {
+            if (dist[i][k] == __MAX) {
+                continue;
+            }
+
+            for (int j = 1; j <= n; ++j) {
+                if (dist[k][j] == __MAX) {
+                    continue;
+                }
+
+                if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                    dist[i][j]       = dist[i][k] + dist[k][j];
+                    succsessor[i][j] = succsessor[i][k];
+                }
+            }
+        }
+    }
+
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= n; ++j) {
+            if (dist[i][j] == __MAX) {
+                cout << "0\n";
+            } else {
+                cout << dist[i][j] << " ";
+            }
+        }
+        cout << "\n";
+    }
+
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= n; ++j) {
+            if (dist[i][j] == __MAX || i == j) {
+                cout << "0\n";
+                continue;
+            }
+
+            vector<int> path;
+            int         cur = i;
+
+            path.push_back(cur);
+
+            while (cur != j) {
+                cur = succsessor[cur][j];
+                path.push_back(cur);
+            }
+
+            cout << path.size() << " ";
+
+            for (const auto& e: path) {
+                cout << e << " ";
+            }
+            cout << "\n";
+        }
+    }
 
     return 0;
 }
