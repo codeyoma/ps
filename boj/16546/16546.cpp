@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/16546
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -35,12 +36,21 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
-#include <vector>
-
 int main() {
     FAST_IO;
 
     //   logic
+    int n, sum = 0;
+    cin >> n;
+
+    for (int i = 1; i < n; ++i) {
+        int temp;
+        cin >> temp;
+
+        sum += temp;
+    }
+
+    cout << n * (1 + n) / 2 - sum;
 
     return 0;
 }

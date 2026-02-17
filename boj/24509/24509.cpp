@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/1956
+// https://www.acmicpc.net/problem/24509
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -36,61 +36,55 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
+#include <algorithm>
+#include <unordered_set>
 #include <vector>
+
+struct Score {
+    int i;
+    int score;
+
+    bool operator<(const Score& other) const {
+        if (score == other.score) {
+            return i < other.i;
+        }
+        return score > other.score;
+    }
+};
 
 int main() {
     FAST_IO;
 
     //   logic
-    int v, e;
-    cin >> v >> e;
+    vector<vector<Score>> s(4, vector<Score>());
 
-    vector<vector<int>> g(v + 1, vector<int>(v + 1, _MAX));
-    for (int i = 0; i < e; ++i) {
-        int a, b, c;
-        cin >> a >> b >> c;
+    int n;
+    cin >> n;
+    for (int i = 1; i <= n; ++i) {
+        int idx, a, b, c, d;
+        cin >> idx >> a >> b >> c >> d;
 
-        g[a][b] = c;
+        s[0].push_back({ idx, a });
+        s[1].push_back({ idx, b });
+        s[2].push_back({ idx, c });
+        s[3].push_back({ idx, d });
     }
 
-    for (int i = 1; i <= v; ++i) {
-        g[i][i] = 0;
+    for (auto& v: s) {
+        sort(v.begin(), v.end());
     }
 
-    for (int k = 1; k <= v; ++k) {
-        for (int i = 1; i <= v; ++i) {
-            if (g[i][k] == _MAX) {
+    unordered_set<int> check;
+
+    for (const auto& v: s) {
+        for (const auto& e: v) {
+            if (check.find(e.i) != check.end()) {
                 continue;
             }
-
-            for (int j = 1; j <= v; ++j) {
-                if (g[k][j] == _MAX) {
-                    continue;
-                }
-
-                if (g[i][j] > g[i][k] + g[k][j]) {
-                    g[i][j] = g[i][k] + g[k][j];
-                }
-            }
+            cout << e.i << " ";
+            check.insert(e.i);
+            break;
         }
-    }
-
-    int answer = _MAX;
-
-    for (int i = 1; i <= v; ++i) {
-        for (int j = 1; j <= v; ++j) {
-            if (i == j || g[i][j] == _MAX || g[j][i] == _MAX) {
-                continue;
-            }
-
-            answer = min(answer, g[i][j] + g[j][i]);
-        }
-    }
-
-    if (answer == _MAX) {
-        cout << -1;
-    } else {
-        cout << answer;
     }
 
     return 0;

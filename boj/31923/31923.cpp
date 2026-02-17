@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/1956
+// https://www.acmicpc.net/problem/31923
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -36,61 +36,56 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
+#include <cmath>
 #include <vector>
 
 int main() {
     FAST_IO;
 
     //   logic
-    int v, e;
-    cin >> v >> e;
+    int n, p, q;
+    cin >> n >> p >> q;
 
-    vector<vector<int>> g(v + 1, vector<int>(v + 1, _MAX));
-    for (int i = 0; i < e; ++i) {
-        int a, b, c;
-        cin >> a >> b >> c;
+    vector<int> pv(n);
+    vector<int> qv(n);
+    vector<int> av(n);
 
-        g[a][b] = c;
+    for (int i = 0; i < n; ++i) {
+        cin >> pv[i];
     }
 
-    for (int i = 1; i <= v; ++i) {
-        g[i][i] = 0;
+    for (int i = 0; i < n; ++i) {
+        cin >> qv[i];
     }
 
-    for (int k = 1; k <= v; ++k) {
-        for (int i = 1; i <= v; ++i) {
-            if (g[i][k] == _MAX) {
-                continue;
-            }
+    int r = q - p;
 
-            for (int j = 1; j <= v; ++j) {
-                if (g[k][j] == _MAX) {
-                    continue;
-                }
+    bool check = true;
 
-                if (g[i][j] > g[i][k] + g[k][j]) {
-                    g[i][j] = g[i][k] + g[k][j];
-                }
+    if (r == 0) {
+        for (int i = 0; i < n; ++i) {
+            if (pv[i] != qv[i]) {
+                cout << "NO";
+                return 0;
             }
         }
-    }
-
-    int answer = _MAX;
-
-    for (int i = 1; i <= v; ++i) {
-        for (int j = 1; j <= v; ++j) {
-            if (i == j || g[i][j] == _MAX || g[j][i] == _MAX) {
-                continue;
-            }
-
-            answer = min(answer, g[i][j] + g[j][i]);
-        }
-    }
-
-    if (answer == _MAX) {
-        cout << -1;
     } else {
-        cout << answer;
+        for (int i = 0; i < n; ++i) {
+            int gap = pv[i] - qv[i];
+
+            if (gap % r != 0 || gap / r < 0) {
+                cout << "NO";
+                return 0;
+            }
+
+            av[i] = gap / r;
+        }
+    }
+
+    cout << "YES\n";
+
+    for (const auto& e: av) {
+        cout << e << " ";
     }
 
     return 0;

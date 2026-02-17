@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/29615
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -35,12 +36,38 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
+#include <unordered_set>
 #include <vector>
 
 int main() {
     FAST_IO;
 
     //   logic
+    int n, m;
+    cin >> n >> m;
+
+    vector<int>        l(n);
+    unordered_set<int> check;
+
+    for (int i = 0; i < n; ++i) {
+        cin >> l[i];
+    }
+
+    for (int i = 0; i < m; ++i) {
+        check.insert(l[i]);
+    }
+
+    int cnt = 0;
+
+    for (int i = 0; i < m; ++i) {
+        int t;
+        cin >> t;
+
+        if (check.find(t) == check.end()) {
+            cnt++;
+        }
+    }
+    cout << cnt;
 
     return 0;
 }

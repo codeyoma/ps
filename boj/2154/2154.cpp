@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/2154
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -35,12 +36,22 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
+#include <string>
 #include <vector>
 
 int main() {
     FAST_IO;
 
     //   logic
+    int n;
+    cin >> n;
+    string s;
+
+    for (int i = 1; i <= n; ++i) {
+        s += to_string(i);
+    }
+
+    cout << s.find(to_string(n)) + 1;
 
     return 0;
 }

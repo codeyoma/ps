@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/9663
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -37,10 +38,23 @@ constexpr ll  __MIN = -__MAX;
 
 #include <vector>
 
+using VVB = vector<vector<bool>>;
+using VVI = vector<vector<int>>;
+
+bool is_valid() {
+    return true;
+}
+
+void dfs(VVI& c, VVB& i, int n, int current) {
+}
+
 int main() {
     FAST_IO;
 
     //   logic
+
+    int n;
+    cin >> n;
 
     return 0;
 }

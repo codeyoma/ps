@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/2903
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -35,12 +36,27 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
+#include <cmath>
 #include <vector>
 
 int main() {
     FAST_IO;
 
     //   logic
+    int n;
+    cin >> n;
 
+    // solution 1
+    // int d = 2;
+    // for (int i = 1; i <= n; ++i) {
+    //     d += d - 1;
+    // }
+
+    // cout << d * d;
+
+    // solution 2
+    // (2^n + 1)^2
+    long long d = (1LL << n) + 1;
+    cout << d * d;
     return 0;
 }

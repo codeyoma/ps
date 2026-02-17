@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/11536
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -35,12 +36,41 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
+#include <string>
 #include <vector>
 
 int main() {
     FAST_IO;
 
     //   logic
+    int n;
+    cin >> n;
+
+    bool inc = false;
+    bool dec = false;
+
+    string before = "", current;
+
+    while (n--) {
+        cin >> current;
+        if (before != "") {
+            if (before < current) {
+                inc = true;
+            } else {
+                dec = true;
+            }
+        }
+
+        before = current;
+    }
+
+    if (inc && dec) {
+        cout << "NEITHER";
+    } else if (inc) {
+        cout << "INCREASING";
+    } else {
+        cout << "DECREASING";
+    }
 
     return 0;
 }

@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/2720
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -41,6 +42,26 @@ int main() {
     FAST_IO;
 
     //   logic
+    int n;
+    cin >> n;
+
+    vector<int> coins = {
+        25,
+        10,
+        5,
+        1
+    };
+
+    while (n--) {
+        int t;
+        cin >> t;
+
+        for (const auto& c: coins) {
+            cout << t / c << " ";
+            t %= c;
+        }
+        cout << "\n";
+    }
 
     return 0;
 }
