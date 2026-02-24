@@ -1,0 +1,72 @@
+// https://www.acmicpc.net/problem/6376
+#if defined(__GNUC__) && defined(__x86_64__)
+#    pragma GCC optimize("O3")
+#    pragma GCC optimize("Ofast")
+#    pragma GCC optimize("unroll-loops")
+#    pragma GCC target("avx,avx2,fma")
+#endif
+
+#include <iostream>
+using namespace std;
+
+#ifdef LOCAL
+#    define LOG clog
+#else
+struct nullstream : ostream {
+    nullstream()
+        : ostream(nullptr) {}
+};
+nullstream LOG;
+#endif
+
+//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--
+
+using namespace std;
+#define FAST_IO                  \
+    ios::sync_with_stdio(false); \
+    cin.tie(nullptr);
+
+// typedef long long ll;
+using ll = long long;
+
+constexpr int _MAX  = 1'234'567'891; // prime
+constexpr int _MIN  = -_MAX;
+constexpr ll  __MAX = 1'111'111'111'111'111'111LL; // prime
+constexpr ll  __MIN = -__MAX;
+
+//--------------------------------------------------------------------------------------------------
+
+#include <iomanip>
+#include <vector>
+
+int main() {
+    FAST_IO;
+
+    //   logic
+
+    cout << "n e \n";
+    cout << "- -----------\n";
+
+    double f = 1.0L;
+    double e = 1.0L;
+
+    for (int n = 0; n <= 9; ++n) {
+        if (n == 0) {
+            cout << 0 << " " << 1 << "\n";
+            continue;
+        }
+
+        f *= n;
+        e += 1.0L / f;
+
+        if (n == 1) {
+            cout << 1 << " " << 2 << "\n";
+        } else if (n == 2) {
+            cout << 2 << " " << fixed << setprecision(1) << e << "\n";
+        } else {
+            cout << n << " " << fixed << setprecision(9) << e << "\n";
+        }
+    }
+
+    return 0;
+}
