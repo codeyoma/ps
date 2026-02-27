@@ -1,73 +1,59 @@
 #include <iostream>
+#include <sstream>
+#include <stack>
+#include <string>
 
 using namespace std;
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    string      str;
+    stack<char> l, r;
 
-    int N, K;
-    cin >> N >> K;
+    cin >> str;
 
-    static int total[20];
-    static int potential_correct[20][20];
-    static int potential_correct_exclude[20][20][20];
-
-    for (int i = 0; i < K; i++) {
-        int x, y, z;
-        cin >> x >> y >> z;
-        x--;
-        y--;
-        z--;
-
-        total[x]++;
-        potential_correct[x][y]++;
-        potential_correct[x][z]++;
-        potential_correct_exclude[x][y][z]++;
-        potential_correct_exclude[x][z][y]++;
+    for (int b = 0; b < str.size(); b++) {
+        l.push(str[b]);
     }
 
-    int maxScore = 0;
-    int ways     = 0;
+    int n;
 
-    for (int mask = 0; mask < (1 << N); mask++) {
-        int score = 0;
+    cin >> n;
 
-        for (int x = 0; x < N; x++) {
-            if (!(mask & (1 << x))) {
-                continue;
+    for (int a = 0; a < n; a++) {
+        char j;
+
+        cin >> j;
+
+        if (j == 'P') {
+            char k;
+
+            cin >> k;
+            l.push(k);
+        } else if (j == 'B') {
+            if (!l.empty()) {
+                l.pop();
             }
-
-            int broken = 0;
-
-            for (int i = 0; i < N; i++) {
-                if (mask & (1 << i)) {
-                    broken += potential_correct[x][i];
-                }
+        } else if (j == 'L') {
+            if (!l.empty()) {
+                r.push(l.top());
+                l.pop();
             }
-
-            for (int i = 0; i < N; i++) {
-                if (!(mask & (1 << i))) {
-                    continue;
-                }
-                for (int j = i + 1; j < N; j++) {
-                    if (mask & (1 << j)) {
-                        broken -= potential_correct_exclude[x][i][j];
-                    }
-                }
+        } else if (j == 'R') {
+            if (!r.empty()) {
+                l.push(r.top());
+                r.pop();
             }
-
-            score += total[x] - broken;
-        }
-
-        if (score > maxScore) {
-            maxScore = score;
-            ways     = 1;
-        } else if (score == maxScore) {
-            ways++;
         }
     }
 
-    cout << maxScore << " " << ways << "\n";
-    return 0;
+    while (!l.empty()) {
+        r.push(l.top());
+        l.pop();
+    }
+
+    while (!r.empty()) {
+        cout << r.top();
+        r.pop();
+    }
 }
+
