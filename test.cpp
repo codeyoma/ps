@@ -1,59 +1,59 @@
+// https://www.acmicpc.net/problem/32069
+#if defined(__GNUC__) && defined(__x86_64__)
+#    pragma GCC optimize("O3")
+#    pragma GCC optimize("Ofast")
+#    pragma GCC optimize("unroll-loops")
+#    pragma GCC target("avx,avx2,fma")
+#endif
+
 #include <iostream>
-#include <sstream>
-#include <stack>
-#include <string>
-
 using namespace std;
+#define FAST_IO                  \
+    ios::sync_with_stdio(false); \
+    cin.tie(nullptr);
 
-int main() {
-    string      str;
-    stack<char> l, r;
+using ll = long long;
 
-    cin >> str;
+ll  tele[300'001];
+int bri[500'001];
+int q, k;
 
-    for (int b = 0; b < str.size(); b++) {
-        l.push(str[b]);
+void push(ll x) {
+    if (k < x) {
+        x = k;
     }
 
-    int n;
-
-    cin >> n;
-
-    for (int a = 0; a < n; a++) {
-        char j;
-
-        cin >> j;
-
-        if (j == 'P') {
-            char k;
-
-            cin >> k;
-            l.push(k);
-        } else if (j == 'B') {
-            if (!l.empty()) {
-                l.pop();
-            }
-        } else if (j == 'L') {
-            if (!l.empty()) {
-                r.push(l.top());
-                l.pop();
-            }
-        } else if (j == 'R') {
-            if (!r.empty()) {
-                l.push(r.top());
-                r.pop();
-            }
-        }
-    }
-
-    while (!l.empty()) {
-        r.push(l.top());
-        l.pop();
-    }
-
-    while (!r.empty()) {
-        cout << r.top();
-        r.pop();
+    if (x) {
+        bri[x]++;
+        q++;
     }
 }
 
+int main() {
+    FAST_IO;
+    ll  l;
+    int n;
+    cin >> l >> n >> k;
+    for (int i = 0; i < n; ++i) {
+        cin >> tele[i];
+    }
+    for (int i = 0; i < n && k; ++i) {
+        cout << "0\n";
+        k--;
+    }
+    push(tele[0]);
+    push(l - tele[n - 1]);
+    for (int i = 0; i < n - 1; ++i) {
+        ll dist = tele[i + 1] - tele[i];
+        push(dist / 2);
+        push((dist - 1) / 2);
+    }
+    int i = 1;
+    while (k) {
+        for (int t = q; k && t; k--, t--) {
+            cout << i << "\n";
+        }
+        q -= bri[i++];
+    }
+    return 0;
+}
