@@ -1,30 +1,44 @@
-#define LOCAL // need to delete in online judge
-//------------------------------------------------------------------------------
-// #include <bits/stdc++.h>
+// https://www.acmicpc.net/problem/1920
+#if defined(__GNUC__) && defined(__x86_64__)
+#    pragma GCC optimize("O3")
+#    pragma GCC optimize("Ofast")
+#    pragma GCC optimize("unroll-loops")
+#    pragma GCC target("avx,avx2,fma")
+#endif
+
 #include <iostream>
 using namespace std;
-template <typename T, typename... Args>
-void log(const T& first, const Args&... rest);
-void end();
-// #define C_MIN (-(1e8 + 7))
-// #define C_MAX (1e8 + 7)
-#define C_MAX (1234567891)
-#define C_MIN (-1234567891)
-/**
- *------------------------------------------------------------------------------
- *                      /$$             /$$     /$$
- *                     | $$            | $$    |__/
- *   /$$$$$$$  /$$$$$$ | $$ /$$   /$$ /$$$$$$   /$$  /$$$$$$  /$$$$$$$
- *  /$$_____/ /$$__  $$| $$| $$  | $$|_  $$_/  | $$ /$$__  $$| $$__  $$
- * |  $$$$$$ | $$  \ $$| $$| $$  | $$  | $$    | $$| $$  \ $$| $$  \ $$
- *  \____  $$| $$  | $$| $$| $$  | $$  | $$ /$$| $$| $$  | $$| $$  | $$
- *  /$$$$$$$/|  $$$$$$/| $$|  $$$$$$/  |  $$$$/| $$|  $$$$$$/| $$  | $$
- * |_______/  \______/ |__/ \______/    \___/  |__/ \______/ |__/  |__/
- *------------------------------------------------------------------------------
- */
 
+#ifdef LOCAL
+#    define LOG clog
+#else
+struct nullstream : ostream {
+    nullstream()
+        : ostream(nullptr) {}
+};
+nullstream LOG;
+#endif
+
+//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--
+
+using namespace std;
+#define FAST_IO                  \
+    ios::sync_with_stdio(false); \
+    cin.tie(nullptr);
+
+// typedef long long ll;
+using ll = long long;
+
+constexpr int _MAX  = 1'234'567'891; // prime
+constexpr int _MIN  = -_MAX;
+constexpr ll  __MAX = 1'111'111'111'111'111'111LL; // prime
+constexpr ll  __MIN = -__MAX;
+
+//--------------------------------------------------------------------------------------------------
+
+/*
 #include <unordered_set>
-void solution()
+void set_solution()
 {
     unordered_set<int> s;
     int n, m;
@@ -47,145 +61,40 @@ void solution()
             cout << 0 << "\n";
     }
 }
+*/
 
-/**
- *------------------------------------------------------------------------------
- *  /$$        /$$$$$$  /$$$$$$$$ /$$      /$$
- * | $$       /$$__  $$|__  $$__/| $$$    /$$$
- * | $$      | $$  \__/   | $$   | $$$$  /$$$$
- * | $$      | $$ /$$$$   | $$   | $$ $$/$$ $$
- * | $$      | $$|_  $$   | $$   | $$  $$$| $$
- * | $$      | $$  \ $$   | $$   | $$\  $ | $$
- * | $$$$$$$$|  $$$$$$/   | $$   | $$ \/  | $$
- * |________/ \______/    |__/   |__/     |__/
- *------------------------------------------------------------------------------
- */
-// for local test
-void end()
-{
-#ifdef LOCAL
-    cout << ' ';
-#else
-    cout << '\n';
-#endif
-}
+#include <algorithm>
+#include <vector>
 
-#ifndef LOCAL
-// for online test
-int main()
-{
-    ios_base ::sync_with_stdio(false);
-    cin.tie(nullptr);
-    // cout.tie(nullptr);
-    solution();
-}
+int main() {
+    FAST_IO;
 
-template <typename T, typename... Args>
-void log(const T& first, const Args&... rest)
-{
-}
+    //   logic
+    int n, m;
+    cin >> n;
 
-#else
+    vector<int> v(n);
 
-#include <unistd.h>
-
-int redirect_to_tty()
-{
-    int original_stdout_fd = dup(fileno(stdout));
-
-    fclose(stdout);
-
-    if (freopen("/dev/tty", "w", stdout) == NULL) {
-        cerr << "tty 장치 파일 열기 오류" << endl;
-        return -1;
+    for (int i = 0; i < n; ++i) {
+        cin >> v[i];
     }
 
-    return original_stdout_fd;
-}
+    sort(v.begin(), v.end());
 
-void restore_stdout(int original_stdout_fd)
-{
-    dup2(original_stdout_fd, fileno(stdout));
-}
+    cin >> m;
 
-void log_()
-{
-}
+    for (int i = 0; i < m; ++i) {
+        int t;
+        cin >> t;
 
-template <typename T, typename... Args>
-void log_(const T& first, const Args&... rest)
-{
-    cout << first << " ";
+        auto it = lower_bound(v.begin(), v.end(), t);
 
-    if (sizeof...(rest) > 0) {
-        log_(rest...);
-    } else {
-        cout << "\n";
-    }
-}
-
-template <typename T, typename... Args>
-void log(const T& first, const Args&... rest)
-{
-    int original_stdout_fd = redirect_to_tty();
-
-    if (original_stdout_fd != -1) {
-        log_(first, rest...);
-        restore_stdout(original_stdout_fd);
-    }
-}
-
-// for local test
-void _run_test(const int problem_number, const int test_number)
-{
-    string test = string(to_string(problem_number) + "/test-input-" + to_string(test_number) + ".txt");
-
-    if (freopen(test.c_str(), "r", stdin) == NULL) {
-        cout << "file open error" << endl;
-        cerr << strerror(errno) << endl;
-    }
-
-    string my_answer = string(to_string(problem_number) + "/my-output-" + to_string(test_number) + ".txt");
-
-    if (freopen(my_answer.c_str(), "w", stdout) == NULL) {
-        cout << "file open error" << endl;
-        cerr << strerror(errno) << endl;
-    }
-
-    log("test case - ", test_number);
-    solution();
-    cout << '\n';
-}
-
-int main(int argc, char* argv[])
-{
-    ios_base ::sync_with_stdio(false);
-    cin.tie(nullptr);
-    // cout.tie(nullptr);
-
-    int problem_number = 0;
-    int test_size = 0;
-    int test_target = 0;
-
-    if (argc == 3) {
-        problem_number = stoi(argv[1]);
-        test_size = stoi(argv[2]);
-    } else if (argc == 4) {
-        problem_number = stoi(argv[1]);
-        test_size = stoi(argv[2]);
-        test_target = stoi(argv[3]);
-    } else {
-        return -1;
-    }
-
-    if (test_target == 0) {
-        for (int i = 1; i <= test_size; i++) {
-            _run_test(problem_number, i);
+        if (it != v.end() && *it == t) {
+            cout << "1\n";
+        } else {
+            cout << "0\n";
         }
-    } else {
-        _run_test(problem_number, test_target);
     }
 
     return 0;
 }
-#endif
