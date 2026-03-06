@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/10816
+// https://www.acmicpc.net/problem/23253
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -36,68 +36,40 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
-#include <algorithm>
 #include <vector>
 
 int main() {
     FAST_IO;
 
     //   logic
+    // 스택으로 시뮬레이션시 시간초과
+    // 단조 감소로 체크
+    int n, m;
 
-    int n;
-    cin >> n;
+    cin >> n >> m;
 
-    vector<int> cards(n);
+    for (int i = 0; i < m; ++i) {
+        int k, before = 0, current = 0;
+        cin >> k;
 
-    for (int i = 0; i < n; ++i) {
-        cin >> cards[i];
-    }
+        for (int j = 0; j < k; ++j) {
+            cin >> current;
 
-    sort(cards.begin(), cards.end());
+            if (before == 0) {
+                before = current;
+                continue;
+            }
 
-    int m;
-    cin >> m;
+            if (before < current) {
+                cout << "No";
+                return 0;
+            }
 
-    while (m--) {
-        int t;
-        cin >> t;
-
-        auto l = lower_bound(cards.begin(), cards.end(), t);
-        auto r = upper_bound(cards.begin(), cards.end(), t);
-
-        if (*l != t) {
-            cout << "0 ";
-            continue;
+            before = current;
         }
-
-        cout << r - l << " ";
     }
+
+    cout << "Yes";
 
     return 0;
 }
-
-/*
-#include <unordered_map>
-void map_solution()
-{
-    unordered_map<int, int> bucket;
-    int n, m;
-    cin >> n;
-    for (int i = 0; i < n; ++i) {
-        int temp;
-        cin >> temp;
-        bucket[temp]++;
-    }
-
-    cin >> m;
-    for (int i = 0; i < m; ++i) {
-        int temp;
-        cin >> temp;
-
-        if (bucket.count(temp))
-            cout << bucket[temp] << " ";
-        else
-            cout << "0 ";
-    }
-}
-*/

@@ -1,59 +1,75 @@
-// https://www.acmicpc.net/problem/32069
-#if defined(__GNUC__) && defined(__x86_64__)
-#    pragma GCC optimize("O3")
-#    pragma GCC optimize("Ofast")
-#    pragma GCC optimize("unroll-loops")
-#    pragma GCC target("avx,avx2,fma")
-#endif
-
+#include <algorithm>
 #include <iostream>
+
 using namespace std;
-#define FAST_IO                  \
-    ios::sync_with_stdio(false); \
-    cin.tie(nullptr);
 
-using ll = long long;
+int n1[500001];
 
-ll  tele[300'001];
-int bri[500'001];
-int q, k;
+int leftBound(int target, int n) {
+    int low    = 0;
+    int high   = n - 1;
+    int result = -1;
 
-void push(ll x) {
-    if (k < x) {
-        x = k;
+    while (low <= high) {
+        int mid = (low + high) / 2; // low + (high - low) / 2 가 더 안전, low + high 연산이 오버플로우 일어나면 의도치 않은 값이 됨
+
+        if (n1[mid] < target) {
+            low = mid + 1;
+        } else { // 같으면 내려가 보기
+            high = mid - 1;
+        }
+
+        if (n1[mid] == target) {
+            result = mid;
+        }
     }
 
-    if (x) {
-        bri[x]++;
-        q++;
+    return result;
+}
+
+int rightBound(int target, int n) {
+    int low    = 0;
+    int high   = n - 1;
+    int result = -1;
+
+    while (low <= high) {
+        int mid = (low + high) / 2;
+
+        if (n1[mid] <= target) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
     }
+
+    return low;
 }
 
 int main() {
-    FAST_IO;
-    ll  l;
-    int n;
-    cin >> l >> n >> k;
-    for (int i = 0; i < n; ++i) {
-        cin >> tele[i];
+    int n, m;
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        cin >> n1[i];
     }
-    for (int i = 0; i < n && k; ++i) {
-        cout << "0\n";
-        k--;
-    }
-    push(tele[0]);
-    push(l - tele[n - 1]);
-    for (int i = 0; i < n - 1; ++i) {
-        ll dist = tele[i + 1] - tele[i];
-        push(dist / 2);
-        push((dist - 1) / 2);
-    }
-    int i = 1;
-    while (k) {
-        for (int t = q; k && t; k--, t--) {
-            cout << i << "\n";
+
+    sort(n1, n1 + n);
+
+    cin >> m;
+
+    for (int j = 0; j < m; j++) {
+        int x;
+        cin >> x;
+
+        int l = leftBound(x, n);
+        int r = rightBound(x, n);
+
+        if (l == -1) {
+            cout << 0 << " ";
+        } else {
+            cout << (r - l) << " ";
         }
-        q -= bri[i++];
     }
+
     return 0;
-}
+} // 시간초과나는 이유를 모르겠어요

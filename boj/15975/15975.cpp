@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/10816
+// https://www.acmicpc.net/problem/15975
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -43,61 +43,39 @@ int main() {
     FAST_IO;
 
     //   logic
-
-    int n;
+    ll n, answer = 0;
     cin >> n;
 
-    vector<int> cards(n);
+    vector<vector<ll>> dots(n + 1);
 
     for (int i = 0; i < n; ++i) {
-        cin >> cards[i];
+        int x, y;
+        cin >> x >> y;
+
+        dots[y].push_back(x);
     }
 
-    sort(cards.begin(), cards.end());
+    for (auto& d: dots) {
+        sort(d.begin(), d.end());
+    }
 
-    int m;
-    cin >> m;
+    for (const auto& d: dots) {
+        int size = d.size();
 
-    while (m--) {
-        int t;
-        cin >> t;
-
-        auto l = lower_bound(cards.begin(), cards.end(), t);
-        auto r = upper_bound(cards.begin(), cards.end(), t);
-
-        if (*l != t) {
-            cout << "0 ";
+        if (size <= 1) {
             continue;
         }
 
-        cout << r - l << " ";
+        answer += d[1] - d[0];
+
+        for (int i = 1; i < size - 1; ++i) {
+            answer += min(d[i] - d[i - 1], d[i + 1] - d[i]);
+        }
+
+        answer += d[size - 1] - d[size - 2];
     }
+
+    cout << answer;
 
     return 0;
 }
-
-/*
-#include <unordered_map>
-void map_solution()
-{
-    unordered_map<int, int> bucket;
-    int n, m;
-    cin >> n;
-    for (int i = 0; i < n; ++i) {
-        int temp;
-        cin >> temp;
-        bucket[temp]++;
-    }
-
-    cin >> m;
-    for (int i = 0; i < m; ++i) {
-        int temp;
-        cin >> temp;
-
-        if (bucket.count(temp))
-            cout << bucket[temp] << " ";
-        else
-            cout << "0 ";
-    }
-}
-*/
