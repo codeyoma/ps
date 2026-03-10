@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/1773
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -35,17 +36,31 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
-#include <iomanip>
+#include <numeric>
 #include <vector>
 
 int main() {
     FAST_IO;
 
     //   logic
-    double w, h;
-    cin >> w >> h;
+    int n, c;
+    cin >> n >> c;
 
-    cout << fixed << setprecision(1) << (w * h) / 2;
+    vector<int> fireworks(c + 1);
+
+    for (int i = 0; i < n; ++i) {
+        int t;
+        cin >> t;
+
+        if (fireworks[t]) {
+            continue;
+        }
+        for (int j = t; j <= c; j += t) {
+            fireworks[j] = 1;
+        }
+    }
+
+    cout << accumulate(fireworks.begin(), fireworks.end(), 0);
 
     return 0;
 }

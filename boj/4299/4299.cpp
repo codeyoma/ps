@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/4299
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -35,17 +36,23 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
-#include <iomanip>
 #include <vector>
 
 int main() {
     FAST_IO;
 
     //   logic
-    double w, h;
-    cin >> w >> h;
+    int a, b;
 
-    cout << fixed << setprecision(1) << (w * h) / 2;
+    cin >> a >> b;
+
+    if (a < b || (a + b) % 2) {
+        cout << -1;
+    } else {
+        int x = (a + b) / 2;
+        int y = (a - b) / 2;
+        cout << x << " " << y;
+    }
 
     return 0;
 }
