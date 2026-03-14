@@ -35,17 +35,21 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
-#include <iomanip>
 #include <vector>
 
 int main() {
     FAST_IO;
 
     //   logic
-    double w, h;
-    cin >> w >> h;
+    int a, d, k;
+    cin >> a >> d >> k;
 
-    cout << fixed << setprecision(1) << (w * h) / 2;
+    if (k % (d - a)) {
+        cout << "X";
+        return 0;
+    }
+
+    cout << k / (d - a) + 1;
 
     return 0;
 }

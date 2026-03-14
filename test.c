@@ -1,44 +1,53 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <unistd.h>
+
+typedef struct s_list {
+    struct s_list* next;
+    void*          content;
+} t_list;
+
+t_list* ft_lstnew(void* content) {
+}
+
+void ft_lstadd_front(t_list** lst, t_list* new) {
+}
+
+int ft_lstsize(t_list* lst) {
+}
+
+t_list* ft_lstlast(t_list* lst) {
+}
+
+void ft_lstadd_back(t_list** lst, t_list* new) {
+}
+
+void ft_lstclear(t_list** lst, void (*del)(void*)) {
+}
+
+void ft_lstdelone(t_list* lst, void (*del)(void*)) {
+    if (lst) {
+        if (del) {
+            del(lst->content);
+        }
+        free(lst);
+    }
+}
+
+void ft_lstiter(t_list* lst, void (*f)(void*)) {
+    if (!lst || !f) {
+        return;
+    }
+    while (lst) {
+        f(lst->content);
+        lst = lst->next;
+    }
+}
+
+void print(void* content) {
+    printf("%d\n", *(int*)content);
+}
 
 int main() {
-    int c;
-
-    int a[5][5];
-
-    for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
-            scanf("%d", &a[i][j]);
-        }
-    }
-
-    for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 2; j++) {
-            c           = a[i][j];
-            a[i][j]     = a[i][4 - j];
-            a[i][4 - j] = c;
-        }
-    }
-
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 5; j++) {
-            c           = a[i][j];
-            a[i][j]     = a[4 - i][j];
-            a[4 - i][j] = c;
-        }
-    }
-
-    for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
-            if (a[i][j] == 2 || a[i][j] == 5) {
-                printf("! ");
-            } else {
-                printf("%d ", a[i][j]);
-            }
-        }
-        printf("\n");
-    }
-
-    return 0;
+    t_list* root = NULL;
 }

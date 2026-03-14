@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/31866
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -41,20 +42,29 @@ int main() {
     FAST_IO;
 
     //   logic
-    int n;
 
-    cin >> n;
+    vector<int> table = {
+        0b011110,
+        0b000000,
+        0b010111,
+        0b000000,
+        0b000000,
+        0b110110,
+    };
 
-    vector<int> dp(n + 1);
+    int a, b;
+    cin >> a >> b;
 
-    dp[0] = 1;
-    dp[1] = 1;
+    bool a_win_state = table[a] & (32 >> b);
+    bool b_win_state = table[b] & (32 >> a);
 
-    for (int i = 2; i <= n; ++i) {
-        dp[i] = (dp[i - 1] + dp[i - 2] * 2) % 10'007;
+    if (a_win_state == b_win_state) {
+        cout << "=";
+    } else if (a_win_state) {
+        cout << ">";
+    } else {
+        cout << "<";
     }
-
-    cout << dp[n];
 
     return 0;
 }
