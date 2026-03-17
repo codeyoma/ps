@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/2343
+// https://www.acmicpc.net/problem/16199
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -36,48 +36,21 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
-#include <algorithm>
-#include <numeric>
 #include <vector>
 
 int main() {
     FAST_IO;
 
     //   logic
-    int n, m;
-    cin >> n >> m;
+    int ay, am, ad;
+    int by, bm, bd;
 
-    vector<int> record(n);
+    cin >> ay >> am >> ad;
+    cin >> by >> bm >> bd;
 
-    for (int i = 0; i < n; ++i) {
-        cin >> record[i];
-    }
-
-    int l = *max_element(record.begin(), record.end());
-    int r = accumulate(record.begin(), record.end(), 0);
-
-    while (l < r) {
-        int p = (r - l) / 2 + l;
-
-        int cnt    = 1;
-        int weight = 0;
-        for (const auto& e: record) {
-            if (weight + e > p) {
-                weight = e;
-                cnt++;
-                continue;
-            }
-            weight += e;
-        }
-
-        if (cnt > m) {
-            l = p + 1;
-        } else {
-            r = p;
-        }
-    }
-
-    cout << l;
+    cout << by - ay - (by > ay && ((am > bm) || (am == bm && ad > bd)) ? 1 : 0) << "\n";
+    cout << by - ay + 1 << "\n";
+    cout << by - ay << "\n";
 
     return 0;
 }

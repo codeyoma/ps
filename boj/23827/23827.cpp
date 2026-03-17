@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/2343
+// https://www.acmicpc.net/problem/23827
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -36,48 +36,32 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
-#include <algorithm>
-#include <numeric>
 #include <vector>
 
 int main() {
     FAST_IO;
 
     //   logic
-    int n, m;
-    cin >> n >> m;
+    int n;
+    ll  k = 1'000'000'007;
+    cin >> n;
 
-    vector<int> record(n);
+    vector<ll> t(n);
+
+    ll sum = 0;
+    for (int i = 0; i < n; ++i) {
+        cin >> t[i];
+        sum += t[i] % k;
+    }
+
+    ll answer = 0;
 
     for (int i = 0; i < n; ++i) {
-        cin >> record[i];
+        sum -= t[i];
+        answer = (answer + t[i] * sum) % k;
     }
 
-    int l = *max_element(record.begin(), record.end());
-    int r = accumulate(record.begin(), record.end(), 0);
-
-    while (l < r) {
-        int p = (r - l) / 2 + l;
-
-        int cnt    = 1;
-        int weight = 0;
-        for (const auto& e: record) {
-            if (weight + e > p) {
-                weight = e;
-                cnt++;
-                continue;
-            }
-            weight += e;
-        }
-
-        if (cnt > m) {
-            l = p + 1;
-        } else {
-            r = p;
-        }
-    }
-
-    cout << l;
+    cout << answer;
 
     return 0;
 }

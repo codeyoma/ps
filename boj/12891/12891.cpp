@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/2343
+// https://www.acmicpc.net/problem/12891
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -36,48 +36,55 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
-#include <algorithm>
-#include <numeric>
+#include <string>
 #include <vector>
 
 int main() {
     FAST_IO;
 
     //   logic
-    int n, m;
-    cin >> n >> m;
+    int s, p;
+    cin >> s >> p;
 
-    vector<int> record(n);
+    vector<int> ans_t(128);
+    vector<int> test_t(128);
+    string      dna;
+    string      set = "ACGT";
+    cin >> dna;
 
-    for (int i = 0; i < n; ++i) {
-        cin >> record[i];
+    for (const auto c: set) {
+        cin >> ans_t[c];
     }
 
-    int l = *max_element(record.begin(), record.end());
-    int r = accumulate(record.begin(), record.end(), 0);
+    int answer = 0;
 
-    while (l < r) {
-        int p = (r - l) / 2 + l;
+    for (int i = 0; i < p; ++i) {
+        test_t[dna[i]] += 1;
+    }
 
-        int cnt    = 1;
-        int weight = 0;
-        for (const auto& e: record) {
-            if (weight + e > p) {
-                weight = e;
-                cnt++;
-                continue;
+    auto is_matched = [&]() {
+        bool unmatched = false;
+
+        for (const auto c: set) {
+            if (test_t[c] < ans_t[c]) {
+                unmatched = true;
             }
-            weight += e;
         }
 
-        if (cnt > m) {
-            l = p + 1;
-        } else {
-            r = p;
+        if (!unmatched) {
+            answer++;
         }
+    };
+
+    is_matched();
+
+    for (int i = p; i < s; ++i) {
+        test_t[dna[i - p]] -= 1;
+        test_t[dna[i]] += 1;
+        is_matched();
     }
 
-    cout << l;
+    cout << answer;
 
     return 0;
 }

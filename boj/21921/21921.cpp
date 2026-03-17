@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/2343
+// https://www.acmicpc.net/problem/21921
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -36,48 +36,52 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
-#include <algorithm>
-#include <numeric>
 #include <vector>
 
 int main() {
     FAST_IO;
 
     //   logic
-    int n, m;
-    cin >> n >> m;
+    int n, x;
+    cin >> n >> x;
 
-    vector<int> record(n);
+    vector<int> v(n);
 
     for (int i = 0; i < n; ++i) {
-        cin >> record[i];
+        cin >> v[i];
     }
 
-    int l = *max_element(record.begin(), record.end());
-    int r = accumulate(record.begin(), record.end(), 0);
+    int answer     = 0;
+    int answer_cnt = 0;
+    int sum        = 0;
 
-    while (l < r) {
-        int p = (r - l) / 2 + l;
+    for (int i = 0; i < x; ++i) {
+        sum += v[i];
+    }
 
-        int cnt    = 1;
-        int weight = 0;
-        for (const auto& e: record) {
-            if (weight + e > p) {
-                weight = e;
-                cnt++;
-                continue;
-            }
-            weight += e;
-        }
+    if (sum > answer) {
+        answer     = sum;
+        answer_cnt = 1;
+    }
 
-        if (cnt > m) {
-            l = p + 1;
-        } else {
-            r = p;
+    for (int i = x; i < n; ++i) {
+        sum -= v[i - x];
+        sum += v[i];
+
+        if (sum > answer) {
+            answer     = sum;
+            answer_cnt = 1;
+        } else if (sum == answer) {
+            answer_cnt++;
         }
     }
 
-    cout << l;
+    if (answer == 0) {
+        cout << "SAD";
+    } else {
+        cout << answer << "\n"
+             << answer_cnt;
+    }
 
     return 0;
 }

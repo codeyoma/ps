@@ -35,21 +35,25 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
+#include <algorithm>
 #include <vector>
 
 int main() {
     FAST_IO;
 
     //   logic
-    int a, d, k;
-    cin >> a >> d >> k;
+    int n, k;
 
-    if (k % (d - a)) {
-        cout << "X";
-        return 0;
+    cin >> n >> k;
+
+    vector<int> v(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> v[i];
     }
 
-    cout << k / (d - a) + 1;
+    sort(v.rbegin(), v.rend());
+
+    cout << v[k - 1];
 
     return 0;
 }
