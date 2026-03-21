@@ -21,31 +21,6 @@ nullstream LOG;
 #include <iostream>
 #include <vector>
 
-template<typename T, typename Compare>
-int partition(vector<T>& a, int l, int h, Compare cmp) {
-    int p    = h;
-    int left = l - 1;
-
-    for (int right = l; right < h; right++) {
-        if (cmp(a[right], a[p])) {
-            left++;
-            swap(a[left], a[right]);
-        }
-    }
-    left++;
-    swap(a[left], a[p]);
-    return left;
-}
-
-template<typename T, typename Compare>
-void q_sort(vector<T>& a, int l, int h, Compare cmp) {
-    if (l < h) {
-        int p = partition(a, l, h, cmp);
-        q_sort(a, l, p - 1, cmp);
-        q_sort(a, p + 1, h, cmp);
-    }
-}
-
 typedef struct winning_name {
     string    name;
     long long score;
@@ -59,11 +34,10 @@ int main() {
 
     cin >> name >> n;
 
-    vector<int> name_check('Z' - 'A' + 1);
+    vector<int> name_check(256);
     for (const auto& c: name) {
-        name_check[c - 'A']++;
+        name_check[c]++;
     }
-    LOG << name << "\n";
 
     vector<Winning_Name> list(n);
     for (int i = 0; i < n; ++i) {
@@ -73,20 +47,19 @@ int main() {
         vector<int> temp_name_check(name_check.size());
 
         for (size_t i = 0; i < temp.size(); ++i) {
-            temp_name_check[temp[i] - 'A']++;
+            temp_name_check[temp[i]]++;
         }
 
-        int L = name_check['L' - 'A'] + temp_name_check['L' - 'A'];
-        int O = name_check['O' - 'A'] + temp_name_check['O' - 'A'];
-        int V = name_check['V' - 'A'] + temp_name_check['V' - 'A'];
-        int E = name_check['E' - 'A'] + temp_name_check['E' - 'A'];
+        int L = name_check['L'] + temp_name_check['L'];
+        int O = name_check['O'] + temp_name_check['O'];
+        int V = name_check['V'] + temp_name_check['V'];
+        int E = name_check['E'] + temp_name_check['E'];
 
         long long score = ((L + O) * (L + V) * (L + E) * (O + V) * (O + E) * (V + E)) % 100;
         list[i]         = { temp, score };
-        LOG << list[i].name << " " << list[i].score << "\n";
     }
 
-    q_sort(list, 0, list.size() - 1, [](const Winning_Name& a, const Winning_Name& b) {
+    sort(list.begin(), list.end(), [](const Winning_Name& a, const Winning_Name& b) {
         if (a.score == b.score) {
             return a.name < b.name;
         }

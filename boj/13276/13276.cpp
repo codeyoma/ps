@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/13276
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -35,40 +36,12 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
-#include <algorithm>
 #include <vector>
 
 int main() {
     FAST_IO;
 
     //   logic
-    int n, max_score = 0;
-
-    cin >> n;
-
-    while (n--) {
-        int sum = 0;
-
-        int a, b;
-        cin >> a >> b;
-
-        sum += max(a, b);
-
-        vector<int> trick(5);
-
-        for (int i = 0; i < 5; ++i) {
-            cin >> trick[i];
-        }
-
-        sort(trick.rbegin(), trick.rend());
-
-        sum += trick[0];
-        sum += trick[1];
-
-        max_score = max(max_score, sum);
-    }
-
-    cout << max_score;
 
     return 0;
 }
