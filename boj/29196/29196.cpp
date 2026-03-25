@@ -1,5 +1,4 @@
-// https://www.acmicpc.net/problem/28219
-#include <numeric>
+// https://www.acmicpc.net/problem/29196
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -37,55 +36,18 @@ constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
-#include <algorithm>
 #include <vector>
-
-int dfs(int node, int parent, const int& k, const vector<vector<int>>& adj, int& on) {
-    int d1 = 0, d2 = 0;
-
-    for (const auto child: adj[node]) {
-        if (child == parent) {
-            continue;
-        }
-
-        int cand = dfs(child, node, k, adj, on);
-
-        if (cand > d1) {
-            swap(d1, cand);
-        }
-
-        d2 = max(d2, cand);
-    }
-
-    if (d1 + d2 >= k) {
-        on++;
-        return 0;
-    }
-
-    return d1 + 1;
-}
 
 int main() {
     FAST_IO;
 
     //   logic
-    int n, k;
-    cin >> n >> k;
 
-    vector<vector<int>> adj(n + 1);
-    int                 on = 0;
+    double k, r;
 
-    for (int i = 0; i < n - 1; ++i) {
-        int x, y;
-        cin >> x >> y;
+    cin >> k;
 
-        adj[x].push_back(y);
-        adj[y].push_back(x);
-    }
-
-    dfs(1, 0, k, adj, on);
-
-    cout << on;
+    r = 1.0 / k;
 
     return 0;
 }
