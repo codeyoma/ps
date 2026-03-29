@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/34205
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -41,19 +42,6 @@ int main() {
     FAST_IO;
 
     //   logic
-
-    int n;
-    int sum = 0;
-
-    while (true) {
-        cin >> n;
-        if (n == -1) {
-            break;
-        }
-        sum += n;
-    }
-
-    cout << sum;
 
     return 0;
 }

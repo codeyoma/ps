@@ -77,7 +77,7 @@ if ls boj/$dir/$dir.cpp >/dev/null 2>&1; then \
   fi
 
 else \
-  cp my_cpp_template.cpp boj/$dir/$dir.cpp;
+  cp .util/.template.cpp boj/$dir/$dir.cpp;
 
 if [ "$(uname)" = "Darwin" ]; then
 sed -i '' "1i\\

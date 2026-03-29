@@ -11,12 +11,14 @@ GREEN := \033[38;5;34m
 RED := \033[38;5;196m
 RESET := \033[0m
 
-IGNORED_TARGETS := all push clean run help pull sync
+IGNORED_TARGETS := all push clean run help pull sync c cpp py
 
 SRCS=$(wildcard boj/$(dir)/*.cpp)
 
 DATE := $(shell TZ=Asia/Seoul date '+%Y-%m-%d %H:%M')
 m ?= $(DATE)
+
+OUT:=test
 
 override MAKECMDGOALS := $(word 1, $(RAW_GOALS))
 
@@ -26,7 +28,7 @@ else ifneq ($(dir),)
 $(error Invalid target "$(dir)". Must be a problem number or a phony target)
 endif
 
-.PHONY: all push clean help pull sync $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS))
+.PHONY: all push clean help pull sync c cpp py $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS))
 
 all: help
 
@@ -75,6 +77,15 @@ help:
 	
 	@echo
 
+c:
+	@$(CC) $(CFLAGS) test.c -o $(OUT) && ./$(OUT);
+
+cpp:
+	@$(CXX) $(CXXFLAGS) test.cpp -o $(OUT) && ./$(OUT);
+
+py:
+	@python3 test.py
+
 $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS)):
 	@echo "addr - https://boj.kr/$(dir)";
 
@@ -89,3 +100,4 @@ $(filter-out $(IGNORED_TARGETS), $(MAKECMDGOALS)):
 		.util/.util_make_md.sh $(dir); \
 		.util/.util_get_test_case.sh $(dir) true;\
 	fi
+

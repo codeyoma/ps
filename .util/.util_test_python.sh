@@ -72,7 +72,7 @@ if ls boj/$dir/$dir.py >/dev/null 2>&1; then \
   fi
 
 else \
-  cp my_python_template.py boj/$dir/$dir.py;
+  cp .util/.template.py boj/$dir/$dir.py;
 
 if [ "$(uname)" = "Darwin" ]; then
 sed -i '' "1i\\

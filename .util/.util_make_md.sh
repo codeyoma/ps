@@ -119,7 +119,7 @@ fi
 }
 
 copy_template_md() {
-    cp my_md_template.md boj/"$url_number/$url_number.md"
+    cp .util/.template.md boj/"$url_number/$url_number.md"
 }
 
 insert_boj_url() {

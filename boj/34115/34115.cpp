@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/34115
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -41,19 +42,24 @@ int main() {
     FAST_IO;
 
     //   logic
-
     int n;
-    int sum = 0;
+    cin >> n;
+    vector<int> v(n + 1, -1);
+    int         answer = 0;
 
-    while (true) {
-        cin >> n;
-        if (n == -1) {
-            break;
+    for (int i = 0; i < 2 * n; ++i) {
+        int t;
+        cin >> t;
+
+        if (v[t] == -1) {
+            v[t] = i;
+            continue;
         }
-        sum += n;
+
+        answer = max(answer, i - v[t] - 1);
     }
 
-    cout << sum;
+    cout << answer;
 
     return 0;
 }
