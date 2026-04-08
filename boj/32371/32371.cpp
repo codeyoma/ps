@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/32371
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -25,32 +26,48 @@ using namespace std;
     ios::sync_with_stdio(false); \
     cin.tie(nullptr);
 
-#define END   \
-    return 0;
-
-#include <vector>
-
-template<typename T>
-using VV = vector<vector<T>>;
-
-template<typename T>
-using V = vector<T>;
-
 // typedef long long ll;
-using LL  = long long;
-using ULL = unsigned long long;
+using ll = long long;
 
 constexpr int _MAX  = 1'234'567'891; // prime
 constexpr int _MIN  = -_MAX;
-constexpr LL  __MAX = 1'111'111'111'111'111'111LL; // prime
-constexpr LL  __MIN = -__MAX;
+constexpr ll  __MAX = 1'111'111'111'111'111'111LL; // prime
+constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
+
+#include <string>
+#include <vector>
 
 int main() {
     FAST_IO;
 
-    //   logi
+    //   logic
 
-    END;
+    vector<string> key(4);
+    string         t;
+
+    for (int i = 0; i < 4; ++i) {
+        cin >> key[i];
+    }
+
+    cin >> t;
+
+    for (int i = 0; i <= 1; ++i) {
+        for (int j = 0; j <= 7; ++j) {
+            bool found = true;
+            for (int k = 0; k < 3 && found; ++k) {
+                for (int l = 0; l < 3 && found; ++l) {
+                    if (t.find(key[i + k][j + l]) == string::npos) {
+                        found = false;
+                    }
+                }
+            }
+            if (found) {
+                cout << key[i + 1][j + 1];
+            }
+        }
+    }
+
+    return 0;
 }

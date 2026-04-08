@@ -47,10 +47,42 @@ constexpr LL  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
+#include <cmath>
+
+struct coor {
+    int x;
+    int y;
+};
+
 int main() {
     FAST_IO;
 
-    //   logi
+    //   logic
+    int n, sum = 0, answer = _MAX;
+    cin >> n;
+
+    V<coor> check_point(n);
+    V<int>  section_sum(n);
+    V<int>  pass_sum(n);
+
+    for (int i = 0; i < n; ++i) {
+        cin >> check_point[i].x >> check_point[i].y;
+
+        if (i) {
+            section_sum[i] = abs(check_point[i].x - check_point[i - 1].x) + abs(check_point[i].y - check_point[i - 1].y);
+            sum += section_sum[i];
+        }
+
+        if (i >= 2) {
+            pass_sum[i] = abs(check_point[i].x - check_point[i - 2].x) + abs(check_point[i].y - check_point[i - 2].y);
+        }
+    }
+
+    for (int pass = 1; pass < n - 1; ++pass) {
+        answer = min(answer, sum - section_sum[pass] - section_sum[pass + 1] + pass_sum[pass + 1]);
+    }
+
+    cout << answer;
 
     END;
 }

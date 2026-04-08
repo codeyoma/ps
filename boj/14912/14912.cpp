@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/14912
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -25,32 +26,37 @@ using namespace std;
     ios::sync_with_stdio(false); \
     cin.tie(nullptr);
 
-#define END   \
-    return 0;
-
-#include <vector>
-
-template<typename T>
-using VV = vector<vector<T>>;
-
-template<typename T>
-using V = vector<T>;
-
 // typedef long long ll;
-using LL  = long long;
-using ULL = unsigned long long;
+using ll = long long;
 
 constexpr int _MAX  = 1'234'567'891; // prime
 constexpr int _MIN  = -_MAX;
-constexpr LL  __MAX = 1'111'111'111'111'111'111LL; // prime
-constexpr LL  __MIN = -__MAX;
+constexpr ll  __MAX = 1'111'111'111'111'111'111LL; // prime
+constexpr ll  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
+
+#include <vector>
 
 int main() {
     FAST_IO;
 
-    //   logi
+    //   logic
+    int n, d;
+    cin >> n >> d;
 
-    END;
+    int cnt = 0;
+
+    for (int i = 1; i <= n; ++i) {
+        string s = to_string(i);
+        for (const auto& c: s) {
+            if (c == '0' + d) {
+                cnt++;
+            }
+        }
+    }
+
+    cout << cnt;
+
+    return 0;
 }
