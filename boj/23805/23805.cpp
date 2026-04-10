@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/23805
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -47,10 +48,33 @@ constexpr LL  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
+#include <string>
+
 int main() {
     FAST_IO;
 
     //   logic
+    int            n;
+    vector<string> base = {
+        "@@@ @",
+        "@ @ @",
+        "@ @ @",
+        "@ @ @",
+        "@ @@@"
+    };
+
+    cin >> n;
+
+    for (int i = 0; i < 5; ++i) {
+        for (int k = 0; k < n; ++k) {
+            for (int j = 0; j < 5; ++j) {
+                for (int l = 0; l < n; ++l) {
+                    cout << base[i][j];
+                }
+            }
+            cout << "\n";
+        }
+    }
 
     END;
 }

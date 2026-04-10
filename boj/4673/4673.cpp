@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/4673
 #if defined(__GNUC__) && defined(__x86_64__)
 #    pragma GCC optimize("O3")
 #    pragma GCC optimize("Ofast")
@@ -51,6 +52,31 @@ int main() {
     FAST_IO;
 
     //   logic
+    int     n = 10'001;
+    V<bool> t(n + 1);
+
+    auto d = [&](int i) {
+        if (i > n) {
+            return 0;
+        }
+
+        int r = i;
+
+        while (i > 0) {
+            r += i % 10;
+            i /= 10;
+        }
+
+        return r;
+    };
+
+    for (int i = 1; i <= n; ++i) {
+        t[d(i)] = true;
+
+        if (!t[i]) {
+            cout << i << "\n";
+        }
+    }
 
     END;
 }

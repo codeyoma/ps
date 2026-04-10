@@ -1,5 +1,11 @@
 // https://www.acmicpc.net/problem/2502
-// https://codeyoma.github.io/Computer-Science/1-Foundations--and--Theory/Algorithms/ps/boj/2502/2502
+#if defined(__GNUC__) && defined(__x86_64__)
+#    pragma GCC optimize("O3")
+#    pragma GCC optimize("Ofast")
+#    pragma GCC optimize("unroll-loops")
+#    pragma GCC target("avx,avx2,fma")
+#endif
+
 #include <iostream>
 using namespace std;
 
@@ -13,29 +19,44 @@ struct nullstream : ostream {
 nullstream LOG;
 #endif
 
-void fast_io() {
-    ios_base::sync_with_stdio(false);
+//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--
+
+using namespace std;
+#define FAST_IO                  \
+    ios::sync_with_stdio(false); \
     cin.tie(nullptr);
-}
+
+#define END   \
+    return 0;
+
+#include <vector>
+
+template<typename T>
+using VV = vector<vector<T>>;
+
+template<typename T>
+using V = vector<T>;
+
+// typedef long long ll;
+using LL  = long long;
+using ULL = unsigned long long;
+
+constexpr int _MAX  = 1'234'567'891; // prime
+constexpr int _MIN  = -_MAX;
+constexpr LL  __MAX = 1'111'111'111'111'111'111LL; // prime
+constexpr LL  __MIN = -__MAX;
 
 //--------------------------------------------------------------------------------------------------
 
-#define MAX (1234567891)
-#define MIN (-1234567891)
-
-#include <iostream>
-#include <vector>
-
 int main() {
-    fast_io();
+    FAST_IO;
 
     //   logic
-
     int d, k;
     cin >> d >> k;
 
-    vector<int> dp(d + 1);
-
+    // 첫날, 둘째날 각기 사용한 양의 DP가, 결국 1차원 피보나치랑 같음
+    V<int> dp(d + 1);
     dp[1] = 1;
     dp[2] = 1;
 
@@ -50,4 +71,6 @@ int main() {
             break;
         }
     }
+
+    END;
 }
