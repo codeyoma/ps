@@ -1,101 +1,45 @@
+#include <algorithm>
 #include <iostream>
 #include <vector>
+
 using namespace std;
 
-int n, m;
+typedef pair<int, int> pii;
+typedef long long int  lld;
 
-vector<vector<int>> graph;
-vector<vector<int>> inverse_graph;
-vector<bool>        visited;
-vector<int>         order;      // 첫 번째 DFS 종료 순서
-vector<int>         comp_id;    // 각 정점이 속한 SCC 번호
-vector<vector<int>> components; // SCC 목록
-
-// ----------------------------------
-// TODO 1. 첫 번째 DFS
-// 역할:
-// 1) 현재 정점 방문 처리
-// 2) 원래 그래프(graph)로 DFS 진행
-// 3) 탐색이 끝난 뒤 order에 현재 정점 추가
-// ----------------------------------
-void dfs1(int cur) {
-}
-
-// ----------------------------------
-// TODO 2. 두 번째 DFS
-// 역할:
-// 1) 현재 정점 방문 처리
-// 2) 현재 SCC 번호(id) 기록
-// 3) 현재 SCC 목록에 정점 추가
-// 4) 역그래프(revGraph)로 DFS 진행
-// ----------------------------------
-void dfs2(int cur, int id) {
-}
-
-// ----------------------------------
-// SCC 구성
-// ----------------------------------
-void buildSCC() {
-    // 1. 첫 번째 DFS
-    for (int v = 1; v <= n; v++) {
-        // ???
-    }
-
-    fill(visited.begin(), visited.end(), false);
-    reverse(order.begin(), order.end());
-
-    int sccCount = 0;
-
-    // 두 번째 DFS
-    for (int v: order) {
-        if (!visited[v]) {
-            // ???
-            sccCount++;
-        }
-    }
-}
-
-// ----------------------------------
-// 결과 출력
-// ----------------------------------
-void printSCC() {
-    cout << "SCC 개수: " << components.size() << '\n';
-
-    for (int i = 0; i < (int)components.size(); i++) {
-        cout << "SCC #" << i << ": ";
-        for (int v: components[i]) {
-            cout << v << ' ';
-        }
-        cout << '\n';
-    }
-
-    cout << "\n각 정점의 SCC 번호\n";
-    for (int v = 1; v <= n; v++) {
-        cout << v << " -> " << comp_id[v] << '\n';
-    }
+lld CCW(pii P1, pii P2, pii P3) {
+    return P1.first * (P2.second - P3.second) + P2.first * (P3.second - P1.second) + P3.first * (P1.second - P2.second);
 }
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    vector<pii> P(4);
 
-    cin >> n >> m;
-
-    graph.assign(n + 1, {});
-    inverse_graph.assign(n + 1, {});
-    visited.assign(n + 1, false);
-    comp_id.assign(n + 1, -1);
-
-    for (int i = 0; i < m; i++) {
-        int u, v;
-        cin >> u >> v;
-
-        graph[u].push_back(v);
-        inverse_graph[v].push_back(u);
+    for (int i = 0; i < 4; i++) {
+        cin >> P[i].first >> P[i].second;
     }
 
-    buildSCC();
-    printSCC();
+    lld c1 = CCW(P[0], P[1], P[2]);
+    lld c2 = CCW(P[0], P[1], P[3]);
+    lld c3 = CCW(P[2], P[3], P[0]);
+    lld c4 = CCW(P[2], P[3], P[1]);
 
-    return 0;
+    if ((c1 < 0 && c2 > 0)) {
+        if (c3 > 0 && c4 < 0) {
+            cout << 1;
+        } else if (c3 < 0 && c4 > 0) {
+            cout << 1;
+        } else {
+            cout << 0;
+        }
+    } else if (c1 > 0 && c2 < 0) {
+        if (c3 > 0 && c4 < 0) {
+            cout << 1;
+        } else if (c3 < 0 && c4 > 0) {
+            cout << 1;
+        } else {
+            cout << 0;
+        }
+    } else {
+        cout << 0;
+    }
 }
