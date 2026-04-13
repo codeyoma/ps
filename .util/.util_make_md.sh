@@ -49,6 +49,12 @@ get_boj_tier() {
 
 get_boj_tier_name() {
     local n="$1"
+
+    if [[ ! "$n" =~ ^[0-9]+$ ]]; then
+        echo "unknown"
+        return 1
+    fi
+
     if [ "$n" -eq 0 ]; then
         echo "unrated"
     elif [ "$n" -le 5 ]; then
@@ -87,6 +93,15 @@ get_tags_with_boj() {
         --header 'Accept: application/json' \
         --header 'x-solvedac-language: ko')
 
+    local http_code=${response##*$'\n'}
+    local body=${response%$'\n'*}
+
+    if [[ ! "$http_code" =~ ^[0-9]+$ ]] || [ "$http_code" -ge 400 ]; then
+        echo "solved.ac API 요청 실패" >&2
+        echo "\"solved.ac api error\""
+        return 1
+    fi
+
     local level=$(get_boj_level $(echo "$response" | jq -r '.level') $prefix_level)
     local list=$(
         echo "$response" | jq -r '[.tags[]
@@ -105,8 +120,12 @@ get_tags_with_boj() {
 insert_boj_label() {
     local problem_id=$url_number
     local md_path="boj/$problem_id/$problem_id.md"
-    local tags=$(echo $(get_tags_with_boj $url_number))
+    local tags=$(echo $(get_tags_with_boj $url_number)) 
 
+    if [[ -z "$tags" ]]; then
+        return 1
+    fi
+    
 if [ "$(uname)" = "Darwin" ]; then
 sed -i '' "2i\\
 tags: [$tags]
